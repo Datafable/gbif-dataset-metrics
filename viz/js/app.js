@@ -9,8 +9,15 @@ function getDownloads(datasetKey) {
     console.log(url);
     $.getJSON(url, function(data) {
         var count = data["count"];
-        console.log(count);
-        $("#downloadCount").html(count);
+        $("#downloadCount").html(count + " downloads"); // Add nice number formatting
+
+        var records = 0
+        $.each(data["results"],function(i,result) {
+            records = records + result["numberRecords"];
+            console.log(result["download"]["created"]);
+        });
+        $("#downloadRecordCount").html(records + " records"); // Add nice number formatting
+
     });
 
 }
