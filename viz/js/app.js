@@ -1,67 +1,71 @@
 var main = function() {
+    $.ajaxSetup({
+        "async": false // Required so code waits for $.getJSON to be executed (async by default)
+    });
     var datasetKey = "7f9eb622-c036-44c6-8be9-5793eaa1fa1e"; // Watervogels
-    var datasetKey = "271c444f-f8d8-4986-b748-e7367755c0c1"; // Florabank
-    getDownloads(datasetKey);
+    // var datasetKey = "271c444f-f8d8-4986-b748-e7367755c0c1"; // Florabank
+    // var datasetKey = "4fa7b334-ce0d-4e88-aaae-2e0c138d049e"; // eBird
+
+    $("#downloadCount").html(getDownloadsTotal(datasetKey) + " downloads"); // TODO: Add nice number formatting
+    getDownloadsPerDay(datasetKey,50);
 };
 
-function getDownloads(datasetKey) {
-    var url = "http://api.gbif.org/v1/occurrence/download/dataset/" + datasetKey + "?limit=100";
-    console.log(url);
-    var url = "http://api.gbif.org/v1/occurrence/download/dataset/" + datasetKey + "?limit=1000";
+function getDayNumber(date) {
+    var dayNumber = date.getTime();
+    dayNumber = Math.floor(dayNumber / 1000 / 3600 / 24); // Floor on milliseconds, minutes and hours
+    return dayNumber;
+}
+
+function getDownloadsTotal(datasetKey) {
+    var url = "http://api.gbif.org/v1/occurrence/download/dataset/" + datasetKey + "?limit=1";
+    var total = 0;
     $.getJSON(url, function(data) {
-        var downloadCount = data["count"];
-        var occurrenceCount = 0;
+        total = data["count"];
+    });
+    return total;
+}
 
-        var currentDate = new Date();
-        var startDate = new Date();
-            startDate.setUTCMonth(startDate.getUTCMonth() - 11); // Go back 11 months from current date (= a year ago)
-            startDate.setUTCDate("01"); // Set at first day of month
-            startDate.setUTCHours(0,0,0,0); // Set at midnight
-
-        var labels = [1,2,3,4,5,6,7,8,9,10,11,12]; // TODO: Should be dynamic.
-        var downloadsPerMonth = [0,0,0,0,0,0,0,0,0,0,0,0];
-        var occurrencesPerMonth = [0,0,0,0,0,0,0,0,0,0,0,0];
-
+function getDownloadsPerDay(datasetKey,dayRange) {
+    var url = "http://api.gbif.org/v1/occurrence/download/dataset/" + datasetKey + "?limit=1000";
+    // TODO: Need a way to loop over more pages
+    $.getJSON(url, function(data) {
+        var startDay = new Date();
+            startDay = getDayNumber(startDay) - dayRange + 1;
+        var labels = Array.apply(null, new Array(dayRange)).map(String.prototype.valueOf,"");;
+        var days = Array.apply(null, new Array(dayRange)).map(Number.prototype.valueOf,0); // Populate array with zeroes
+        
         $.each(data["results"],function(i,result) {
-            occurrenceCount = occurrenceCount + result["numberRecords"];
-            var downloadDate = new Date(result["download"]["created"]);
-            var downloadMonth = downloadDate.getUTCMonth();
-
-            if (result["download"]["status"] == "SUCCEEDED" && downloadDate >= startDate) {
-                downloadsPerMonth[downloadMonth] = downloadsPerMonth[downloadMonth] + 1;
-                occurrencesPerMonth[downloadMonth] = occurrencesPerMonth[downloadMonth] + result["numberRecords"];
+        var downloadDate = new Date(result["download"]["created"]);
+            var downloadDay = getDayNumber(downloadDate);
+            if (result["download"]["status"] == "SUCCEEDED" && downloadDay >= startDay) {
+                days[downloadDay - startDay] += 1;
             }
         });
-
-        $("#downloadCount").html(downloadCount + " downloads"); // TODO: Add nice number formatting
-        $("#downloadRecordCount").html(occurrenceCount + " records"); // TODO: Add nice number formatting
-
 
         var data = {
             "labels": labels,
             "datasets": [
                 {
-                    "label": "Downloads",
-                    "fillColor": "rgba(220,220,220,0.5)",
-                    "strokeColor": "rgba(220,220,220,0.8)",
+                    // "label": "Downloads",
+                    "fillColor": "#0099cc",
+                    // "strokeColor": "rgba(220,220,220,0.8)",
                     "highlightFill": "rgba(220,220,220,0.75)",
                     "highlightStroke": "rgba(220,220,220,1)",
-                    "data": downloadsPerMonth
-                },
-                // {
-                //     "label": "Occurrences",
-                //     "fillColor": "rgba(151,187,205,0.5)",
-                //     "strokeColor": "rgba(151,187,205,0.8)",
-                //     "highlightFill": "rgba(151,187,205,0.75)",
-                //     "highlightStroke": "rgba(151,187,205,1)",
-                //     "data": occurrencesPerMonth
-                // }
-            ]
+                    "data": days
+                }            ]
         };
         var ctx = $("#downloadChart").get(0).getContext("2d");
-        var myBarChart = new Chart(ctx).Bar(data, {});
+        var myBarChart = new Chart(ctx).Bar(data, {
+            "scaleBeginAtZero": true,
+            "scaleIntegersOnly": true, // Does this work?
+            "scaleShowGridLines": false,
+            "barShowStroke": false,
+            "barStrokeWidth": 5,
+            "barValueSpacing": 0,
+            "showTooltips": false,
+            "responsive": true
+        });
     });
 }
-
 
 $(document).ready(main);
