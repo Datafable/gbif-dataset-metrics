@@ -42,6 +42,7 @@ function getDownloadsPerDay(datasetKey,dayRange) {
             }
         });
 
+        // --- chart.js ---
         var data = {
             "labels": labels,
             "datasets": [
@@ -52,7 +53,8 @@ function getDownloadsPerDay(datasetKey,dayRange) {
                     "highlightFill": "rgba(220,220,220,0.75)",
                     "highlightStroke": "rgba(220,220,220,1)",
                     "data": days
-                }            ]
+                }
+            ]
         };
         var ctx = $("#downloadChart").get(0).getContext("2d");
         var myBarChart = new Chart(ctx).Bar(data, {
@@ -64,6 +66,31 @@ function getDownloadsPerDay(datasetKey,dayRange) {
             "barValueSpacing": 0,
             "showTooltips": false,
             "responsive": true
+        });
+
+        // --- c3.js ---
+        var chart = c3.generate({
+            bindto: "#chart",
+            data: {
+              columns: [
+                ["downloads"].concat(days)
+                // ["data",1,1,2,10]
+              ],
+              type: "bar"
+            },
+            bar: {
+                width: {
+                    ratio: 1
+                }
+            },
+            axis: {
+                x: {
+                    show: true
+                }
+            },
+            legend: {
+                show: false
+            }
         });
     });
 }
