@@ -4,8 +4,7 @@ var main = function() {
     // var datasetKey = "4fa7b334-ce0d-4e88-aaae-2e0c138d049e"; // eBird
 
     showTotalDownloads(datasetKey);
-    // getDownloadsPerDay(datasetKey,10);
-    showDownloadsChart(datasetKey,10,1000);
+    showDownloadsChart(datasetKey,30,1000);
 };
 
 function showTotalDownloads(datasetKey) {
@@ -34,8 +33,10 @@ function showDownloadsChart(datasetKey,dayRange,limit) {
         json["results"].every(function(result) {
             var downloadDate = new Date(result["download"]["created"]);
             var downloadDay = getDayNumber(downloadDate);
-            if (result["download"]["status"] == "SUCCEEDED" && downloadDay >= startDay) {
-                days[downloadDay - startDay] += 1;
+            if (downloadDay >= startDay) {
+                if (result["download"]["status"] == "SUCCEEDED") {
+                    days[downloadDay - startDay] += 1;
+                }
                 return true; // Continue looping
             } else {
                 return false; // Stop looping, since loop passed beyond startDay. Assumes json is returned in reversed chronology.
@@ -76,6 +77,7 @@ function showDownloadsChart(datasetKey,dayRange,limit) {
             }
         });
     });
+}
 
 function getDayNumber(date) {
     var dayNumber = date.getTime();
