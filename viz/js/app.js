@@ -1,98 +1,86 @@
 var main = function() {
-    $.ajaxSetup({
-        "async": false // Required so code waits for $.getJSON to be executed (async by default)
-    });
     var datasetKey = "7f9eb622-c036-44c6-8be9-5793eaa1fa1e"; // Watervogels
-    // var datasetKey = "271c444f-f8d8-4986-b748-e7367755c0c1"; // Florabank
+    var datasetKey = "271c444f-f8d8-4986-b748-e7367755c0c1"; // Florabank
     // var datasetKey = "4fa7b334-ce0d-4e88-aaae-2e0c138d049e"; // eBird
 
-    $("#downloadCount").html(getDownloadsTotal(datasetKey) + " downloads"); // TODO: Add nice number formatting
-    getDownloadsPerDay(datasetKey,50);
+    showTotalDownloads(datasetKey);
+    // getDownloadsPerDay(datasetKey,10);
+    showDownloadsChart(datasetKey,10,1000);
 };
 
-function getDayNumber(date) {
-    var dayNumber = date.getTime();
-    dayNumber = Math.floor(dayNumber / 1000 / 3600 / 24); // Floor on milliseconds, minutes and hours
-    return dayNumber;
-}
-
-function getDownloadsTotal(datasetKey) {
+function showTotalDownloads(datasetKey) {
     var url = "http://api.gbif.org/v1/occurrence/download/dataset/" + datasetKey + "?limit=1";
-    var total = 0;
-    $.getJSON(url, function(data) {
-        total = data["count"];
+    d3.json(url,function(error,json) {
+        if(error) return console.warn(error);
+
+        var total = json["count"]; // Total number of downloads
+        d3.select("#totalDownloads")
+            .text(total);
     });
-    return total;
 }
 
-function getDownloadsPerDay(datasetKey,dayRange) {
-    var url = "http://api.gbif.org/v1/occurrence/download/dataset/" + datasetKey + "?limit=1000";
-    // TODO: Need a way to loop over more pages
-    $.getJSON(url, function(data) {
+function showDownloadsChart(datasetKey,dayRange,limit) {
+    // Note: this function does only one call to the GBIF API, so if dayRange is high and limit low, it might not retrieve all downloads
+    var url = "http://api.gbif.org/v1/occurrence/download/dataset/" + datasetKey + "?limit=" + limit;
+    console.log(url);
+    d3.json(url,function(error,json) {
+        if(error) return console.warn(error);
+
+        for (var i = 0, days = new Array(dayRange); i < dayRange;) days[i++] = null; // Create null filled array "days" with length dayRange
+        
         var startDay = new Date();
             startDay = getDayNumber(startDay) - dayRange + 1;
-        var labels = Array.apply(null, new Array(dayRange)).map(String.prototype.valueOf,"");;
-        var days = Array.apply(null, new Array(dayRange)).map(Number.prototype.valueOf,0); // Populate array with zeroes
-        
-        $.each(data["results"],function(i,result) {
-        var downloadDate = new Date(result["download"]["created"]);
+
+        json["results"].every(function(result) {
+            var downloadDate = new Date(result["download"]["created"]);
             var downloadDay = getDayNumber(downloadDate);
             if (result["download"]["status"] == "SUCCEEDED" && downloadDay >= startDay) {
                 days[downloadDay - startDay] += 1;
+                return true; // Continue looping
+            } else {
+                return false; // Stop looping, since loop passed beyond startDay. Assumes json is returned in reversed chronology.
             }
         });
 
-        // --- chart.js ---
-        var data = {
-            "labels": labels,
-            "datasets": [
-                {
-                    // "label": "Downloads",
-                    "fillColor": "#0099cc",
-                    // "strokeColor": "rgba(220,220,220,0.8)",
-                    "highlightFill": "rgba(220,220,220,0.75)",
-                    "highlightStroke": "rgba(220,220,220,1)",
-                    "data": days
-                }
-            ]
-        };
-        var ctx = $("#downloadChart").get(0).getContext("2d");
-        var myBarChart = new Chart(ctx).Bar(data, {
-            "scaleBeginAtZero": true,
-            "scaleIntegersOnly": true, // Does this work?
-            "scaleShowGridLines": false,
-            "barShowStroke": false,
-            "barStrokeWidth": 5,
-            "barValueSpacing": 0,
-            "showTooltips": false,
-            "responsive": true
-        });
-
-        // --- c3.js ---
+        // Create chart
         var chart = c3.generate({
-            bindto: "#chart",
+            bindto: "#downloadsChart",
             data: {
-              columns: [
-                ["downloads"].concat(days)
-                // ["data",1,1,2,10]
-              ],
-              type: "bar"
+                columns: [
+                    ["downloads"].concat(days)
+                ],
+                type: "bar"
+            },
+            axis: {
+                x: {
+                    show: false
+                },
+                y: {
+                    tick: {
+                        format: function(x) {
+                            return (x == Math.floor(x)) ? x : "";
+                        }
+                    }
+                }
+            },
+            legend: {
+                show: false
+            },
+            interaction: {
+                enabled: false
             },
             bar: {
                 width: {
                     ratio: 1
                 }
-            },
-            axis: {
-                x: {
-                    show: true
-                }
-            },
-            legend: {
-                show: false
             }
         });
     });
+
+function getDayNumber(date) {
+    var dayNumber = date.getTime();
+    dayNumber = Math.floor(dayNumber / 1000 / 3600 / 24); // Floor on milliseconds, minutes and hours
+    return dayNumber;
 }
 
 $(document).ready(main);
