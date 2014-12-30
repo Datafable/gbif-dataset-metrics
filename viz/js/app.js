@@ -12,9 +12,9 @@ function showDownloadsTotal(datasetKey) {
     d3.json(url,function(error,json) {
         if(error) return console.warn(error);
 
-        var total = json["count"]; // Total number of downloads
+        var total = parseInt(json["count"]); // Total number of downloads
         d3.select("#downloadsTotal")
-            .text(total);
+            .text(total.toLocaleString() + " downloads");
     });
 }
 
@@ -64,7 +64,7 @@ function showDownloadsChart(datasetKey,dayRange) {
             }
         },
         padding: {
-            left: 30 // To make room for labels on data loading
+            left: 30 // To make room for y-axis labels on data loading
         },
         bar: {
             width: {
