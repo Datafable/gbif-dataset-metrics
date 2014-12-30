@@ -109,4 +109,4 @@ function getDayNumber(date) {
     return dayNumber;
 }
 
-$(document).ready(main);
+main(); // No need to use $(document).ready(main);
