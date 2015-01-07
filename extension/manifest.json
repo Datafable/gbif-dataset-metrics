@@ -14,8 +14,8 @@
     "content_scripts": [
         {
             "matches": ["http://www.gbif.org/dataset/*"],
-            // "css": [""],
-            "js": ["js/app.js"]
+            "css": ["css/extension.css"],
+            "js": ["js/extension.js"]
         }
     ]
 }
