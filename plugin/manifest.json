@@ -1,0 +1,22 @@
+{
+    "name": "Enhanced GBIF datasets",
+    "version": "0.1",
+    "description": "This extension enhances GBIF dataset pages.",
+    "author": "Peter Desmet",
+    "homepage_url": "",
+
+    "manifest_version": 2,
+    "minimum_chrome_version": "20",
+    "default_locale": "en",
+    "icons": {
+
+    },
+    
+    "content_scripts": [
+        {
+            "matches": ["http://gbif.org/dataset/*"],
+            "css": [""],
+            "js": [""]
+        }
+    ]
+}
