@@ -1,7 +1,7 @@
 {
-    "name": "Enhanced GBIF datasets",
+    "name": "GBIF dataset metrics",
     "version": "0.1",
-    "description": "Enhance GBIF dataset pages.",
+    "description": "Enhance GBIF dataset pages with charts and metrics.",
     "author": "Peter Desmet",
     // "homepage_url": "http://datafable.com",
 
