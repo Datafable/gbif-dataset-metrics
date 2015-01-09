@@ -1,8 +1,19 @@
-#content p {
-/*    border: 1px solid red;
-    color: red!important;*/
+.c3-axis-y {
+    fill: #666666;
+    }
+    .c3-axis-y path,
+    .c3-axis-y line {
+        stroke: #666666;
+    }
+
+.c3-bar {
+    fill: #0099cc!important;
+}
+.c3-tooltip td > span {
+    background-color: #0099cc!important;
 }
 
-.red {
-    background: red!important;
+#downloadChart {
+    height: 300px;
+    margin-bottom: 20px;
 }
