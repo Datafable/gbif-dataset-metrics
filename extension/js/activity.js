@@ -24,8 +24,8 @@ var showDownloadChart = function(datasetKey,dayRange) {
         downloads[i] = null; // Populate array with null values (for empty chart)
     }
 
-    var hook = $("#content").find(".content .header");
-    hook.before('<div id="downloadChart"></div>');
+    // Add div for chart to DOM as first child of .content
+    d3.select("#content .content").insert("div",":first-child").attr("id","downloadChart");
 
     var downloadChart = c3.generate({
         bindto: "#downloadChart",
@@ -98,4 +98,4 @@ var loadDownloadData = function(datasetKey,pageLimit,startDay,oneDayInMs,downloa
     });
 }
 
-$(document).ready(main);
+main();
