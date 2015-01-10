@@ -13,25 +13,40 @@
     
     "content_scripts": [
         {
+            // Dataset homepage
             "matches": [
                 "http://www.gbif.org/dataset/*"
             ],
-            // "run_at": "document_start",
+            "exclude_matches": [
+                "http://www.gbif.org/dataset/*/stats",
+                "http://www.gbif.org/dataset/*/activity"
+            ],
             "css": [
-                "css/c3.min.css",
                 "css/content.css"
             ],
             "js": [
-                "js/jquery-2.1.3.min.js",
                 "js/content.js"
             ]
         },
         {
+            // Dataset stats page
+            "matches": [
+                "http://www.gbif.org/dataset/*/stats"
+            ],
+            "css": [
+                "css/content.css"
+            ],
+            "js": [
+                "js/content.js"
+            ]
+        },
+        {
+            // Dataset activity page
             "matches": [
                 "http://www.gbif.org/dataset/*/activity"
             ],
-            // "run_at": "document_start",
             "css": [
+                "css/c3.min.css",
                 "css/content.css"
             ],
             "js": [
