@@ -25,7 +25,8 @@
                 "css/content.css"
             ],
             "js": [
-                "js/content.js"
+                "js/content.js",
+                "js/home.js"
             ]
         },
         {
@@ -37,7 +38,8 @@
                 "css/content.css"
             ],
             "js": [
-                "js/content.js"
+                "js/content.js",
+                "js/stats.js"
             ]
         },
         {
