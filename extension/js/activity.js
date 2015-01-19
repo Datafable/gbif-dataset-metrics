@@ -12,7 +12,7 @@ var formatAsISODate = function(time) {
     return date.toISOString().substring(0,10); // Return first 10 characters (yyyy-mm-dd) of full ISO date
 }
 
-var showDownloadChart = function(datasetKey,dayRange) {
+var showDownloadChart = function(datasetKey, dayRange) {
     var oneDayInMs = 24 * 60 * 60 * 1000;
     var today = new Date();
     var startDay = removeTimeFromDate(today); // Set at midnight
@@ -67,15 +67,15 @@ var showDownloadChart = function(datasetKey,dayRange) {
     loadDownloadData(datasetKey,1000,startDay,oneDayInMs,downloads,downloadChart);
 }
 
-var loadDownloadData = function(datasetKey,pageLimit,startDay,oneDayInMs,downloads,downloadChart) {
+var loadDownloadData = function(datasetKey, pageLimit, startDay, oneDayInMs, downloads, downloadChart) {
     /*  Note: this function does only one call to the GBIF API, so if dayRange 
         is high and pageLimit low, it might not retrieve all downloads. */
     
     var url = "http://api.gbif.org/v1/occurrence/download/dataset/" + datasetKey + "?limit=" + pageLimit;
-    d3.json(url,function(error,json) {
+    d3.json(url,function(error, result) {
         if(error) return console.warn(error);
 
-        json["results"].every(function(result) {
+        result["results"].every(function(result) {
             var downloadDay = removeTimeFromDate(new Date(result["download"]["created"]));
             // console.log(downloadDay);
             
