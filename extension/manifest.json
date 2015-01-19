@@ -1,0 +1,64 @@
+{
+    "name": "GBIF dataset metrics",
+    "version": "0.1",
+    "description": "Enhance GBIF dataset pages with charts and metrics.",
+    "author": "Peter Desmet",
+    // "homepage_url": "http://datafable.com",
+
+    "manifest_version": 2,
+    "minimum_chrome_version": "20",
+    // "permissions": [
+    //     "tabs"
+    // ],
+    
+    "content_scripts": [
+        {
+            // Dataset homepage
+            "matches": [
+                "http://www.gbif.org/dataset/*"
+            ],
+            "exclude_matches": [
+                "http://www.gbif.org/dataset/*/stats",
+                "http://www.gbif.org/dataset/*/activity"
+            ],
+            "css": [
+                "css/content.css"
+            ],
+            "js": [
+                "js/content.js"
+            ]
+        },
+        {
+            // Dataset stats page
+            "matches": [
+                "http://www.gbif.org/dataset/*/stats"
+            ],
+            "css": [
+                "css/content.css"
+            ],
+            "js": [
+                "js/content.js"
+            ]
+        },
+        {
+            // Dataset activity page
+            "matches": [
+                "http://www.gbif.org/dataset/*/activity"
+            ],
+            "css": [
+                "css/c3.min.css",
+                "css/content.css"
+            ],
+            "js": [
+                "js/d3.min.js",
+                "js/c3.min.js",
+                "js/content.js",
+                "js/activity.js"
+            ]
+        }
+    ],
+
+    "icons": {
+
+    }
+}
