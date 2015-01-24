@@ -1,42 +1,67 @@
 var main = function() {
     var datasetKey = getDatasetKeyFromURL();
-    showBasisOfRecordChart(datasetKey);
+    var datasetKey = "42319b8f-9b9d-448d-969f-656792a69176"; // Remove
+    loadMetricsData(datasetKey,showBasisOfRecordMetric);
 }
 
-var showBasisOfRecordChart = function(datasetKey) {
-    datasetKey = "42319b8f-9b9d-448d-969f-656792a69176";
-    var basisOfRecordList = [
-        "PRESERVED_SPECIMEN",
-        "FOSSIL_SPECIMEN",
-        "LIVING_SPECIMEN",
-        "OBSERVATION",
-        "HUMAN_OBSERVATION",
-        "MACHINE_OBSERVATION",
-        "MATERIAL_SAMPLE",
-        "LITERATURE",
-        "UNKNOWN"
-    ]
-    var results = loadBasisOfRecordData(datasetKey, basisOfRecordList);
-    console.log(results);
-}
+var showBasisOfRecordMetric = function(data) {
+    var basisOfRecordsLabels = [
+        "Preserved specimen",
+        "Fossil specimen",
+        "Living specimen",
+        "Observation (unspecified)",
+        "Human observation",
+        "Machine observation",
+        "Material sample",
+        "Literature occurrence",
+        "Unknown"
+    ];
+    var basisOfRecords = [
+        data["bor_preserved_specimen"],
+        data["bor_fossil_specimen"],
+        data["bor_living_specimen"],
+        data["bor_observation"],
+        data["bor_human_observation"],
+        data["bor_machine_observation"],
+        data["bor_material_sample"],
+        data["bor_literature"],
+        data["bor_unknown"]
+    ];
 
-var getBasisOfRecordCount = function(datasetKey, basisOfRecord) {
-    var d = when.defer();
-    var url = "http://api.gbif.org/v1/occurrence/count?datasetKey=" + datasetKey + "&basisOfRecord=" + basisOfRecord;
-    d3.json(url, function(error, result){
-        if(error) d.reject(console.warn(error));
-        d.resolve(result);
+    var downloadChart = c3.generate({
+        bindto: ".test",
+        data: {
+            columns: [
+                ["basisOfRecords"].concat(basisOfRecords)
+            ],
+            type: "bar"
+        },
+        axis: {
+            x: {
+                type: "category",
+                categories: basisOfRecordsLabels
+            },
+            y: {
+                tick: {
+                    outer: false
+                }
+            }
+        },
+        // padding: {
+        //     left: 30 // To make room for y-axis labels on data loading
+        // },
+        bar: {
+            width: {
+                ratio: 0.9
+            }
+        },
+        legend: {
+            show: false
+        }
     });
-    return d.promise;
 }
 
-var loadBasisOfRecordData = function(datasetKey, basisOfRecordList) {
-    
-    var basisOfRecordMetrics = [];
-    for (var i = 0; i < basisOfRecordList.length; i++) {
-        basisOfRecordMetrics.push(getBasisOfRecordCount(datasetKey, basisOfRecordList[i]));
-    }
-    return when.all(basisOfRecordMetrics);
-}
+
+
 
 main();
