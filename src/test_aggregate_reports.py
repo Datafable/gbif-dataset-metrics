@@ -38,3 +38,4 @@ class TestAggregator(unittest.TestCase):
         self.assertEqual(aggregated_metrics[dataset_key]['basisofRecords']['UNKNOWN'], unknown)
         self.assertEqual(aggregated_metrics[dataset_key]['basisofRecords']['FOSSIL_SPECIMEN'], fossil_specimen)
         self.assertEqual(aggregated_metrics[dataset_key]['basisofRecords']['MACHINE_OBSERVATION'], machine_observation)
+        self.assertEqual(len(aggregated_metrics.keys()), 3)
