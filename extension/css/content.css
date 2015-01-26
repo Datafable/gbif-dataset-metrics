@@ -1,4 +1,4 @@
-/* HOME */
+/* Home page */
 
 .basis-of-record-0 { background-color: #e2b70d; } /* Preserved specimens */
 .basis-of-record-1 { background-color: #f4d03f; } /* Fossil specimens */
@@ -10,7 +10,7 @@
 .basis-of-record-7 { background-color: #d75d6c; } /* Literature occurrences */
 .basis-of-record-8 { background-color: #dddddd; } /* Unknown */
 
-/* ACTIVITY */
+/* Activity page */
 
 #downloadChart {
     height: 300px;
