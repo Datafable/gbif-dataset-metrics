@@ -19,7 +19,7 @@ REPORTS_DIR = os.path.join(os.path.dirname(__file__), 'reports')
 class DatasetDescriptorAwareEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, DatasetDescriptor):
-            return str(obj.data)
+            return obj.data
 
         return json.JSONEncoder.default(self, obj)
 
