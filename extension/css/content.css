@@ -19,7 +19,14 @@
 .coordinates-2 { background-color: #cd290a; } /* Coordinates with major issues */
 .coordinates-3 { background-color: #dddddd; } /* Coordinates not provided */
 
-/* Download chart */
+/* Taxon match bar */
+.taxon-match-0 { background-color: #54af37; } /* Taxon found in taxonomic backbone */
+.taxon-match-1 { background-color: #f7be63; } /* Taxon found in taxonomic backbone using fuzzy match */
+.taxon-match-2 { background-color: #f87e67; } /* Taxon not found in taxonomic backbone, but a higher taxon was */
+.taxon-match-3 { background-color: #cd290a; } /* Taxon not found in taxonomic backbone */
+.taxon-match-4 { background-color: #dddddd; } /* Taxon not provided */
+
+/* Downloads chart */
 #downloadChart {
     height: 300px;
     margin-bottom: 20px;

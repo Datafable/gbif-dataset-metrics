@@ -9,12 +9,11 @@ var addMetricsToStatsPage = function (metrics) {
     // Basis of record
     html = html + '<h3>Basis of record</h3>' + basisOfRecordBar(metrics);
     // Media type
-    html = html + '<h3>Media</h3>' + mediaTypeBar(metrics);
 
     // Coordinates
     html = html + '<h3>Coordinates</h3>' + coordinatesBar(metrics);
     // Taxon match
-
+    html = html + '<h3>Taxon match</h3>' + taxonMatchBar(metrics);
     // Add HTML to page
     var anchor = $("#occmetrics").find(".content");
     anchor.find(".header").after(html);

@@ -82,21 +82,23 @@ var coordinatesBar = function (metrics) {
     return createMetricBar(metric);
 };
 
-var mediaTypeBar = function (metrics) {
+var taxonMatchBar = function (metrics) {
     var metric = {
-        cssClass: "media-type",
+        cssClass: "taxon-match",
         total: metrics.occurrences,
         labels: [
-            "Valid coordinates (all in WGS84)",
-            "Coordinates with minor issues",
-            "Coordinates with major issues",
-            "Coordinates not provided"
+            "Taxon found in taxonomic backbone",
+            "Taxon found in taxonomic backbone using fuzzy match",
+            "Taxon not found in taxonomic backbone, but a higher taxon was",
+            "Taxon not found in taxonomic backbone",
+            "Taxon not provided"
         ],
         counts: [
-            metrics.coordinates_valid,
-            metrics.coordinates_minor_issues,
-            metrics.coordinates_major_issues,
-            metrics.coordinates_not_provided
+            metrics.taxon_match_complete,
+            metrics.taxon_match_fuzzy,
+            metrics.taxon_match_higherrank,
+            metrics.taxon_match_none,
+            metrics.taxon_not_provided
         ]
     };
     return createMetricBar(metric);
