@@ -1,9 +1,8 @@
 import sys
-import csv
 import os
 SRC_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + '/src'
 sys.path.append(SRC_DIR)
-from aggregator import ReportAggregator
+from aggregator import ReportAggregator, CartoDBWriter
 
 def check_arguments():
     if len(sys.argv) != 2:
@@ -22,10 +21,8 @@ def aggregate_metrics(data_dir):
     return data
 
 def write_data(data):
-    writer = csv.writer(sys.stdout, delimiter=',')
+    writer = CartoDBWriter()
     basis_of_records_metrics = ['PRESERVED_SPECIMEN', 'FOSSIL_SPECIMEN', 'LIVING_SPECIMEN', 'MATERIAL_SAMPLE', 'OBSERVATION', 'HUMAN_OBSERVATION', 'MACHINE_OBSERVATION', 'LITERATURE', 'UNKNOWN', 'NUMBER_OF_RECORDS']
-    header = ['dataset_key', 'bor_preserved_specimen', 'bor_fossil_specimen', 'bor_living_specimen', 'bor_material_sample', 'bor_observation', 'bor_human_observation', 'bor_machine_observation', 'bor_literature', 'bor_unknown', 'number_of_records']
-    writer.writerow(header)
     for dataset in data:
         row = [dataset]
         basis_of_records = data[dataset]['basisofRecords']
@@ -34,7 +31,7 @@ def write_data(data):
                 row.append(basis_of_records[metric_name])
             else:
                 row.append(0)
-        writer.writerow(row)
+        writer.write_basis_of_record(row)
 
 def main():
     data_dir = check_arguments()
