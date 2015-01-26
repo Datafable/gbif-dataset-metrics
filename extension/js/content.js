@@ -50,7 +50,7 @@ var showBasisOfRecordMetric = function(metrics, addToDOM) {
     };
 
     // Create HTML
-    var html = '<div id="basisOfRecordMetric" class="progress">';
+    var html = '<div class="progress">';
     for (var i = 0; i < basisOfRecords.metrics.length; i++) {
         var percentage = Math.round(basisOfRecords.metrics[i]/occurrences*100,1);
         html = html + '<div class="progress-bar basis-of-record-' + i + '" style="width: ' + percentage + '%" data-toggle="tooltip" data-placement="top" title="' + basisOfRecords.labels[i] + ' ' + percentage + '%"><span class="sr-only">' + basisOfRecords.labels[i] + '</span></div>';

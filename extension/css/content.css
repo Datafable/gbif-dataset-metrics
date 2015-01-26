@@ -1,5 +1,8 @@
-/* Home page */
+.metric-title {
+    margin-bottom: 20px;
+}
 
+/* Basis of record metric */
 .basis-of-record-0 { background-color: #e2b70d; } /* Preserved specimens */
 .basis-of-record-1 { background-color: #f4d03f; } /* Fossil specimens */
 .basis-of-record-2 { background-color: #f8e07f; } /* Living specimens */
@@ -10,13 +13,11 @@
 .basis-of-record-7 { background-color: #d75d6c; } /* Literature occurrences */
 .basis-of-record-8 { background-color: #dddddd; } /* Unknown */
 
-/* Activity page */
-
+/* Download chart */
 #downloadChart {
     height: 300px;
     margin-bottom: 20px;
 }
-
 .c3-axis-y {
     fill: #666666;
     }
