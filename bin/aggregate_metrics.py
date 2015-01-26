@@ -26,7 +26,7 @@ def aggregate_metrics(data_dir):
 def write_data(data, settings_file):
     settings = json.load(open(settings_file))
     writer = CartoDBWriter()
-    basis_of_records_metrics = ['PRESERVED_SPECIMEN', 'FOSSIL_SPECIMEN', 'LIVING_SPECIMEN', 'MATERIAL_SAMPLE', 'OBSERVATION', 'HUMAN_OBSERVATION', 'MACHINE_OBSERVATION', 'LITERATURE', 'UNKNOWN', 'NUMBER_OF_RECORDS']
+    basis_of_records_metrics = ['PRESERVED_SPECIMEN', 'FOSSIL_SPECIMEN', 'LIVING_SPECIMEN', 'MATERIAL_SAMPLE', 'OBSERVATION', 'HUMAN_OBSERVATION', 'MACHINE_OBSERVATION', 'LITERATURE', 'UNKNOWN']
     for dataset in data:
         row = [dataset]
         basis_of_records = data[dataset]['basisofRecords']
@@ -35,6 +35,8 @@ def write_data(data, settings_file):
                 row.append(basis_of_records[metric_name])
             else:
                 row.append(0)
+        nr_of_records = data[dataset]['NUMBER_OF_RECORDS']
+        row.append(nr_of_records)
         writer.write_basis_of_record(row, settings['api_key'])
 
 def main():

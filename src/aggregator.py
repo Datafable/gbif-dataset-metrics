@@ -4,16 +4,16 @@ import requests
 
 class ReportAggregator():
     """
-    This class will be used to aggregate gbif_extract*.report.json files.
+    This class will be used to aggregate *.json files.
     Metric data will be aggregated by data set key
     """
 
     def find_files(self, folder):
         """
-        Look for all gbif_extract*.report.json files
+        Look for all *.json files
         in a given folder.
         """
-        files = glob(folder + '/gbif_extract*.report.json')
+        files = glob(folder + '/*.json')
         return files
 
     def merge_data_set_in_metrics(self, dataset, metrics_data):
@@ -22,11 +22,14 @@ class ReportAggregator():
         """
         for metric_type in dataset.keys():
             if metric_type in metrics_data.keys():
-                for metric_name in dataset[metric_type].keys():
-                    if metric_name in metrics_data[metric_type].keys():
-                        metrics_data[metric_type][metric_name] += dataset[metric_type][metric_name]
-                    else:
-                        metrics_data[metric_type][metric_name] = dataset[metric_type][metric_name]
+                if type(dataset[metric_type]) is dict:
+                    for metric_name in dataset[metric_type].keys():
+                        if metric_name in metrics_data[metric_type].keys():
+                            metrics_data[metric_type][metric_name] += dataset[metric_type][metric_name]
+                        else:
+                            metrics_data[metric_type][metric_name] = dataset[metric_type][metric_name]
+                else:
+                    metrics_data[metric_type] += dataset[metric_type]
             else:
                 metrics_data[metric_type] = dataset[metric_type]
         return True
@@ -34,7 +37,7 @@ class ReportAggregator():
 
     def aggregate(self, data_folder):
         """
-        iterate over all the gbif_extract*.report.json files
+        iterate over all the *.json files
         and merge the metrics data by dataset key and
         metric type
         """
