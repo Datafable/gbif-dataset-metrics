@@ -1,16 +1,16 @@
 var main = function() {
     var datasetKey = getDatasetKeyFromURL();
     showDownloadChart(datasetKey,30);
-}
+};
 
 var removeTimeFromDate = function(date) {
     return date.setUTCHours(0,0,0,0); // Floor date to midnight and return as time integer
-}
+};
 
 var formatAsISODate = function(time) {
     var date = new Date(time);
     return date.toISOString().substring(0,10); // Return first 10 characters (yyyy-mm-dd) of full ISO date
-}
+};
 
 var showDownloadChart = function(datasetKey, dayRange) {
     var oneDayInMs = 24 * 60 * 60 * 1000;
@@ -65,7 +65,7 @@ var showDownloadChart = function(datasetKey, dayRange) {
     });
 
     loadDownloadData(datasetKey,1000,startDay,oneDayInMs,downloads,downloadChart);
-}
+};
 
 var loadDownloadData = function(datasetKey, pageLimit, startDay, oneDayInMs, downloads, downloadChart) {
     /*  Note: this function does only one call to the GBIF API, so if dayRange 
@@ -75,12 +75,12 @@ var loadDownloadData = function(datasetKey, pageLimit, startDay, oneDayInMs, dow
     d3.json(url,function(error, result) {
         if (error) return console.warn(error);
 
-        result["results"].every(function(result) {
-            var downloadDay = removeTimeFromDate(new Date(result["download"]["created"]));
+        result.results.every(function(result) {
+            var downloadDay = removeTimeFromDate(new Date(result.download.created));
             // console.log(downloadDay);
             
             if (downloadDay >= startDay) {
-                if (result["download"]["status"] == "SUCCEEDED") {
+                if (result.download.status == "SUCCEEDED") {
                     var i = (downloadDay - startDay) / oneDayInMs; // Day index
                     downloads[i] += 1;
                 }
@@ -96,6 +96,6 @@ var loadDownloadData = function(datasetKey, pageLimit, startDay, oneDayInMs, dow
             ]
         });
     });
-}
+};
 
 main();

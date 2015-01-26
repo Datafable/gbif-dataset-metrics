@@ -1,14 +1,15 @@
-var main = function() {
+var main = function () {
     var datasetKey = getDatasetKeyFromURL();
     getMetrics(datasetKey,addMetricsToStatsPage);
-}
+};
 
-var addMetricsToStatsPage = function(metrics) {
+var addMetricsToStatsPage = function (metrics) {
     // Create HTML
     var html = "";
     // Basis of record
     html = html + '<h3>Basis of record</h3>' + basisOfRecordBar(metrics);
     // Media type
+    html = html + '<h3>Media</h3>' + mediaTypeBar(metrics);
 
     // Coordinates
     html = html + '<h3>Coordinates</h3>' + coordinatesBar(metrics);
@@ -23,6 +24,6 @@ var addMetricsToStatsPage = function(metrics) {
 
     // Activate tooltip
     $('[data-toggle="tooltip"]').tooltip();
-}
+};
 
 main();

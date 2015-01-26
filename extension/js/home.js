@@ -1,9 +1,9 @@
-var main = function() {
+var main = function () {
     var datasetKey = getDatasetKeyFromURL();
     getMetrics(datasetKey,addMetricsToHomePage);
-}
+};
 
-var addMetricsToHomePage = function(metrics) {
+var addMetricsToHomePage = function (metrics) {
     // Create HTML
     var html = "";
     // Basis of record
@@ -14,6 +14,6 @@ var addMetricsToHomePage = function(metrics) {
 
     // Activate tooltip
     $('[data-toggle="tooltip"]').tooltip();
-}
+};
 
 main();
