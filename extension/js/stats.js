@@ -1,17 +1,28 @@
 var main = function() {
     var datasetKey = getDatasetKeyFromURL();
-    
-    var metricsHTML = '<div id="basisOfRecordMetric"></div>';
-    var occmetricsAnchor = $("#occmetrics").find(".content");
-    occmetricsAnchor.find(".header").after(metricsHTML); // Add scaffolding for metrics
-    occmetricsAnchor.find(".pies li:nth-child(2)").remove(); // Remove default basis of record pie chart
-    
-    loadMetricsData(datasetKey,showBasisOfRecordMetric,addBasisOfRecordToDOM);
+    getMetrics(datasetKey,addMetricsToStatsPage);
 }
 
-var addBasisOfRecordToDOM = function(html) {
-    html = '<h3 class="metric-title">Basis of record</h3>' + html;
-    $("#basisOfRecordMetric").append(html);
+var addMetricsToStatsPage = function(metrics) {
+    // Create HTML
+    var html = "";
+    // Basis of record
+    html = html + '<h3 class="metric-title">Basis of record</h3>' + basisOfRecordBar(metrics);
+    // Media type
+
+    // Coordinates
+
+    // Taxon match
+
+    // Add HTML to page
+    var anchor = $("#occmetrics").find(".content");
+    anchor.find(".header").after(html);
+
+    // Remove some default elements
+    anchor.find(".pies li:nth-child(2)").remove();
+
+    // Activate tooltip
+    $('[data-toggle="tooltip"]').tooltip();
 }
 
 main();

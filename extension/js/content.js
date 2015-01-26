@@ -1,30 +1,41 @@
 var getDatasetKeyFromURL = function() {
     var pathArray = window.location.pathname.split('/');
-    if (pathArray[1] == "dataset") {
-        // On GBIF website, get datasetKey from URL.
-        var datasetKey = pathArray[2];
-    } else {
-        // Elsewhere, e.g. demo pages, use demo datasetKey.
-        var datasetKey = "42319b8f-9b9d-448d-969f-656792a69176"; // Coccinellidae
+    var datasetKey = "";
+    if (pathArray[1] == "dataset") { // On GBIF website, get datasetKey from URL.
+        datasetKey = pathArray[2];
+    } else { // Elsewhere, e.g. demo pages, use demo datasetKey.
+        datasetKey = "42319b8f-9b9d-448d-969f-656792a69176"; // Coccinellidae
     }
     return datasetKey;
 }
 
-var loadMetricsData = function(datasetKey, showMetric, addToDOM) {
+var getMetrics = function(datasetKey, showMetrics) {
     // Get data from metrics store in CartoDB.
     var url = "http://datafable.cartodb.com/api/v2/sql?q=SELECT * FROM gbif_dataset_metrics WHERE dataset_key ='" + datasetKey + "'";
     $.getJSON(url,function(result) {
         if (result["rows"] == "") {
             console.log("No metrics for this dataset");
         } else {
-            showMetric(result["rows"][0], addToDOM); // Only one row [0] expected
+            showMetrics(result["rows"][0]); // Only one row [0] expected
         }
     });
 }
 
-var showBasisOfRecordMetric = function(metrics, addToDOM) {
-    var occurrences = metrics["occurrences"];
+var createMetricBar = function(metric) {
+    // Create HTML for a metric, using Bootstrap progress bar.
+    var html = '<div class="progress">';
+    for (var i = 0; i < metric.counts.length; i++) {
+        var percentage = Math.round(metric.counts[i]/metric.total*100,1);
+        html = html + '<div class="progress-bar ' + metric.cssClass + '-' + i + '" style="width: ' + percentage + '%" data-toggle="tooltip" data-placement="top" title="' + metric.labels[i] + ' ' + percentage + '%"><span class="sr-only">' + metric.labels[i] + '</span></div>';
+    }
+    var html = html + '</div>';
+    return html;
+}
+
+var basisOfRecordBar = function(metrics) {
     var basisOfRecords = {
+        total: metrics["occurrences"],
+        cssClass: "basis-of-record",
         labels: [
             "Preserved specimens",
             "Fossil specimens",
@@ -36,7 +47,7 @@ var showBasisOfRecordMetric = function(metrics, addToDOM) {
             "Literature occurrences",
             "Unknown"
         ],
-        metrics: [
+        counts: [
             metrics["bor_preserved_specimen"],
             metrics["bor_fossil_specimen"],
             metrics["bor_living_specimen"],
@@ -48,18 +59,5 @@ var showBasisOfRecordMetric = function(metrics, addToDOM) {
             metrics["bor_unknown"]
         ]
     };
-
-    // Create HTML
-    var html = '<div class="progress">';
-    for (var i = 0; i < basisOfRecords.metrics.length; i++) {
-        var percentage = Math.round(basisOfRecords.metrics[i]/occurrences*100,1);
-        html = html + '<div class="progress-bar basis-of-record-' + i + '" style="width: ' + percentage + '%" data-toggle="tooltip" data-placement="top" title="' + basisOfRecords.labels[i] + ' ' + percentage + '%"><span class="sr-only">' + basisOfRecords.labels[i] + '</span></div>';
-    }
-    var html = html + '</div>'
-
-    // Add to DOM
-    addToDOM(html);
-
-    // Enable tooltip
-    $('[data-toggle="tooltip"]').tooltip();
+    return createMetricBar(basisOfRecords);
 }
