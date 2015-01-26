@@ -33,7 +33,7 @@ var createMetricBar = function(metric) {
 }
 
 var basisOfRecordBar = function(metrics) {
-    var basisOfRecords = {
+    var metric = {
         total: metrics["occurrences"],
         cssClass: "basis-of-record",
         labels: [
@@ -59,5 +59,25 @@ var basisOfRecordBar = function(metrics) {
             metrics["bor_unknown"]
         ]
     };
-    return createMetricBar(basisOfRecords);
+    return createMetricBar(metric);
+}
+
+var coordinatesBar = function(metrics) {
+    var metric = {
+        total: metrics["occurrences"],
+        cssClass: "coordinates",
+        labels: [
+            "Valid coordinates (all in WGS84)",
+            "Coordinates with minor issues",
+            "Coordinates with major issues",
+            "Coordinates not provided"
+        ],
+        counts: [
+            metrics["coordinates_valid"],
+            metrics["coordinates_minor_issues"],
+            metrics["coordinates_major_issues"],
+            metrics["coordinates_not_provided"]
+        ]
+    };
+    return createMetricBar(metric);
 }

@@ -7,11 +7,11 @@ var addMetricsToStatsPage = function(metrics) {
     // Create HTML
     var html = "";
     // Basis of record
-    html = html + '<h3 class="metric-title">Basis of record</h3>' + basisOfRecordBar(metrics);
+    html = html + '<h3>Basis of record</h3>' + basisOfRecordBar(metrics);
     // Media type
 
     // Coordinates
-
+    html = html + '<h3>Coordinates</h3>' + coordinatesBar(metrics);
     // Taxon match
 
     // Add HTML to page

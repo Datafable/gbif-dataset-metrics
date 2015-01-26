@@ -1,8 +1,8 @@
-.metric-title {
+#occmetrics h3 {
     margin-bottom: 20px;
 }
 
-/* Basis of record metric */
+/* Basis of record bar */
 .basis-of-record-0 { background-color: #e2b70d; } /* Preserved specimens */
 .basis-of-record-1 { background-color: #f4d03f; } /* Fossil specimens */
 .basis-of-record-2 { background-color: #f8e07f; } /* Living specimens */
@@ -12,6 +12,12 @@
 .basis-of-record-6 { background-color: #99cbed; } /* Machine observations */
 .basis-of-record-7 { background-color: #d75d6c; } /* Literature occurrences */
 .basis-of-record-8 { background-color: #dddddd; } /* Unknown */
+
+/* Coordinates bar */
+.coordinates-0 { background-color: #54af37; } /* Valid coordinates (all in WGS84) */
+.coordinates-1 { background-color: #f7be63; } /* Coordinates with minor issues */
+.coordinates-2 { background-color: #cd290a; } /* Coordinates with major issues */
+.coordinates-3 { background-color: #dddddd; } /* Coordinates not provided */
 
 /* Download chart */
 #downloadChart {
