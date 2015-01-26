@@ -38,9 +38,12 @@
                 "http://www.gbif.org/dataset/*/stats"
             ],
             "css": [
+                "css/bootstrap.min.css",
                 "css/content.css"
             ],
             "js": [
+                "js/jquery.min.js",
+                "js/bootstrap.min.js",
                 "js/content.js",
                 "js/stats.js"
             ]
