@@ -22,10 +22,14 @@
                 "http://www.gbif.org/dataset/*/activity"
             ],
             "css": [
+                "css/bootstrap.min.css",
                 "css/content.css"
             ],
             "js": [
-                "js/content.js"
+                "js/jquery.min.js",
+                "js/bootstrap.min.js",
+                "js/content.js",
+                "js/home.js"
             ]
         },
         {
@@ -37,7 +41,8 @@
                 "css/content.css"
             ],
             "js": [
-                "js/content.js"
+                "js/content.js",
+                "js/stats.js"
             ]
         },
         {
