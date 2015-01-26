@@ -23,8 +23,8 @@ def aggregate_metrics(data_dir):
 
 def write_data(data):
     writer = csv.writer(sys.stdout, delimiter=',')
-    basis_of_records_metrics = ['PRESERVED_SPECIMEN', 'FOSSIL_SPECIMEN', 'LIVING_SPECIMEN', 'OBSERVATION', 'HUMAN_OBSERVATION', 'MACHINE_OBSERVATION', 'MATERIAL_SAMPLE', 'LITERATURE', 'UNKNOWN']
-    header = ['dataset_key', 'bor_preserved_specimen', 'fossil_specimen', 'bor_living_specimen', 'bor_observation', 'bor_human_observation', 'bor_machine_observation', 'bor_material_sample', 'bor_literature', 'bor_unknown']
+    basis_of_records_metrics = ['PRESERVED_SPECIMEN', 'FOSSIL_SPECIMEN', 'LIVING_SPECIMEN', 'MATERIAL_SAMPLE', 'OBSERVATION', 'HUMAN_OBSERVATION', 'MACHINE_OBSERVATION', 'LITERATURE', 'UNKNOWN']
+    header = ['dataset_key', 'bor_preserved_specimen', 'bor_fossil_specimen', 'bor_living_specimen', 'bor_material_sample', 'bor_observation', 'bor_human_observation', 'bor_machine_observation', 'bor_literature', 'bor_unknown', 'number_of_records']
     writer.writerow(header)
     for dataset in data:
         row = [dataset]
