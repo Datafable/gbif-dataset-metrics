@@ -1,3 +1,23 @@
+.metric-title {
+    margin-bottom: 20px;
+}
+
+/* Basis of record metric */
+.basis-of-record-0 { background-color: #e2b70d; } /* Preserved specimens */
+.basis-of-record-1 { background-color: #f4d03f; } /* Fossil specimens */
+.basis-of-record-2 { background-color: #f8e07f; } /* Living specimens */
+.basis-of-record-3 { background-color: #8e44ad; } /* Material samples */
+.basis-of-record-4 { background-color: #2691d8; } /* Observations */
+.basis-of-record-5 { background-color: #5faee3; } /* Human observations */
+.basis-of-record-6 { background-color: #99cbed; } /* Machine observations */
+.basis-of-record-7 { background-color: #d75d6c; } /* Literature occurrences */
+.basis-of-record-8 { background-color: #dddddd; } /* Unknown */
+
+/* Download chart */
+#downloadChart {
+    height: 300px;
+    margin-bottom: 20px;
+}
 .c3-axis-y {
     fill: #666666;
     }
@@ -11,9 +31,4 @@
 }
 .c3-tooltip td > span {
     background-color: #0099cc!important;
-}
-
-#downloadChart {
-    height: 300px;
-    margin-bottom: 20px;
 }
