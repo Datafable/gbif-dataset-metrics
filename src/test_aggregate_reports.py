@@ -33,9 +33,11 @@ class TestAggregator(unittest.TestCase):
         unknown = 7 + 9
         fossil_specimen = 3
         machine_observation = 5
+        nr_of_records = 3710 + 10134 + 7 + 9 + 3 + 5
         aggregated_metrics = self.agg.aggregate(self.data_folder)
-        self.assertEqual(aggregated_metrics[dataset_key]['basisofRecords']['HUMAN_OBSERVATION'], human_observations)
-        self.assertEqual(aggregated_metrics[dataset_key]['basisofRecords']['UNKNOWN'], unknown)
-        self.assertEqual(aggregated_metrics[dataset_key]['basisofRecords']['FOSSIL_SPECIMEN'], fossil_specimen)
-        self.assertEqual(aggregated_metrics[dataset_key]['basisofRecords']['MACHINE_OBSERVATION'], machine_observation)
+        self.assertEqual(aggregated_metrics[dataset_key]['BASISOFRECORDS']['HUMAN_OBSERVATION'], human_observations)
+        self.assertEqual(aggregated_metrics[dataset_key]['BASISOFRECORDS']['UNKNOWN'], unknown)
+        self.assertEqual(aggregated_metrics[dataset_key]['BASISOFRECORDS']['FOSSIL_SPECIMEN'], fossil_specimen)
+        self.assertEqual(aggregated_metrics[dataset_key]['BASISOFRECORDS']['MACHINE_OBSERVATION'], machine_observation)
         self.assertEqual(len(aggregated_metrics.keys()), 3)
+        self.assertEqual(aggregated_metrics[dataset_key]['NUMBER_OF_RECORDS'], nr_of_records)
