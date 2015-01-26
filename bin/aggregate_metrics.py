@@ -29,7 +29,7 @@ def write_data(data, settings_file):
     basis_of_records_metrics = ['PRESERVED_SPECIMEN', 'FOSSIL_SPECIMEN', 'LIVING_SPECIMEN', 'MATERIAL_SAMPLE', 'OBSERVATION', 'HUMAN_OBSERVATION', 'MACHINE_OBSERVATION', 'LITERATURE', 'UNKNOWN']
     for dataset in data:
         row = [dataset]
-        basis_of_records = data[dataset]['basisofRecords']
+        basis_of_records = data[dataset]['BASISOFRECORDS']
         for metric_name in basis_of_records_metrics:
             if metric_name in basis_of_records:
                 row.append(basis_of_records[metric_name])
