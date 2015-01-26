@@ -25,8 +25,8 @@ var createMetricBar = function (metric) {
     // Create HTML for a metric, using Bootstrap progress bar.
     var html = '<div class="progress">';
     for (var i = 0; i < metric.counts.length; i++) {
-        var percentage = Math.round(metric.counts[i]/metric.total*100,1);
-        html = html + '<div class="progress-bar ' + metric.cssClass + '-' + i + '" style="width: ' + percentage + '%" data-toggle="tooltip" data-placement="top" title="' + metric.labels[i] + ' ' + percentage + '%"><span class="sr-only">' + metric.labels[i] + '</span></div>';
+        var percentage = metric.counts[i]/metric.total*100;
+        html = html + '<div class="progress-bar ' + metric.cssClass + '-' + i + '" style="width: ' + percentage + '%" data-toggle="tooltip" data-placement="top" title="' + metric.labels[i] + ' ' + percentage.toFixed(1) + '%"><span class="sr-only">' + metric.labels[i] + '</span></div>';
     }
     html = html + '</div>';
     return html;
