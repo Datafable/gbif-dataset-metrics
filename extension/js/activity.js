@@ -17,15 +17,15 @@ var showDownloadChart = function(datasetKey, dayRange) {
     var today = new Date();
     var startDay = removeTimeFromDate(today); // Set at midnight
         startDay = startDay - ((dayRange - 1) * oneDayInMs); // Substract dayRange in milliseconds
-    var days = new Array();
-    var downloads = new Array();
+    var days = [];
+    var downloads = [];
     for (var i = 0; i < dayRange; i++) {
         days[i] = formatAsISODate(startDay + i * oneDayInMs); // Populate array with all dates in ISO8601
         downloads[i] = null; // Populate array with null values (for empty chart)
     }
 
     // Add div for chart to DOM as first child of .content
-    d3.select("#content .content").insert("div",":first-child").attr("id","downloadChart");
+    d3.select("#content .results .content").insert("div",":first-child").attr("id","downloadChart");
 
     var downloadChart = c3.generate({
         bindto: "#downloadChart",
@@ -73,7 +73,7 @@ var loadDownloadData = function(datasetKey, pageLimit, startDay, oneDayInMs, dow
     
     var url = "http://api.gbif.org/v1/occurrence/download/dataset/" + datasetKey + "?limit=" + pageLimit;
     d3.json(url,function(error, result) {
-        if(error) return console.warn(error);
+        if (error) return console.warn(error);
 
         result["results"].every(function(result) {
             var downloadDay = removeTimeFromDate(new Date(result["download"]["created"]));
