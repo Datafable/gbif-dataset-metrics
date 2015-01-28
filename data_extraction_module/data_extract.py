@@ -10,33 +10,13 @@ import json
 
 from dwca.read import DwCAReader
 
+from descriptors import DatasetDescriptor, DatasetDescriptorAwareEncoder
+from helpers import is_dwca, get_taxon_match_category
+
 # A report file will be generated for each DwC-A in this directory.
 # All zip files and subdirectories will be assumed to be DwC-A
 DATA_SOURCE_DIR = os.path.join(os.path.dirname(__file__), 'sample_base_data')
 REPORTS_DIR = os.path.join(os.path.dirname(__file__), 'reports')
-
-
-class DatasetDescriptorAwareEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, DatasetDescriptor):
-            return obj.data
-
-        return json.JSONEncoder.default(self, obj)
-
-
-class DatasetDescriptor(object):
-    def __init__(self):
-        self.data = {'NUMBER_OF_RECORDS': 0, 
-                     'BASISOFRECORDS': {}}
-
-    def increment_number_records(self):
-        self.data['NUMBER_OF_RECORDS'] = self.data['NUMBER_OF_RECORDS'] + 1
-
-    def store_or_increment_bor(self, value):
-        if value in self.data['BASISOFRECORDS']:
-            self.data['BASISOFRECORDS'][value] = self.data['BASISOFRECORDS'][value] + 1
-        else:
-            self.data['BASISOFRECORDS'][value] = 1
 
 
 # Parse the archive located at 'a' and return a JSON report
@@ -53,13 +33,13 @@ def parse_archive(a):
 
             # 1. Increment total number of records per dataset...
             r[dataset_key].increment_number_records()
-            r[dataset_key].store_or_increment_bor(row.data['http://rs.tdwg.org/dwc/terms/basisOfRecord'])
+
+            bor_term = 'http://rs.tdwg.org/dwc/terms/basisOfRecord'
+            r[dataset_key].store_or_increment_bor(row.data[bor_term])
+            r[dataset_key].store_or_increment_taxonmatch(get_taxon_match_category(row))
 
         return json.dumps(r, cls=DatasetDescriptorAwareEncoder)
 
-
-def is_dwca(path):
-    return path.lower().endswith('.zip') or os.path.isdir(path)
 
 def main():
     for entry in os.listdir(DATA_SOURCE_DIR):
