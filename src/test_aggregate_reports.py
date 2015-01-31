@@ -107,7 +107,7 @@ class TestAggregator(unittest.TestCase):
     def test_aggregate_taxonomy(self):
         record1 = ['dataset1', 'kingdom1', 'phylum1', 'class1', 'order1', 'family1', 'genus1', 'species1', 10]
         record2 = ['dataset1', 'kingdom1', 'phylum1', 'class1', 'order1', 'family1', 'genus1', 'species2', 10]
-        expected_result = json.dumps({
+        expected_result = {
             'dataset1': {
                 'kingdom1': {
                     'phylum1': {
@@ -124,12 +124,12 @@ class TestAggregator(unittest.TestCase):
                     }
                 }
             }
-        })
+        }
         # aggregate by species
         result = self.agg.aggregate_taxonomy([record1, record2], do_genus=True, do_species=True)
-        self.assertEqual(result, expected_result)
+        self.assertEqual(json.dumps(result), json.dumps(expected_result))
         # aggregate by genus
-        expected_result = json.dumps({
+        expected_result = {
             'dataset1': {
                 'kingdom1': {
                     'phylum1': {
@@ -143,11 +143,11 @@ class TestAggregator(unittest.TestCase):
                     }
                 }
             }
-        })
+        }
         result = self.agg.aggregate_taxonomy([record1, record2], do_genus=True, do_species=False)
-        self.assertEqual(result, expected_result)
+        self.assertEqual(json.dumps(result), json.dumps(expected_result))
         # aggregate by family
-        expected_result = json.dumps({
+        expected_result = {
             'dataset1': {
                 'kingdom1': {
                     'phylum1': {
@@ -159,6 +159,6 @@ class TestAggregator(unittest.TestCase):
                     }
                 }
             }
-        })
+        }
         result = self.agg.aggregate_taxonomy([record1, record2], do_genus=False, do_species=False)
-        self.assertEqual(result, expected_result)
+        self.assertEqual(json.dumps(result), json.dumps(expected_result))
