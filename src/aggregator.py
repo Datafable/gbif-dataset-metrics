@@ -57,7 +57,7 @@ class ReportAggregator():
         """
         sum all last elements or an array of arrays
         """
-        return sum([x[-1] for x in arr])
+        return sum([int(x[-1]) for x in arr])
 
     def aggregate_taxonomy(self, taxonomy_arrays, do_genus=True, do_species=True):
         """
