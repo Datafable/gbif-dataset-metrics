@@ -96,7 +96,7 @@ class CartoDBWriter():
         print r.status_code
 
     def writeTaxonomy(self, dataset_key, taxonomy_for_this_dataset, api_key):
-        params = {'q': self.taxonomy_sql_statement.format(dataset_key, taxonomy_for_this_dataset), 'api_key': api_key}
-        print self.taxonomy_sql_statement.format(taxonomy_for_this_dataset, dataset_key)
-        r = requests.post('http://datafable.cartodb.com/api/v2/sql', params=params)
-        print r.status_code
+        params = {'q': self.taxonomy_sql_statement.format(taxonomy_for_this_dataset, dataset_key), 'api_key': api_key}
+        r = requests.post('http://datafable.cartodb.com/api/v2/sql', data=params)
+        #print r.status_code
+        #print r.content
