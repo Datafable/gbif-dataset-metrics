@@ -5,7 +5,8 @@ class DatasetDescriptor(object):
     def __init__(self):
         self.data = {'NUMBER_OF_RECORDS': 0,
                      'BASISOFRECORDS': {},
-                     'TAXON_MATCHES': {}}
+                     'TAXON_MATCHES': {},
+                     'TAXONOMY': {}}
 
     def increment_number_records(self):
         self.data['NUMBER_OF_RECORDS'] = self.data['NUMBER_OF_RECORDS'] + 1
@@ -18,6 +19,9 @@ class DatasetDescriptor(object):
 
     def store_or_increment_bor(self, value):
         self._store_or_increment_counter(value, 'BASISOFRECORDS')
+
+    def store_or_increment_taxonomy(self, value):
+        self._store_or_increment_counter(value, 'TAXONOMY')
 
     def store_or_increment_taxonmatch(self, value):
         self._store_or_increment_counter(value, 'TAXON_MATCHES')

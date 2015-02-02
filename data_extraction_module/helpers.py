@@ -22,3 +22,22 @@ def get_taxon_match_category(row):
         return 'TAXON_MATCH_FUZZY'
     else:
         return 'TAXON_MATCH_COMPLETE'
+
+
+def get_taxonomy(row):
+    """ Takes a CoreRow, and returns taxonomy such as:
+    'kingdom1|phylum1|class1|order1|family1|genus1|species1'.
+
+    Missing fields can stay blank: 'kingdom1|phylum1|class1||||'.
+    """
+
+    kingdom = row.data['http://rs.tdwg.org/dwc/terms/kingdom'].strip()
+    phylum = row.data['http://rs.tdwg.org/dwc/terms/phylum'].strip()
+    class_ = row.data['http://rs.tdwg.org/dwc/terms/class'].strip()
+    order = row.data['http://rs.tdwg.org/dwc/terms/order'].strip()
+    family = row.data['http://rs.tdwg.org/dwc/terms/family'].strip()
+    genus = row.data['http://rs.tdwg.org/dwc/terms/genus'].strip()
+    species = row.data['http://rs.tdwg.org/dwc/terms/specificEpithet'].strip()
+
+    return u"{k}|{p}|{c}|{o}|{f}|{g}|{s}".format(k=kingdom, p=phylum, c=class_,
+                                                 o=order, f=family, g=genus, s=species)

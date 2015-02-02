@@ -11,7 +11,7 @@ import json
 from dwca.read import DwCAReader
 
 from descriptors import DatasetDescriptor, DatasetDescriptorAwareEncoder
-from helpers import is_dwca, get_taxon_match_category
+from helpers import is_dwca, get_taxon_match_category, get_taxonomy
 
 # A report file will be generated for each DwC-A in this directory.
 # All zip files and subdirectories will be assumed to be DwC-A
@@ -37,6 +37,7 @@ def parse_archive(a):
             bor_term = 'http://rs.tdwg.org/dwc/terms/basisOfRecord'
             r[dataset_key].store_or_increment_bor(row.data[bor_term])
             r[dataset_key].store_or_increment_taxonmatch(get_taxon_match_category(row))
+            r[dataset_key].store_or_increment_taxonomy(get_taxonomy(row))
 
         return json.dumps(r, cls=DatasetDescriptorAwareEncoder)
 
