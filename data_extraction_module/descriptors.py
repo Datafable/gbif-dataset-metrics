@@ -6,7 +6,8 @@ class DatasetDescriptor(object):
         self.data = {'NUMBER_OF_RECORDS': 0,
                      'BASISOFRECORDS': {},
                      'TAXON_MATCHES': {},
-                     'TAXONOMY': {}}
+                     'TAXONOMY': {},
+                     'MEDIA_CATEGORIES': {}}
 
     def increment_number_records(self):
         self.data['NUMBER_OF_RECORDS'] = self.data['NUMBER_OF_RECORDS'] + 1
@@ -25,6 +26,9 @@ class DatasetDescriptor(object):
 
     def store_or_increment_taxonmatch(self, value):
         self._store_or_increment_counter(value, 'TAXON_MATCHES')
+
+    def store_or_increment_mediacategory(self, value):
+        self._store_or_increment_counter(value, 'MEDIA_CATEGORIES')
 
 
 class DatasetDescriptorAwareEncoder(json.JSONEncoder):
