@@ -28,7 +28,7 @@ def write_data(data, settings_file):
     writer = CartoDBWriter()
     basis_of_records_metrics = ['PRESERVED_SPECIMEN', 'FOSSIL_SPECIMEN', 'LIVING_SPECIMEN', 'MATERIAL_SAMPLE', 'OBSERVATION', 'HUMAN_OBSERVATION', 'MACHINE_OBSERVATION', 'LITERATURE', 'UNKNOWN']
     for dataset in data:
-        row = [dataset]
+        row = []
         basis_of_records = data[dataset]['BASISOFRECORDS']
         for metric_name in basis_of_records_metrics:
             if metric_name in basis_of_records:
@@ -37,6 +37,7 @@ def write_data(data, settings_file):
                 row.append(0)
         nr_of_records = data[dataset]['NUMBER_OF_RECORDS']
         row.append(nr_of_records)
+        row.append(dataset)
         writer.write_basis_of_record(row, settings['api_key'])
 
 def main():

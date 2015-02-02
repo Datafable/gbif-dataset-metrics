@@ -54,7 +54,7 @@ class ReportAggregator():
 
 class CartoDBWriter():
     def __init__(self):
-        self.sql_statement = "delete from gbif_dataset_metrics where dataset_key='{0}'; insert into gbif_dataset_metrics (dataset_key, bor_preserved_specimen, bor_fossil_specimen, bor_living_specimen, bor_material_sample, bor_observation, bor_human_observation, bor_machine_observation, bor_literature, bor_unknown, occurrences) values ('{0}', {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10})"
+        self.sql_statement = "update gbif_dataset_metrics set bor_preserved_specimen={0}, bor_fossil_specimen={1}, bor_living_specimen={2}, bor_material_sample={3}, bor_observation={4}, bor_human_observation={5}, bor_machine_observation={6}, bor_literature={7}, bor_unknown={8}, occurrences={9} where dataset_key='{10}'"
 
     def write_basis_of_record(self, row, api_key):
         params = {'q': self.sql_statement.format(*row), 'api_key': api_key}
