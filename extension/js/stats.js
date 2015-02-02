@@ -4,25 +4,22 @@ var main = function () {
 };
 
 var addMetricsToStatsPage = function (metrics) {
-    // Create HTML
     var html = "";
-    // Basis of record
-    html = html + '<h3>Basis of record</h3>' + basisOfRecordBar(metrics);
+    var anchor = $("#occmetrics");
+
+    // Add bar metrics
+    html = html + '<h3>Basis of record</h3>' + basisOfRecordBar(metrics); // Basis of record
     // Media type
-
-    // Coordinates
-    html = html + '<h3>Coordinates</h3>' + coordinatesBar(metrics);
-    // Taxon match
-    html = html + '<h3>Taxon match</h3>' + taxonMatchBar(metrics);
-    // Add HTML to page
-    var anchor = $("#occmetrics").find(".content");
-    anchor.find(".header").after(html);
-
-    // Remove some default elements
-    anchor.find(".pies li:nth-child(2)").remove();
-
-    // Activate tooltip
+    html = html + '<h3>Coordinates</h3>' + coordinatesBar(metrics); // Coordinates
+    html = html + '<h3>Taxon match</h3>' + taxonMatchBar(metrics); // Taxon match
+    anchor.find(".pies").remove(); // Remove some default elements
+    anchor.find(".fullwidth").append(html); // Add new metrics
+    
+    // Activate bar metrics tooltip
     $('[data-toggle="tooltip"]').tooltip();
+
+
+
 };
 
 main();

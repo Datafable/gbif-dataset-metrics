@@ -11,7 +11,7 @@ var getDatasetKeyFromURL = function () {
 
 var getMetrics = function (datasetKey, showMetrics) {
     // Get data from metrics store in CartoDB.
-    var url = "http://datafable.cartodb.com/api/v2/sql?q=SELECT * FROM gbif_dataset_metrics WHERE dataset_key ='" + datasetKey + "'";
+    var url = "http://datafable.cartodb.com/api/v2/sql?q=SELECT * FROM gbif_dataset_metrics_test WHERE dataset_key ='" + datasetKey + "'";
     $.getJSON(url, function (result) {
         if (result.rows === "") {
             console.log("No metrics for this dataset");
