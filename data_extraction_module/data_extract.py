@@ -7,6 +7,7 @@
 # TODO: output: unicode string or not ?
 import os
 import json
+import sys
 
 from dwca.read import DwCAReader
 
@@ -18,12 +19,16 @@ from helpers import is_dwca, get_taxon_match_category, get_taxonomy, get_media_t
 DATA_SOURCE_DIR = os.path.join(os.path.dirname(__file__), 'sample_base_data')
 REPORTS_DIR = os.path.join(os.path.dirname(__file__), 'reports')
 
+# A dot (progress bar) will be printed on screen each time PROGRESS_EACH_X_RECORDS were processed.
+PROGRESS_EACH_X_RECORDS = 1000
+
 
 # Parse the archive located at 'a' and return a JSON report
 def parse_archive(a):
     with DwCAReader(a) as dwca:
         r = {}
 
+        i = 0
         for row in dwca:
             # 0. Add dataset if previously unknown...
             dataset_key = row.data['http://rs.gbif.org/terms/1.0/datasetKey']
@@ -40,6 +45,11 @@ def parse_archive(a):
             r[dataset_key].store_or_increment_taxonomy(get_taxonomy(row))
             r[dataset_key].store_or_increment_mediacategory(get_media_type_category(row))
 
+            i = i + 1
+            if (i % PROGRESS_EACH_X_RECORDS == 0):
+                print '.',
+                sys.stdout.flush()
+
         return json.dumps(r, cls=DatasetDescriptorAwareEncoder)
 
 
@@ -51,7 +61,7 @@ def main():
             report_data = parse_archive(entry_w_path)
             report_filename = entry + '.json'
             report_path = os.path.join(REPORTS_DIR, report_filename)
-            print "Done, saving report to {rp}".format(rp=report_path)
+            print "Done, saving report to {rp}\n".format(rp=report_path)
             r = open(report_path, 'wb')
             r.write(report_data)
             r.close
