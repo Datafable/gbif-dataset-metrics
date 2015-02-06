@@ -7,36 +7,20 @@
 # TODO: output: unicode string or not ?
 import os
 import json
+import sys
 
 from dwca.read import DwCAReader
+
+from descriptors import DatasetDescriptor, DatasetDescriptorAwareEncoder
+from helpers import is_dwca, get_taxon_match_category, get_taxonomy, get_media_type_category
 
 # A report file will be generated for each DwC-A in this directory.
 # All zip files and subdirectories will be assumed to be DwC-A
 DATA_SOURCE_DIR = os.path.join(os.path.dirname(__file__), 'sample_base_data')
 REPORTS_DIR = os.path.join(os.path.dirname(__file__), 'reports')
 
-
-class DatasetDescriptorAwareEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, DatasetDescriptor):
-            return obj.data
-
-        return json.JSONEncoder.default(self, obj)
-
-
-class DatasetDescriptor(object):
-    def __init__(self):
-        self.data = {'NUMBER_OF_RECORDS': 0, 
-                     'BASISOFRECORDS': {}}
-
-    def increment_number_records(self):
-        self.data['NUMBER_OF_RECORDS'] = self.data['NUMBER_OF_RECORDS'] + 1
-
-    def store_or_increment_bor(self, value):
-        if value in self.data['BASISOFRECORDS']:
-            self.data['BASISOFRECORDS'][value] = self.data['BASISOFRECORDS'][value] + 1
-        else:
-            self.data['BASISOFRECORDS'][value] = 1
+# A dot (progress bar) will be printed on screen each time PROGRESS_EACH_X_RECORDS were processed.
+PROGRESS_EACH_X_RECORDS = 1000
 
 
 # Parse the archive located at 'a' and return a JSON report
@@ -44,6 +28,7 @@ def parse_archive(a):
     with DwCAReader(a) as dwca:
         r = {}
 
+        i = 0
         for row in dwca:
             # 0. Add dataset if previously unknown...
             dataset_key = row.data['http://rs.gbif.org/terms/1.0/datasetKey']
@@ -53,13 +38,20 @@ def parse_archive(a):
 
             # 1. Increment total number of records per dataset...
             r[dataset_key].increment_number_records()
-            r[dataset_key].store_or_increment_bor(row.data['http://rs.tdwg.org/dwc/terms/basisOfRecord'])
+
+            bor_term = 'http://rs.tdwg.org/dwc/terms/basisOfRecord'
+            r[dataset_key].store_or_increment_bor(row.data[bor_term])
+            r[dataset_key].store_or_increment_taxonmatch(get_taxon_match_category(row))
+            r[dataset_key].store_or_increment_taxonomy(get_taxonomy(row))
+            r[dataset_key].store_or_increment_mediacategory(get_media_type_category(row))
+
+            i = i + 1
+            if (i % PROGRESS_EACH_X_RECORDS == 0):
+                print '.',
+                sys.stdout.flush()
 
         return json.dumps(r, cls=DatasetDescriptorAwareEncoder)
 
-
-def is_dwca(path):
-    return path.lower().endswith('.zip') or os.path.isdir(path)
 
 def main():
     for entry in os.listdir(DATA_SOURCE_DIR):
@@ -69,7 +61,7 @@ def main():
             report_data = parse_archive(entry_w_path)
             report_filename = entry + '.json'
             report_path = os.path.join(REPORTS_DIR, report_filename)
-            print "Done, saving report to {rp}".format(rp=report_path)
+            print "Done, saving report to {rp}\n".format(rp=report_path)
             r = open(report_path, 'wb')
             r.write(report_data)
             r.close
