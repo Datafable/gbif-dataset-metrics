@@ -45,6 +45,7 @@ class ReportAggregator():
         files = self.find_files(data_folder)
         metrics = {}
         for f in files:
+            print 'aggregating {0}'.format(f)
             data = json.load(open(f))
             for data_set in data.keys():
                 if data_set in metrics.keys():
@@ -64,10 +65,11 @@ class ReportAggregator():
 
     def _taxonkey_to_array(self, taxonkey):
         taxa = taxonkey.split('|')
+        outtaxa = ['unknown' if x is None or x is '' or x is u'' else x for x in taxa]
         if len(taxa) < 7:
-            for i in range(7 - len(taxa)):
-                taxa.append('unknown')
-        return taxa
+            for i in range(7 - len(outtaxa)):
+                outtaxa.append('unknown')
+        return outtaxa
 
     def _tree_to_dict(self, intree):
         """
@@ -114,6 +116,10 @@ class ReportAggregator():
         summed.
         """
         taxonomy_arrays = [self._taxonkey_to_array(x) + [input_taxonomy[x]] for x in input_taxonomy.keys()]
+        if len(taxonomy_arrays) > 1000:
+            do_species=False
+            if len(taxonomy_arrays) > 5000:
+                do_genus=False
         if do_genus and do_species:
             agg_taxonomy = Nest().key(lambda d: d[0]).key(lambda d: d[1]).key(lambda d: d[2]).key(lambda d: d[3]).key(lambda d: d[4]).key(lambda d: d[5]).key(lambda d: d[6]).rollup(self._get_sum).map(taxonomy_arrays)
         elif do_genus and not do_species:
@@ -124,17 +130,11 @@ class ReportAggregator():
 
 class CartoDBWriter():
     def __init__(self):
-        self.metrics_sql_statement = "delete from gbif_dataset_metrics where dataset_key='{0}'; insert into gbif_dataset_metrics ( dataset_key, bor_preserved_specimen, bor_fossil_specimen, bor_living_specimen, bor_material_sample, bor_observation, bor_human_observation, bor_machine_observation, bor_literature, bor_unknown, taxon_not_provided, taxon_match_none, taxon_match_higherrank, taxon_match_fuzzy, taxon_match_complete, occurrences) values ('{0}', {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15})"
-        self.taxonomy_sql_statement = "update gbif_dataset_metrics set taxonomy='{0}' where dataset_key='{1}'"
+        self.sql_statement = "update gbif_dataset_metrics_test set bor_preserved_specimen={0}, bor_fossil_specimen={1}, bor_living_specimen={2}, bor_material_sample={3}, bor_observation={4}, bor_human_observation={5}, bor_machine_observation={6}, bor_literature={7}, bor_unknown={8}, taxon_not_provided={9}, taxon_match_none={10}, taxon_match_higherrank={11}, taxon_match_fuzzy={12}, taxon_match_complete={13}, occurrences={14}, taxonomy='{15}' where dataset_key='{16}'"
 
     def write_metrics(self, row, api_key):
-        params = {'q': self.metrics_sql_statement.format(*row), 'api_key': api_key}
-        print self.metrics_sql_statement.format(*row)
-        r = requests.get('http://datafable.cartodb.com/api/v2/sql', params=params)
-        print r.status_code
-
-    def writeTaxonomy(self, dataset_key, taxonomy_for_this_dataset, api_key):
-        params = {'q': self.taxonomy_sql_statement.format(taxonomy_for_this_dataset, dataset_key), 'api_key': api_key}
+        params = {'q': self.sql_statement.format(*row), 'api_key': api_key}
+        print self.sql_statement.format(*row)
         r = requests.post('http://datafable.cartodb.com/api/v2/sql', data=params)
-        #print r.status_code
-        #print r.content
+        print r.status_code
+        print r.text

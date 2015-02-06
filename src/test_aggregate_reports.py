@@ -123,8 +123,10 @@ class TestAggregator(unittest.TestCase):
         expected1 = ['kingdom1', 'phylum1', 'class1', 'order1', 'family1', 'genus1', 'species1']
         test2 = 'kingdom1|phylum1|class1'
         expected2 = ['kingdom1', 'phylum1', 'class1', 'unknown', 'unknown', 'unknown', 'unknown']
+        test3 = 'kingdom1|phylum1|class1||||'
         self.assertEqual(self.agg._taxonkey_to_array(test1), expected1)
         self.assertEqual(self.agg._taxonkey_to_array(test2), expected2)
+        self.assertEqual(self.agg._taxonkey_to_array(test3), expected2)
 
     def test_tree_to_key_value(self):
         intree = {

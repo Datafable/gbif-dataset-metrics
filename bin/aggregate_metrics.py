@@ -34,8 +34,8 @@ def write_data(data, settings_file):
         basis_of_record_data = [basis_of_records[x] if x in basis_of_records.keys() else 0 for x in basis_of_records_metrics]
         taxon_match_data = [taxon_match[x] if x in taxon_match.keys() else 0 for x in taxon_match_metrics]
         nr_of_records = data[dataset]['NUMBER_OF_RECORDS']
-        row = [dataset] + basis_of_record_data + taxon_match_data + [nr_of_records]
-        print row
+        taxonomy = json.dumps(data[dataset]['TAXONOMY'])
+        row = basis_of_record_data + taxon_match_data + [nr_of_records, taxonomy, dataset]
         writer.write_metrics(row, settings['api_key'])
 
 def main():
