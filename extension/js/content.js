@@ -20,8 +20,6 @@ var getMetrics = function (datasetKey, showMetrics) {
     // Get data from metrics store in CartoDB.
     var url = "http://datafable.cartodb.com/api/v2/sql?q=SELECT * FROM gbif_dataset_metrics_test WHERE dataset_key ='" + datasetKey + "'";
     $.getJSON(url, function (result) {
-        console.log(result);
-        console.log(result.rows[0].type);
         if (result.rows.length === 0) { // Dataset is not in metrics store
             addNoMetricsMessage();
         } else if (result.rows[0].type === 'OCCURRENCE') { // Only do something for OCCURRENCE datasets
