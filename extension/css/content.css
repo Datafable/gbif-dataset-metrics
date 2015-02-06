@@ -1,6 +1,37 @@
+/*  -------------------------
+    Overwrite GBIF CSS
+    ------------------------- */
+
+#content {
+    padding-top: 90px!important;
+}
+
 #occmetrics h3 {
     margin-bottom: 20px;
 }
+
+/*  -------------------------
+    Activate specific Bootstrap CSS
+    ------------------------- */
+
+.alert {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+/*  -------------------------
+    Custom styling
+    ------------------------- */
+
+#noMetrics {
+    height: 40px;
+    margin: -75px auto 35px auto!important; /* Inherits <article> styling by GBIF */
+    }
+    #noMetrics strong {
+        font-weight: bold; /* For some reason, GBIF has turned this off */
+    }
 
 /* Basis of record bar */
 .basis-of-record-0 { background-color: #e2b70d; } /* Preserved specimens */

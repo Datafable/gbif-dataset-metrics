@@ -9,14 +9,27 @@ var getDatasetKeyFromURL = function () {
     return datasetKey;
 };
 
+var addNoMetricsMessage = function () {
+    var html = '<article class="alert alert-warning" id="noMetrics">' + 
+                    '<p><strong>GBIF dataset metrics extension:</strong> We have no metrics for this dataset yet. Want some? <a href="https://github.com/peterdesmet/gbif-challenge/issues/new" target="_blank">Submit a request.</a></p>' +
+                '</article>';
+    $("#content").prepend(html);
+}
+
 var getMetrics = function (datasetKey, showMetrics) {
     // Get data from metrics store in CartoDB.
     var url = "http://datafable.cartodb.com/api/v2/sql?q=SELECT * FROM gbif_dataset_metrics_test WHERE dataset_key ='" + datasetKey + "'";
     $.getJSON(url, function (result) {
-        if (result.rows === "") {
-            console.log("No metrics for this dataset");
-        } else {
-            showMetrics(result.rows[0]); // Only one row [0] expected
+        console.log(result);
+        console.log(result.rows[0].type);
+        if (result.rows.length === 0) { // Dataset is not in metrics store
+            addNoMetricsMessage();
+        } else if (result.rows[0].type === 'OCCURRENCE') { // Only do something for OCCURRENCE datasets
+            if (result.rows[0].occurrences === null) { // No metrics (yet)
+                addNoMetricsMessage();
+            } else {
+                showMetrics(result.rows[0]); // Only one row [0] expected
+            }
         }
     });
 };
