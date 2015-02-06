@@ -57,6 +57,23 @@
 .taxon-match-3 { background-color: #cd290a; } /* Taxon not found in taxonomic backbone */
 .taxon-match-4 { background-color: #dddddd; } /* Taxon not provided */
 
+/* Taxonomy partition */
+#taxonomyPartition {
+    font-size: 90%;
+    }
+    #taxonomyPartition text {
+        pointer-events: none;
+    }
+    #taxonomyPartition rect {
+        stroke: #ffffff;
+        fill: #dddddd;
+        fill-opacity: .8;
+        }
+        #taxonomyPartition rect.parent {
+            cursor: pointer;
+            fill: #0099cc;
+        }
+
 /* Downloads chart */
 #downloadChart {
     height: 300px;

@@ -23,7 +23,7 @@ var addMetricsToStatsPage = function (metrics) {
                 '<header></header>' + 
                 '<div class="content">' + 
                     '<div class="header"><div class="left"><h2>Taxonomy</h2></div></div>' +
-                    '<div class="fullwidth"></div>' +
+                    '<div class="fullwidth" id="taxonomyPartition"></div>' +
                 '</div>' +
                 '<footer></footer>' + 
             '</article>';
@@ -32,46 +32,72 @@ var addMetricsToStatsPage = function (metrics) {
 };
 
 var taxonomyPartition = function (metrics) {
-    // Based on http://bl.ocks.org/mbostock/1005873
+    // Based on http://mbostock.github.io/d3/talk/20111018/partition.html
     var width = 874,
-        height = 250;
+        height = 500,
+        x = d3.scale.linear().range([0, width]),
+        y = d3.scale.linear().range([0, height]);
 
-    var x = d3.scale.linear().range([0, width]),
-        y = d3.scale.linear().range([0, height]),
-        color = d3.scale.ordinal().range(colorbrewer.Blues[5]); // BuGn, YlGn, YlGnBu, PuBu, Blues, RdYlGn
-
-    var partition = d3.layout.partition()
-        .children(function (d) { return isNaN(d.value) ? d3.entries(d.value) : null; })
-        .value(function (d) { return d.value; });
-
-    var svg = d3.select("#taxonomy .fullwidth").append("svg")
+    var svg = d3.select("#taxonomyPartition")
+        .style("height", height + "px")
+        .append("svg:svg")
         .attr("width", width)
         .attr("height", height);
 
-    var rect = svg.selectAll("rect");
+    var partition = d3.layout.partition()
+        .value(function(d) { return d.size; });
 
-    d3.json("taxonomy.json", function (error, root) {
-        rect = rect
-            .data(partition(d3.entries(root)[0]))
-            .enter().append("rect")
-            .attr("x", function (d) { return x(d.x); })
-            .attr("y", function (d) { return y(d.y); })
-            .attr("width", function (d) { return x(d.dx); })
-            .attr("height", function (d) { return y(d.dy); })
-            .attr("fill", function (d) { return color((d.children ? d : d.parent).key); })
-            .on("click", clicked);
-    });
+    var root = JSON.parse(metrics.taxonomy);
+        data = partition.nodes(root);
 
-    function clicked (d) {
-        x.domain([d.x, d.x + d.dx]);
-        // y.domain([d.y, 1]).range([d.y ? 20 : 0, height]);
+    var g = svg.selectAll("g")
+        .data(data)
+        .enter().append("svg:g")
+        .attr("transform", function (d) { return "translate(" + x(d.y) + "," + y(d.x) + ")"; })
+        .on("click", click);
 
-        rect.transition()
-            .duration(600)
-            .attr("x", function (d) { return x(d.x); })
-            //.attr("y", function (d) { return y(d.y); })
-            .attr("width", function (d) { return x(d.x + d.dx) - x(d.x); })
-            //.attr("height", function (d) { return y(d.y + d.dy) - y(d.y); });
+    var kx = width / root.dx, // Available width
+        ky = height / 1;
+
+    g.append("svg:rect")
+        .attr("width", root.dy * kx)
+        .attr("height", function(d) { return d.dx * ky; })
+        .attr("class", function(d) { return d.children ? "parent" : "child"; });
+
+    g.append("svg:text")
+        .attr("transform", transform)
+        .attr("dy", ".35em")
+        .style("opacity", function(d) { return d.dx * ky > 12 ? 1 : 0; })
+        .text(function(d) { return d.name; })
+
+    d3.select(window)
+        .on("click", function() { click(root); })
+
+    function click(d) {
+        if (!d.children) return;
+
+        kx = (d.y ? width - 40 : width) / (1 - d.y);
+        ky = height / d.dx;
+        x.domain([d.y, 1]).range([d.y ? 40 : 0, width]);
+        y.domain([d.x, d.x + d.dx]);
+
+        var t = g.transition()
+            .duration(d3.event.altKey ? 7500 : 750)
+            .attr("transform", function(d) { return "translate(" + x(d.y) + "," + y(d.x) + ")"; });
+
+        t.select("rect")
+            .attr("width", d.dy * kx)
+            .attr("height", function(d) { return d.dx * ky; });
+
+        t.select("text")
+            .attr("transform", transform)
+            .style("opacity", function(d) { return d.dx * ky > 12 ? 1 : 0; });
+
+        d3.event.stopPropagation();
+    }
+
+    function transform(d) {
+        return "translate(8," + d.dx * ky / 2 + ")";
     }
 };
 
