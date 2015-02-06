@@ -28,14 +28,17 @@ def write_data(data, settings_file):
     writer = CartoDBWriter()
     basis_of_records_metrics = ['PRESERVED_SPECIMEN', 'FOSSIL_SPECIMEN', 'LIVING_SPECIMEN', 'MATERIAL_SAMPLE', 'OBSERVATION', 'HUMAN_OBSERVATION', 'MACHINE_OBSERVATION', 'LITERATURE', 'UNKNOWN']
     taxon_match_metrics = ['TAXON_NOT_PROVIDED', 'TAXON_MATCH_NONE', 'TAXON_MATCH_HIGHERRANK', 'TAXON_MATCH_FUZZY', 'TAXON_MATCH_COMPLETE']
+    media_metrics = ['MEDIA_AUDIO', 'MEDIA_IMAGE', 'MEDIA_NOT_PROVIDED', 'MEDIA_URL_INVALID', 'MEDIA_VIDEO']
     for dataset in data:
         basis_of_records = data[dataset]['BASISOFRECORDS']
         taxon_match = data[dataset]['TAXON_MATCHES']
+        media_metr = data[dataset]['MEDIA_CATEGORIES']
         basis_of_record_data = [basis_of_records[x] if x in basis_of_records.keys() else 0 for x in basis_of_records_metrics]
         taxon_match_data = [taxon_match[x] if x in taxon_match.keys() else 0 for x in taxon_match_metrics]
+        media_data = [media_metr[x] if x in media_metr.keys() else 0 for x in media_metrics]
         nr_of_records = data[dataset]['NUMBER_OF_RECORDS']
         taxonomy = json.dumps(data[dataset]['TAXONOMY'])
-        row = basis_of_record_data + taxon_match_data + [nr_of_records, taxonomy, dataset]
+        row = basis_of_record_data + taxon_match_data + media_data + [nr_of_records, taxonomy, dataset]
         writer.write_metrics(row, settings['api_key'])
 
 def main():
