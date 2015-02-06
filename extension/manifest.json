@@ -25,7 +25,7 @@
                 "http://www.gbif.org/dataset/*/activity"
             ],
             "css": [
-                "css/bootstrap.min.css",
+                "css/bootstrap-custom.css",
                 "css/content.css"
             ],
             "js": [
@@ -41,7 +41,7 @@
                 "http://www.gbif.org/dataset/*/stats"
             ],
             "css": [
-                "css/bootstrap.min.css",
+                "css/bootstrap-custom.css",
                 "css/content.css"
             ],
             "js": [
