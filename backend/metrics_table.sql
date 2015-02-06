@@ -1,5 +1,4 @@
 ALTER TABLE gbif_dataset_metrics
-ADD COLUMN dataset_key text,
 ADD COLUMN occurrences integer,
 ADD COLUMN bor_preserved_specimen integer,
 ADD COLUMN bor_fossil_specimen integer,
