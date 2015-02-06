@@ -126,7 +126,7 @@ class ReportAggregator():
             agg_taxonomy = Nest().key(lambda d: d[0]).key(lambda d: d[1]).key(lambda d: d[2]).key(lambda d: d[3]).key(lambda d: d[4]).key(lambda d: d[5]).rollup(self._get_sum).map(taxonomy_arrays)
         else:
             agg_taxonomy = Nest().key(lambda d: d[0]).key(lambda d: d[1]).key(lambda d: d[2]).key(lambda d: d[3]).key(lambda d: d[4]).rollup(self._get_sum).map(taxonomy_arrays)
-        return {'name': 'all taxa', 'children': self._tree_to_dict(agg_taxonomy)}
+        return {'name': 'All taxa', 'children': self._tree_to_dict(agg_taxonomy)}
 
 class CartoDBWriter():
     def __init__(self):
