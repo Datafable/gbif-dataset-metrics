@@ -130,7 +130,7 @@ class ReportAggregator():
 
 class CartoDBWriter():
     def __init__(self):
-        self.sql_statement = "update gbif_dataset_metrics_test set bor_preserved_specimen={0}, bor_fossil_specimen={1}, bor_living_specimen={2}, bor_material_sample={3}, bor_observation={4}, bor_human_observation={5}, bor_machine_observation={6}, bor_literature={7}, bor_unknown={8}, taxon_not_provided={9}, taxon_match_none={10}, taxon_match_higherrank={11}, taxon_match_fuzzy={12}, taxon_match_complete={13}, occurrences={14}, taxonomy='{15}' where dataset_key='{16}'"
+        self.sql_statement = "update gbif_dataset_metrics_test set bor_preserved_specimen={0}, bor_fossil_specimen={1}, bor_living_specimen={2}, bor_material_sample={3}, bor_observation={4}, bor_human_observation={5}, bor_machine_observation={6}, bor_literature={7}, bor_unknown={8}, taxon_not_provided={9}, taxon_match_none={10}, taxon_match_higherrank={11}, taxon_match_fuzzy={12}, taxon_match_complete={13}, media_audio={14}, media_image={15}, media_not_provided={16}, media_url_invalid={17}, media_video={18}, occurrences={19}, taxonomy='{20}' where dataset_key='{21}'"
 
     def write_metrics(self, row, api_key):
         params = {'q': self.sql_statement.format(*row), 'api_key': api_key}

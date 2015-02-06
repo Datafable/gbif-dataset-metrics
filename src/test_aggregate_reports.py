@@ -12,16 +12,19 @@ class TestAggregator(unittest.TestCase):
         {
             '3F2504E0-4F89-11D3-9A0C-0305E82C3301': {
                 'BASISOFRECORDS': { 'HUMAN_OBSERVATION': 3710, 'FOSSIL_SPECIMEN': 3 },
+                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 420, 'MEDIA_NOT_PROVIDED': 3293},
                 'TAXONOMY': {'taxon1': 10},
                 'NUMBER_OF_RECORDS': 3713
             },
             '05ebc824-3a3b-4f64-ab22-99b0e2c3aa48': {
                 'BASISOFRECORDS': { 'UNKNOWN': 6695 },
+                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 6595},
                 'TAXONOMY': {'taxon1': 13, 'taxon2': 5},
                 'NUMBER_OF_RECORDS': 6695
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
                 'BASISOFRECORDS': { 'FOSSIL_SPECIMEN': 532, 'UNKNOWN': 10 },
+                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon1': 8},
                 'NUMBER_OF_RECORDS': 542
             }
@@ -29,16 +32,19 @@ class TestAggregator(unittest.TestCase):
         {
             '3F2504E0-4F89-11D3-9A0C-0305E82C3301': {
                 'BASISOFRECORDS': { 'HUMAN_OBSERVATION': 10134, 'UNKNOWN': 7 },
+                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon2': 30},
                 'NUMBER_OF_RECORDS': 10141
             },
             '05ebc824-3a3b-4f64-ab22-99b0e2c3aa48': {
                 'BASISOFRECORDS': { 'UNKNOWN': 89963 },
+                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon1': 5},
                 'NUMBER_OF_RECORDS': 89963
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
                 'BASISOFRECORDS': { 'UNKNOWN': 130 },
+                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon1': 10},
                 'NUMBER_OF_RECORDS': 130
             }
@@ -46,11 +52,13 @@ class TestAggregator(unittest.TestCase):
         {
             '3F2504E0-4F89-11D3-9A0C-0305E82C3301': {
                 'BASISOFRECORDS': { 'MACHINE_OBSERVATION': 5, 'UNKNOWN': 9 },
+                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon1': 8},
                 'NUMBER_OF_RECORDS': 14
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
                 'BASISOFRECORDS': { 'UNKNOWN': 137 },
+                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon4': 9},
                 'NUMBER_OF_RECORDS': 137
             }
@@ -98,6 +106,8 @@ class TestAggregator(unittest.TestCase):
         fossil_specimen = 3
         machine_observation = 5
         nr_of_records = 3710 + 10134 + 7 + 9 + 3 + 5
+        media_image = 420 + 10 + 10
+        media_not_provided = 3293 + 400 + 400
         taxonomy = {'taxon1': 18, 'taxon2': 30}
         aggregated_metrics = self.agg.aggregate(self.test_dir)
         self.assertEqual(aggregated_metrics[dataset_key]['BASISOFRECORDS']['HUMAN_OBSERVATION'], human_observations)
@@ -110,6 +120,8 @@ class TestAggregator(unittest.TestCase):
         self.assertEqual(len(aggregated_metrics[dataset_key]['TAXONOMY']['children'][0]['children']), 1)
         self.assertEqual(aggregated_metrics[dataset_key]['TAXONOMY']['children'][1]['name'], 'taxon2')
         self.assertEqual(len(aggregated_metrics[dataset_key]['TAXONOMY']['children'][1]['children']), 1)
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA_CATEGORIES']['MEDIA_IMAGE'], media_image)
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA_CATEGORIES']['MEDIA_NOT_PROVIDED'], media_not_provided)
 
     def test_get_sum(self):
         test_arrays = [[1, 2, 3], [5, 6, 7]]
