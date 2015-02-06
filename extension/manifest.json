@@ -18,6 +18,9 @@
                 "http://www.gbif.org/dataset/*"
             ],
             "exclude_matches": [
+                "http://www.gbif.org/dataset",
+                "http://www.gbif.org/dataset/",
+                "http://www.gbif.org/dataset/*/*",
                 "http://www.gbif.org/dataset/*/stats",
                 "http://www.gbif.org/dataset/*/activity"
             ],
