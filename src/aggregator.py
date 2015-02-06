@@ -51,6 +51,9 @@ class ReportAggregator():
                     self.merge_data_set_in_metrics(data[data_set], metrics[data_set])
                 else:
                     metrics[data_set] = data[data_set]
+        for dataset in metrics.keys():
+            taxonomy = self.aggregate_taxonomy(metrics[dataset]['TAXONOMY'])
+            metrics[dataset]['TAXONOMY'] = taxonomy
         return metrics
 
     def _get_sum(self, arr):
@@ -59,30 +62,65 @@ class ReportAggregator():
         """
         return sum([int(x[-1]) for x in arr])
 
-    def aggregate_taxonomy(self, taxonomy_arrays, do_genus=True, do_species=True):
+    def _taxonkey_to_array(self, taxonkey):
+        taxa = taxonkey.split('|')
+        if len(taxa) < 7:
+            for i in range(7 - len(taxa)):
+                taxa.append('unknown')
+        return taxa
+
+    def _tree_to_dict(self, intree):
         """
-        create a taxonomic tree from an array of arrays containing
-        taxonomy data.
+        convert a taxonomic tree (as a dict) to something like:
+            {
+            'name': 'taxon1'
+            'children': [{
+                'name': 'species1',
+                'size': 425
+                ...
+            }]
+            }
+        """
+        outtree = []
+        taxa = intree.keys()
+        taxa.sort()
+        for taxon in taxa:
+            try:
+                val = int(intree[taxon])
+                outtree.append({'name': taxon, 'size': val})
+            except:
+                subtree = self._tree_to_dict(intree[taxon])
+                outtree.append({'name': taxon, 'children': subtree})
+        outtree.sort()
+        return outtree
+
+    def aggregate_taxonomy(self, input_taxonomy, do_genus=True, do_species=True):
+        """
+        create a dict containing taxonomic information from a dict where each
+        key represents one taxon (including the higher taxonomy in the key)
+        and each value is the number of occurrences for this taxon in the
+        dataset.
+        First, each key will be split, and an array of arrays will be created.
         The arrays should be grouped by:
-            - dataset (index 0)
-            - kingdom (index 1)
-            - phylum (index 2)
-            - class (index 3)
-            - order (index 4)
-            - family (index 5)
-            - genus (index 6, optional)
-            - species (index 7, optional)
+            - kingdom (index 0)
+            - phylum (index 1)
+            - class (index 2)
+            - order (index 3)
+            - family (index 4)
+            - genus (index 5, optional)
+            - species (index 6, optional)
         The last element of every array should be the count.
         All counts of all the remaining arrays in each leave are
         summed.
         """
+        taxonomy_arrays = [self._taxonkey_to_array(x) + [input_taxonomy[x]] for x in input_taxonomy.keys()]
         if do_genus and do_species:
-            agg_taxonomy = Nest().key(lambda d: d[0]).key(lambda d: d[1]).key(lambda d: d[2]).key(lambda d: d[3]).key(lambda d: d[4]).key(lambda d: d[5]).key(lambda d: d[6]).key(lambda d: d[7]).rollup(self._get_sum).map(taxonomy_arrays)
-        elif do_genus and not do_species:
             agg_taxonomy = Nest().key(lambda d: d[0]).key(lambda d: d[1]).key(lambda d: d[2]).key(lambda d: d[3]).key(lambda d: d[4]).key(lambda d: d[5]).key(lambda d: d[6]).rollup(self._get_sum).map(taxonomy_arrays)
-        else:
+        elif do_genus and not do_species:
             agg_taxonomy = Nest().key(lambda d: d[0]).key(lambda d: d[1]).key(lambda d: d[2]).key(lambda d: d[3]).key(lambda d: d[4]).key(lambda d: d[5]).rollup(self._get_sum).map(taxonomy_arrays)
-        return agg_taxonomy
+        else:
+            agg_taxonomy = Nest().key(lambda d: d[0]).key(lambda d: d[1]).key(lambda d: d[2]).key(lambda d: d[3]).key(lambda d: d[4]).rollup(self._get_sum).map(taxonomy_arrays)
+        return {'name': 'all taxa', 'children': self._tree_to_dict(agg_taxonomy)}
 
 class CartoDBWriter():
     def __init__(self):
