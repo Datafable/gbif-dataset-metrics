@@ -65,10 +65,10 @@ class ReportAggregator():
 
     def _taxonkey_to_array(self, taxonkey):
         taxa = taxonkey.split('|')
-        outtaxa = ['unknown' if x is None or x is '' or x is u'' else x for x in taxa]
+        outtaxa = ['Unknown' if x is None or x is '' or x is u'' else x for x in taxa]
         if len(taxa) < 7:
             for i in range(7 - len(outtaxa)):
-                outtaxa.append('unknown')
+                outtaxa.append('Unknown')
         return outtaxa
 
     def _tree_to_dict(self, intree):
