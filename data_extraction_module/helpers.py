@@ -1,5 +1,7 @@
 import os
 
+ISSUES_TERM = 'http://rs.gbif.org/terms/1.0/issue'
+
 
 def is_dwca(path):
     return path.lower().endswith('.zip') or os.path.isdir(path)
@@ -8,7 +10,7 @@ def is_dwca(path):
 # Takes a CoreRow and returns a taxon match category, according to:
 # https://github.com/peterdesmet/gbif-challenge/issues/39
 def get_taxon_match_category(row):
-    issues = row.data['http://rs.gbif.org/terms/1.0/issue']
+    issues = row.data[ISSUES_TERM]
     genus = row.data['http://rs.tdwg.org/dwc/terms/genus']
     scientific_name = row.data['http://rs.tdwg.org/dwc/terms/scientificName']
 
@@ -27,7 +29,7 @@ def get_taxon_match_category(row):
 # Takes a CoreRow and returns a media type category, according to:
 # https://github.com/peterdesmet/gbif-challenge/issues/43
 def get_media_type_category(row):
-    issues = row.data['http://rs.gbif.org/terms/1.0/issue']
+    issues = row.data[ISSUES_TERM]
     media_types = row.data['http://rs.gbif.org/terms/1.0/mediaType']
 
     if 'MULTIMEDIA_URI_INVALID' in issues:
@@ -40,6 +42,26 @@ def get_media_type_category(row):
         return 'MEDIA_IMAGE'
     else:
         return 'MEDIA_NOT_PROVIDED'
+
+
+def get_coordinates_quality_category(row):
+    issues = row.data[ISSUES_TERM]
+    lon = row.data['http://rs.tdwg.org/dwc/terms/decimalLongitude']
+    lat = row.data['http://rs.tdwg.org/dwc/terms/decimalLatitude']
+
+    major_issues = ('COORDINATE_INVALID', 'COORDINATE_OUT_OF_RANGE', 'ZERO_COORDINATE',
+                    'COUNTRY_COORDINATE_MISMATCH')
+    minor_issues = ('GEODETIC_DATUM_INVALID', 'COORDINATE_REPROJECTION_FAILED',
+                    'COORDINATE_REPROJECTION_SUSPICIOUS')
+
+    if any(s in issues for s in major_issues):
+        return 'COORDINATES_MAJOR_ISSUES'
+    elif any(s in issues for s in minor_issues):
+        return 'COORDINATES_MINOR_ISSUES'
+    elif (len(lat) == 0) or (len(lon) == 0):
+        return 'COORDINATES_NOT_PROVIDED'
+    else:
+        return 'COORDINATES_VALID'
 
 
 def get_taxonomy(row):
