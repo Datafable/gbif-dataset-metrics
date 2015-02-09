@@ -30,7 +30,7 @@
             ],
             "js": [
                 "js/jquery.min.js",
-                "js/bootstrap.min.js",
+                "js/bootstrap-custom.min.js",
                 "js/content.js",
                 "js/home.js"
             ]
@@ -46,7 +46,7 @@
             ],
             "js": [
                 "js/jquery.min.js",
-                "js/bootstrap.min.js",
+                "js/bootstrap-custom.min.js",
                 "js/content.js",
                 "js/stats.js"
             ]
