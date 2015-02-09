@@ -45,6 +45,7 @@
                 "css/content.css"
             ],
             "js": [
+                "js/d3.min.js",
                 "js/jquery.min.js",
                 "js/bootstrap-custom.min.js",
                 "js/content.js",
