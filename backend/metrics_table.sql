@@ -22,4 +22,5 @@ ADD COLUMN media_not_provided integer,
 ADD COLUMN media_url_invalid integer,
 ADD COLUMN media_audio integer,
 ADD COLUMN media_video integer,
-ADD COLUMN media_image integer;
+ADD COLUMN media_image integer,
+ADD COLUMN taxonomy text;
