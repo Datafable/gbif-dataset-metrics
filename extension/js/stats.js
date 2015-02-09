@@ -62,7 +62,11 @@ var taxonomyPartition = function (metrics) {
     g.append("svg:rect")
         .attr("width", root.dy * kx)
         .attr("height", function(d) { return d.dx * ky; })
-        .attr("class", function(d) { return d.children ? "parent" : "child"; });
+        .classed({
+            "parent": function(d) { return d.children; },
+            "child": function(d) { return !d.children; },
+            "unknown": function(d) { return d.name === "unknown"; }
+        });
 
     g.append("svg:text")
         .attr("transform", transform)

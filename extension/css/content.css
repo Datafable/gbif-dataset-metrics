@@ -65,13 +65,19 @@
         pointer-events: none;
     }
     #taxonomyPartition rect {
-        stroke: #ffffff;
-        fill: #dddddd;
+        fill: #0099cc;
         fill-opacity: .8;
+        stroke: #ffffff;
+        stroke-width: 1.5;
         }
         #taxonomyPartition rect.parent {
             cursor: pointer;
-            fill: #0099cc;
+        }
+        #taxonomyPartition rect.child {
+            cursor: zoom-out;
+        }
+        #taxonomyPartition rect.unknown {
+            fill: #dddddd;
         }
 
 /* Downloads chart */
