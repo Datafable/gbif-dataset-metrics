@@ -246,7 +246,7 @@ class TestAggregator(unittest.TestCase):
         test1 = 'kingdom1|phylum1|class1|order1|family1|genus1|species1'
         expected1 = ['kingdom1', 'phylum1', 'class1', 'order1', 'family1', 'genus1', 'species1']
         test2 = 'kingdom1|phylum1|class1'
-        expected2 = ['kingdom1', 'phylum1', 'class1', 'unknown', 'unknown', 'unknown', 'unknown']
+        expected2 = ['kingdom1', 'phylum1', 'class1', 'Unknown', 'Unknown', 'Unknown', 'Unknown']
         test3 = 'kingdom1|phylum1|class1||||'
         self.assertEqual(self.agg._taxonkey_to_array(test1), expected1)
         self.assertEqual(self.agg._taxonkey_to_array(test2), expected2)
@@ -288,7 +288,7 @@ class TestAggregator(unittest.TestCase):
     def test_aggregate_taxonomy(self):
         input_taxonomy = {'kingdom1|phylum1|class1|order1|family1|genus1|species1': 10, 'kingdom1|phylum1|class1|order1|family1|genus1|species2': 10}
         expected_result = {
-            'name': 'all taxa',
+            'name': 'All taxa',
             'children': [
                 {
                     'name': 'kingdom1',
@@ -326,7 +326,7 @@ class TestAggregator(unittest.TestCase):
         self.assertEqual(result['children'][-1]['children'][0]['children'][0]['children'][0]['children'][0]['children'][0]['children'][1]['size'], 10)
         # aggregate by genus
         expected_result = {
-            'name': 'all taxa',
+            'name': 'All taxa',
             'children': [
                 {
                     'name': 'kingdom1',
@@ -354,7 +354,7 @@ class TestAggregator(unittest.TestCase):
         self.assertEqual(result['children'][0]['children'][0]['children'][0]['children'][0]['children'][0]['children'][0]['size'], 20)
         # aggregate by family
         expected_result = {
-            'name': 'all taxa',
+            'name': 'All taxa',
             'children': [
                 {
                     'name': 'kingdom1',
