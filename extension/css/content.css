@@ -60,6 +60,11 @@
 .coordinates-2 { background-color: #cd290a; } /* Coordinates with major issues */
 .coordinates-3 { background-color: #dddddd; } /* Coordinates not provided */
 
+/* Multimedia bar */
+.multimedia-0 { background-color: #54af37; } /* Valid multimedia */
+.multimedia-1 { background-color: #cd290a; } /* Multimedia URL invalid */
+.multimedia-2 { background-color: #dddddd; } /* Multimedia not provided */
+
 /* Taxon match bar */
 .taxon-match-0 { background-color: #54af37; } /* Taxon found in taxonomic backbone */
 .taxon-match-1 { background-color: #f7be63; } /* Taxon found in taxonomic backbone using fuzzy match */

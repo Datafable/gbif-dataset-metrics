@@ -94,6 +94,24 @@ var coordinatesBar = function (metrics) {
     return createMetricBar(metric);
 };
 
+var multimediaBar = function (metrics) {
+    var metric = {
+        cssClass: "multimedia",
+        total: metrics.occurrences,
+        labels: [
+            "Valid multimedia",
+            "Multimedia URL invalid",
+            "Multimedia not provided"
+        ],
+        counts: [
+            metrics.multimedia_valid,
+            metrics.multimedia_url_invalid,
+            metrics.multimedia_not_provided
+        ]
+    };
+    return createMetricBar(metric);
+};
+
 var taxonMatchBar = function (metrics) {
     var metric = {
         cssClass: "taxon-match",

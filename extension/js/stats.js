@@ -9,8 +9,8 @@ var addMetricsToStatsPage = function (metrics) {
 
     // Add bar metrics
     html = html + '<h3>Basis of record</h3>' + basisOfRecordBar(metrics); // Basis of record
-    // Media type
     html = html + '<h3>Coordinates</h3>' + coordinatesBar(metrics); // Coordinates
+    html = html + '<h3>Multimedia</h3>' + multimediaBar(metrics); // Multimedia
     html = html + '<h3>Taxon match</h3>' + taxonMatchBar(metrics); // Taxon match
     anchor.find(".pies").remove(); // Remove some default elements
     anchor.find(".fullwidth").append(html); // Add new metrics
