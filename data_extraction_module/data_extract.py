@@ -12,7 +12,7 @@ import sys
 from dwca.read import DwCAReader
 
 from descriptors import DatasetDescriptor, DatasetDescriptorAwareEncoder
-from helpers import (is_dwca, get_taxon_match_category, get_taxonomy, get_media_type_category,
+from helpers import (is_dwca, get_taxon_match_category, get_taxonomy,
                      get_coordinates_quality_category)
 
 # A report file will be generated for each DwC-A in this directory.
@@ -44,7 +44,7 @@ def parse_archive(a):
             r[dataset_key].store_or_increment_bor(row.data[bor_term])
             r[dataset_key].store_or_increment_taxonmatch(get_taxon_match_category(row))
             r[dataset_key].store_or_increment_taxonomy(get_taxonomy(row))
-            r[dataset_key].store_or_increment_mediacategory(get_media_type_category(row))
+
             r[dataset_key].store_or_increment_coordinatecategory(get_coordinates_quality_category(row))
 
             i = i + 1

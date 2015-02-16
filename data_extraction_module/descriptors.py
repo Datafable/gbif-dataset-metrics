@@ -7,7 +7,6 @@ class DatasetDescriptor(object):
                      'BASISOFRECORDS': {},
                      'TAXON_MATCHES': {},
                      'TAXONOMY': {},
-                     'MEDIA_CATEGORIES': {},
                      'COORDINATE_QUALITY_CATEGORIES': {}}
 
     def increment_number_records(self):
@@ -27,9 +26,6 @@ class DatasetDescriptor(object):
 
     def store_or_increment_taxonmatch(self, value):
         self._store_or_increment_counter(value, 'TAXON_MATCHES')
-
-    def store_or_increment_mediacategory(self, value):
-        self._store_or_increment_counter(value, 'MEDIA_CATEGORIES')
 
     def store_or_increment_coordinatecategory(self, value):
         self._store_or_increment_counter(value, 'COORDINATE_QUALITY_CATEGORIES')
