@@ -1,5 +1,6 @@
 var main = function () {
     var datasetKey = getDatasetKeyFromURL();
+    addAboveContent();
     getMetrics(datasetKey,addMetricsToStatsPage);
 };
 
@@ -19,13 +20,13 @@ var addMetricsToStatsPage = function (metrics) {
     $('[data-toggle="tooltip"]').tooltip();
 
     // Add taxonomy partition
-    html = '<article id="taxonomy">' + 
-                '<header></header>' + 
-                '<div class="content">' + 
+    html =  '<article id="taxonomy">' +
+                '<header></header>' +
+                '<div class="content">' +
                     '<div class="header"><div class="left"><h2>Taxonomy</h2></div></div>' +
                     '<div class="fullwidth" id="taxonomyPartition"></div>' +
                 '</div>' +
-                '<footer></footer>' + 
+                '<footer></footer>' +
             '</article>';
     anchor.after(html);
     taxonomyPartition(metrics);
@@ -72,10 +73,10 @@ var taxonomyPartition = function (metrics) {
         .attr("transform", transform)
         .attr("dy", ".35em")
         .style("opacity", function(d) { return d.dx * ky > 12 ? 1 : 0; })
-        .text(function(d) { return d.name; })
+        .text(function(d) { return d.name; });
 
     d3.select(window)
-        .on("click", function() { click(root); })
+        .on("click", function() { click(root); });
 
     function click(d) {
         if (!d.children) return;

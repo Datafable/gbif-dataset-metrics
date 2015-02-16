@@ -9,12 +9,15 @@ var getDatasetKeyFromURL = function () {
     return datasetKey;
 };
 
-var addNoMetricsMessage = function () {
-    var html = '<article class="alert alert-warning" id="noMetrics">' + 
-                    '<p><strong>GBIF dataset metrics extension:</strong> We have no metrics for this dataset yet. Want some? <a href="https://github.com/peterdesmet/gbif-challenge/issues/new" target="_blank">Submit a request.</a></p>' +
-                '</article>';
+var addAboveContent = function () {
+    var html = '<article id="aboveContent"></content>';
     $("#content").prepend(html);
-}
+};
+
+var addNoMetricsMessage = function () {
+    var html = '<p class="alert alert-warning"><strong>GBIF dataset metrics extension:</strong> We have no metrics for this dataset yet. Want some? <a href="https://github.com/peterdesmet/gbif-challenge/issues/new" target="_blank">Submit a request.</a></p>';
+    $("#aboveContent").append(html);
+};
 
 var getMetrics = function (datasetKey, showMetrics) {
     // Get data from metrics store in CartoDB.

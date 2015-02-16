@@ -1,5 +1,6 @@
 var main = function () {
     var datasetKey = getDatasetKeyFromURL();
+    addAboveContent();
     getMetrics(datasetKey,addMetricsToHomePage);
 };
 

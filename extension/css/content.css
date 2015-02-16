@@ -25,13 +25,22 @@
     Custom styling
     ------------------------- */
 
-#noMetrics {
-    height: 40px;
+#aboveContent {
     margin: -75px auto 35px auto!important; /* Inherits <article> styling by GBIF */
+    height: 40px; /* Allow to increase in height */
     }
-    #noMetrics strong {
-        font-weight: bold; /* For some reason, GBIF has turned this off */
-    }
+    #aboveContent .alert {
+        height: 40px;
+        }
+        #aboveContent strong {
+            font-weight: bold; /* For some reason, GBIF has turned this off */
+        }
+    #aboveContent .labels {
+        padding-top: 13px; /* Normally 5px, 13px used to center vertically for one line */
+        }
+        #aboveContent .label {
+            font-size: 100%;
+        }
 
 #grid[data-columns]::before {
     content: "4 .column.size-1of4";
