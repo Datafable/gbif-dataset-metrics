@@ -4,12 +4,12 @@ var main = function () {
 };
 
 var addMetricsToHomePage = function (metrics) {
-    // Create HTML
     var html = "";
-    // Basis of record
+    var anchor = $("#summary");
+    
+    // Add basis of record bar
     html = html + basisOfRecordBar(metrics);
-    // Add HTML to page
-    $("#summary").find(".content").prepend(html);
+    anchor.find(".content").prepend(html);
 
     // Activate tooltip
     $('[data-toggle="tooltip"]').tooltip();
