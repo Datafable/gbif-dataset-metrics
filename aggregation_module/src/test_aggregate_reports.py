@@ -14,18 +14,54 @@ class TestAggregator(unittest.TestCase):
                 'BASISOFRECORDS': { 'HUMAN_OBSERVATION': 3710, 'FOSSIL_SPECIMEN': 3 },
                 'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 420, 'MEDIA_NOT_PROVIDED': 3293},
                 'TAXONOMY': {'taxon1': 10},
+                'TAXON_MATCHES': {
+                    'TAXON_MATCH_HIGHERRANK': 10,
+                    'TAXON_MATCH_FUZZY': 10,
+                    'TAXON_MATCH_COMPLETE': 10,
+                    'TAXON_NOT_PROVIDED': 10 
+                },
+                'COORDINATE_QUALITY_CATEGORIES': {
+                    'COORDINATES_NOT_PROVIDED': 20,
+                    'COORDINATES_MINOR_ISSUES': 5,
+                    'COORDINATES_MAJOR_ISSUES': 100,
+                    'COORDINATES_VALID': 200
+                },
                 'NUMBER_OF_RECORDS': 3713
             },
             '05ebc824-3a3b-4f64-ab22-99b0e2c3aa48': {
                 'BASISOFRECORDS': { 'UNKNOWN': 6695 },
                 'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 6595},
                 'TAXONOMY': {'taxon1': 13, 'taxon2': 5},
+                'TAXON_MATCHES': {
+                    'TAXON_MATCH_HIGHERRANK': 10,
+                    'TAXON_MATCH_FUZZY': 10,
+                    'TAXON_MATCH_COMPLETE': 10,
+                    'TAXON_NOT_PROVIDED': 10 
+                },
+                'COORDINATE_QUALITY_CATEGORIES': {
+                    'COORDINATES_NOT_PROVIDED': 20,
+                    'COORDINATES_MINOR_ISSUES': 5,
+                    'COORDINATES_MAJOR_ISSUES': 100,
+                    'COORDINATES_VALID': 200
+                },
                 'NUMBER_OF_RECORDS': 6695
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
                 'BASISOFRECORDS': { 'FOSSIL_SPECIMEN': 532, 'UNKNOWN': 10 },
                 'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon1': 8},
+                'TAXON_MATCHES': {
+                    'TAXON_MATCH_HIGHERRANK': 10,
+                    'TAXON_MATCH_FUZZY': 10,
+                    'TAXON_MATCH_COMPLETE': 10,
+                    'TAXON_NOT_PROVIDED': 10 
+                },
+                'COORDINATE_QUALITY_CATEGORIES': {
+                    'COORDINATES_NOT_PROVIDED': 20,
+                    'COORDINATES_MINOR_ISSUES': 5,
+                    'COORDINATES_MAJOR_ISSUES': 100,
+                    'COORDINATES_VALID': 200
+                },
                 'NUMBER_OF_RECORDS': 542
             }
         },
@@ -34,18 +70,54 @@ class TestAggregator(unittest.TestCase):
                 'BASISOFRECORDS': { 'HUMAN_OBSERVATION': 10134, 'UNKNOWN': 7 },
                 'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon2': 30},
+                'TAXON_MATCHES': {
+                    'TAXON_MATCH_HIGHERRANK': 10,
+                    'TAXON_MATCH_FUZZY': 10,
+                    'TAXON_MATCH_COMPLETE': 10,
+                    'TAXON_NOT_PROVIDED': 10 
+                },
+                'COORDINATE_QUALITY_CATEGORIES': {
+                    'COORDINATES_NOT_PROVIDED': 20,
+                    'COORDINATES_MINOR_ISSUES': 5,
+                    'COORDINATES_MAJOR_ISSUES': 100,
+                    'COORDINATES_VALID': 200
+                },
                 'NUMBER_OF_RECORDS': 10141
             },
             '05ebc824-3a3b-4f64-ab22-99b0e2c3aa48': {
                 'BASISOFRECORDS': { 'UNKNOWN': 89963 },
                 'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon1': 5},
+                'TAXON_MATCHES': {
+                    'TAXON_MATCH_HIGHERRANK': 10,
+                    'TAXON_MATCH_FUZZY': 10,
+                    'TAXON_MATCH_COMPLETE': 10,
+                    'TAXON_NOT_PROVIDED': 10 
+                },
+                'COORDINATE_QUALITY_CATEGORIES': {
+                    'COORDINATES_NOT_PROVIDED': 20,
+                    'COORDINATES_MINOR_ISSUES': 5,
+                    'COORDINATES_MAJOR_ISSUES': 100,
+                    'COORDINATES_VALID': 200
+                },
                 'NUMBER_OF_RECORDS': 89963
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
                 'BASISOFRECORDS': { 'UNKNOWN': 130 },
                 'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon1': 10},
+                'TAXON_MATCHES': {
+                    'TAXON_MATCH_HIGHERRANK': 10,
+                    'TAXON_MATCH_FUZZY': 10,
+                    'TAXON_MATCH_COMPLETE': 10,
+                    'TAXON_NOT_PROVIDED': 10 
+                },
+                'COORDINATE_QUALITY_CATEGORIES': {
+                    'COORDINATES_NOT_PROVIDED': 20,
+                    'COORDINATES_MINOR_ISSUES': 5,
+                    'COORDINATES_MAJOR_ISSUES': 100,
+                    'COORDINATES_VALID': 200
+                },
                 'NUMBER_OF_RECORDS': 130
             }
         },
@@ -54,12 +126,36 @@ class TestAggregator(unittest.TestCase):
                 'BASISOFRECORDS': { 'MACHINE_OBSERVATION': 5, 'UNKNOWN': 9 },
                 'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon1': 8},
+                'TAXON_MATCHES': {
+                    'TAXON_MATCH_HIGHERRANK': 10,
+                    'TAXON_MATCH_FUZZY': 10,
+                    'TAXON_MATCH_COMPLETE': 10,
+                    'TAXON_NOT_PROVIDED': 10 
+                },
+                'COORDINATE_QUALITY_CATEGORIES': {
+                    'COORDINATES_NOT_PROVIDED': 20,
+                    'COORDINATES_MINOR_ISSUES': 5,
+                    'COORDINATES_MAJOR_ISSUES': 100,
+                    'COORDINATES_VALID': 200
+                },
                 'NUMBER_OF_RECORDS': 14
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
                 'BASISOFRECORDS': { 'UNKNOWN': 137 },
                 'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon4': 9},
+                'TAXON_MATCHES': {
+                    'TAXON_MATCH_HIGHERRANK': 10,
+                    'TAXON_MATCH_FUZZY': 10,
+                    'TAXON_MATCH_COMPLETE': 10,
+                    'TAXON_NOT_PROVIDED': 10 
+                },
+                'COORDINATE_QUALITY_CATEGORIES': {
+                    'COORDINATES_NOT_PROVIDED': 20,
+                    'COORDINATES_MINOR_ISSUES': 5,
+                    'COORDINATES_MAJOR_ISSUES': 100,
+                    'COORDINATES_VALID': 200
+                },
                 'NUMBER_OF_RECORDS': 137
             }
         }
@@ -109,6 +205,14 @@ class TestAggregator(unittest.TestCase):
         media_image = 420 + 10 + 10
         media_not_provided = 3293 + 400 + 400
         taxonomy = {'taxon1': 18, 'taxon2': 30}
+        coordinates_not_provided = 3 * 20
+        coordinates_minor_issues = 3 * 5
+        coordinates_major_issues = 3 * 100
+        coordinates_valid = 3 * 200
+        taxon_higher_rank = 3 * 10
+        taxon_fuzzy = 3 * 10
+        taxon_complete = 3 * 10
+        taxon_not_provided = 3 * 10
         aggregated_metrics = self.agg.aggregate(self.test_dir)
         self.assertEqual(aggregated_metrics[dataset_key]['BASISOFRECORDS']['HUMAN_OBSERVATION'], human_observations)
         self.assertEqual(aggregated_metrics[dataset_key]['BASISOFRECORDS']['UNKNOWN'], unknown)
@@ -120,6 +224,14 @@ class TestAggregator(unittest.TestCase):
         self.assertEqual(len(aggregated_metrics[dataset_key]['TAXONOMY']['children'][0]['children']), 1)
         self.assertEqual(aggregated_metrics[dataset_key]['TAXONOMY']['children'][1]['name'], 'taxon2')
         self.assertEqual(len(aggregated_metrics[dataset_key]['TAXONOMY']['children'][1]['children']), 1)
+        self.assertEqual(aggregated_metrics[dataset_key]['TAXON_MATCHES']['TAXON_MATCH_HIGHERRANK'], taxon_higher_rank)
+        self.assertEqual(aggregated_metrics[dataset_key]['TAXON_MATCHES']['TAXON_MATCH_FUZZY'], taxon_fuzzy)
+        self.assertEqual(aggregated_metrics[dataset_key]['TAXON_MATCHES']['TAXON_MATCH_COMPLETE'], taxon_complete)
+        self.assertEqual(aggregated_metrics[dataset_key]['TAXON_MATCHES']['TAXON_NOT_PROVIDED'], taxon_not_provided)
+        self.assertEqual(aggregated_metrics[dataset_key]['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_NOT_PROVIDED'], coordinates_not_provided)
+        self.assertEqual(aggregated_metrics[dataset_key]['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_MINOR_ISSUES'], coordinates_minor_issues)
+        self.assertEqual(aggregated_metrics[dataset_key]['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_MAJOR_ISSUES'], coordinates_major_issues)
+        self.assertEqual(aggregated_metrics[dataset_key]['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_VALID'], coordinates_valid)
         self.assertEqual(aggregated_metrics[dataset_key]['MEDIA_CATEGORIES']['MEDIA_IMAGE'], media_image)
         self.assertEqual(aggregated_metrics[dataset_key]['MEDIA_CATEGORIES']['MEDIA_NOT_PROVIDED'], media_not_provided)
 
@@ -134,7 +246,7 @@ class TestAggregator(unittest.TestCase):
         test1 = 'kingdom1|phylum1|class1|order1|family1|genus1|species1'
         expected1 = ['kingdom1', 'phylum1', 'class1', 'order1', 'family1', 'genus1', 'species1']
         test2 = 'kingdom1|phylum1|class1'
-        expected2 = ['kingdom1', 'phylum1', 'class1', 'unknown', 'unknown', 'unknown', 'unknown']
+        expected2 = ['kingdom1', 'phylum1', 'class1', 'Unknown', 'Unknown', 'Unknown', 'Unknown']
         test3 = 'kingdom1|phylum1|class1||||'
         self.assertEqual(self.agg._taxonkey_to_array(test1), expected1)
         self.assertEqual(self.agg._taxonkey_to_array(test2), expected2)
@@ -176,7 +288,7 @@ class TestAggregator(unittest.TestCase):
     def test_aggregate_taxonomy(self):
         input_taxonomy = {'kingdom1|phylum1|class1|order1|family1|genus1|species1': 10, 'kingdom1|phylum1|class1|order1|family1|genus1|species2': 10}
         expected_result = {
-            'name': 'all taxa',
+            'name': 'All taxa',
             'children': [
                 {
                     'name': 'kingdom1',
@@ -214,7 +326,7 @@ class TestAggregator(unittest.TestCase):
         self.assertEqual(result['children'][-1]['children'][0]['children'][0]['children'][0]['children'][0]['children'][0]['children'][1]['size'], 10)
         # aggregate by genus
         expected_result = {
-            'name': 'all taxa',
+            'name': 'All taxa',
             'children': [
                 {
                     'name': 'kingdom1',
@@ -242,7 +354,7 @@ class TestAggregator(unittest.TestCase):
         self.assertEqual(result['children'][0]['children'][0]['children'][0]['children'][0]['children'][0]['children'][0]['size'], 20)
         # aggregate by family
         expected_result = {
-            'name': 'all taxa',
+            'name': 'All taxa',
             'children': [
                 {
                     'name': 'kingdom1',
