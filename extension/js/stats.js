@@ -73,7 +73,7 @@ var taxonomyPartition = function (metrics) {
         .attr("transform", transform)
         .attr("dy", ".35em")
         .style("opacity", function(d) { return d.dx * ky > 12 ? 1 : 0; })
-        .text(function(d) { return d.size ? d.name + " (" + d.size + ")" : d.name; });
+        .text(function(d) { return d.size ? d.name + " (" + d.size.toLocaleString() + ")" : d.name; });
 
     d3.select(window)
         .on("click", function() { click(root); });
