@@ -66,14 +66,14 @@ var taxonomyPartition = function (metrics) {
         .classed({
             "parent": function(d) { return d.children; },
             "child": function(d) { return !d.children; },
-            "unknown": function(d) { return d.name === "unknown"; }
+            "unknown": function(d) { return d.name === "Unknown"; }
         });
 
     g.append("svg:text")
         .attr("transform", transform)
         .attr("dy", ".35em")
         .style("opacity", function(d) { return d.dx * ky > 12 ? 1 : 0; })
-        .text(function(d) { return d.name; });
+        .text(function(d) { return d.size ? d.name + " (" + d.size + ")" : d.name; });
 
     d3.select(window)
         .on("click", function() { click(root); });

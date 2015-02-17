@@ -95,6 +95,7 @@
         }
         #taxonomyPartition rect.child {
             cursor: zoom-out;
+            fill: #dddddd;
         }
         #taxonomyPartition rect.unknown {
             fill: #dddddd;
