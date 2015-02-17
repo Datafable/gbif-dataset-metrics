@@ -1,6 +1,6 @@
 var main = function() {
     var datasetKey = getDatasetKeyFromURL();
-    showDownloadChart(datasetKey,30);
+    downloadChart(datasetKey,30);
 };
 
 var removeTimeFromDate = function(date) {
@@ -12,7 +12,7 @@ var formatAsISODate = function(time) {
     return date.toISOString().substring(0,10); // Return first 10 characters (yyyy-mm-dd) of full ISO date
 };
 
-var showDownloadChart = function(datasetKey, dayRange) {
+var downloadChart = function(datasetKey, dayRange) {
     var oneDayInMs = 24 * 60 * 60 * 1000;
     var today = new Date();
     var startDay = removeTimeFromDate(today); // Set at midnight
@@ -24,8 +24,21 @@ var showDownloadChart = function(datasetKey, dayRange) {
         downloads[i] = null; // Populate array with null values (for empty chart)
     }
 
-    // Add div for chart to DOM as first child of .content
-    d3.select("#content .results .content").insert("div",":first-child").attr("id","downloadChart");
+    // Update title
+    var anchor = d3.select("#content .results .content");
+    var currentTitle = anchor.select("h2");
+    currentTitle.text(currentTitle.text() + " in total");
+
+    // Add title and div for chart to DOM
+    anchor.insert("div", ":first-child")
+        .attr("class","fullwidth")
+        .attr("id","downloadChart");
+    anchor.insert("div", ":first-child")
+        .attr("class", "header")
+        .append("div")
+            .attr("class", "left")
+            .append("h2")
+                .text("Download activity over the last 30 days");
 
     var downloadChart = c3.generate({
         bindto: "#downloadChart",
@@ -40,9 +53,8 @@ var showDownloadChart = function(datasetKey, dayRange) {
         axis: {
             x: {
                 type: "timeseries",
-                show: false,
                 tick: {
-                    format: "%Y-%m-%d"
+                    format: "%d/%m"
                 }
             },
             y: {
@@ -64,7 +76,7 @@ var showDownloadChart = function(datasetKey, dayRange) {
         }
     });
 
-    loadDownloadData(datasetKey,1000,startDay,oneDayInMs,downloads,downloadChart);
+    loadDownloadData(datasetKey,1200,startDay,oneDayInMs,downloads,downloadChart);
 };
 
 var loadDownloadData = function(datasetKey, pageLimit, startDay, oneDayInMs, downloads, downloadChart) {
