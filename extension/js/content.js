@@ -21,7 +21,7 @@ var addNoMetricsMessage = function () {
 
 var getMetrics = function (datasetKey, showMetrics) {
     // Get data from metrics store in CartoDB.
-    var sql = "WITH ranked_metrics AS ( SELECT *, ntile(100) OVER (ORDER BY occurrences) AS occurrences_percentile FROM gbif_dataset_metrics_test WHERE type = 'OCCURRENCE' AND occurrences IS NOT NULL) SELECT * FROM ranked_metrics WHERE dataset_key ='" + datasetKey + "'"
+    var sql = "WITH ranked_metrics AS ( SELECT *, ntile(100) OVER (ORDER BY occurrences) AS occurrences_percentile FROM gbif_dataset_metrics_test WHERE type = 'OCCURRENCE' AND occurrences IS NOT NULL) SELECT * FROM ranked_metrics WHERE dataset_key ='" + datasetKey + "'";
     var url = "http://datafable.cartodb.com/api/v2/sql?q=" + sql;
     $.getJSON(url, function (result) {
         if (result.rows.length === 0) { // Dataset is not in query: not OCCURRENCE, no data yet or a new dataset
