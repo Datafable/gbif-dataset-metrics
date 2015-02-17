@@ -18,16 +18,19 @@
                 "http://www.gbif.org/dataset/*"
             ],
             "exclude_matches": [
+                "http://www.gbif.org/dataset",
+                "http://www.gbif.org/dataset/",
+                "http://www.gbif.org/dataset/*/*",
                 "http://www.gbif.org/dataset/*/stats",
                 "http://www.gbif.org/dataset/*/activity"
             ],
             "css": [
-                "css/bootstrap.min.css",
+                "css/bootstrap-custom.css",
                 "css/content.css"
             ],
             "js": [
                 "js/jquery.min.js",
-                "js/bootstrap.min.js",
+                "js/bootstrap-custom.min.js",
                 "js/content.js",
                 "js/home.js"
             ]
@@ -38,12 +41,13 @@
                 "http://www.gbif.org/dataset/*/stats"
             ],
             "css": [
-                "css/bootstrap.min.css",
+                "css/bootstrap-custom.css",
                 "css/content.css"
             ],
             "js": [
+                "js/d3.min.js",
                 "js/jquery.min.js",
-                "js/bootstrap.min.js",
+                "js/bootstrap-custom.min.js",
                 "js/content.js",
                 "js/stats.js"
             ]

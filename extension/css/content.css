@@ -1,8 +1,54 @@
-.metric-title {
+/*  -------------------------
+    Overwrite GBIF CSS
+    ------------------------- */
+
+#content {
+    padding-top: 90px!important;
+}
+
+#occmetrics h3 {
     margin-bottom: 20px;
 }
 
-/* Basis of record metric */
+/*  -------------------------
+    Activate specific Bootstrap CSS
+    ------------------------- */
+
+.alert {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+/*  -------------------------
+    Custom styling
+    ------------------------- */
+
+#aboveContent {
+    margin: -75px auto 35px auto!important; /* Inherits <article> styling by GBIF */
+    height: 40px; /* Allow to increase in height */
+    }
+    #aboveContent .alert {
+        height: 40px;
+        }
+        #aboveContent strong {
+            font-weight: bold; /* For some reason, GBIF has turned this off */
+        }
+    #aboveContent .labels {
+        padding-top: 13px; /* Normally 5px, 13px used to center vertically for one line */
+        }
+        #aboveContent .label {
+            font-size: 100%;
+            }
+            #aboveContent .gold {
+                background-color: #d4af37;
+            }
+            #aboveContent .silver {
+                background-color: #a9a9a9;
+            }
+
+/* Basis of record bar */
 .basis-of-record-0 { background-color: #e2b70d; } /* Preserved specimens */
 .basis-of-record-1 { background-color: #f4d03f; } /* Fossil specimens */
 .basis-of-record-2 { background-color: #f8e07f; } /* Living specimens */
@@ -13,7 +59,49 @@
 .basis-of-record-7 { background-color: #d75d6c; } /* Literature occurrences */
 .basis-of-record-8 { background-color: #dddddd; } /* Unknown */
 
-/* Download chart */
+/* Coordinates bar */
+.coordinates-0 { background-color: #54af37; } /* Valid coordinates (all in WGS84) */
+.coordinates-1 { background-color: #f7be63; } /* Coordinates with minor issues */
+.coordinates-2 { background-color: #cd290a; } /* Coordinates with major issues */
+.coordinates-3 { background-color: #dddddd; } /* Coordinates not provided */
+
+/* Multimedia bar */
+.multimedia-0 { background-color: #54af37; } /* Valid multimedia */
+.multimedia-1 { background-color: #cd290a; } /* Multimedia URL invalid */
+.multimedia-2 { background-color: #dddddd; } /* Multimedia not provided */
+
+/* Taxon match bar */
+.taxon-match-0 { background-color: #54af37; } /* Taxon found in taxonomic backbone */
+.taxon-match-1 { background-color: #f7be63; } /* Taxon found in taxonomic backbone using fuzzy match */
+.taxon-match-2 { background-color: #f87e67; } /* Taxon not found in taxonomic backbone, but a higher taxon was */
+.taxon-match-3 { background-color: #cd290a; } /* Taxon not found in taxonomic backbone */
+.taxon-match-4 { background-color: #dddddd; } /* Taxon not provided */
+
+/* Taxonomy partition */
+#taxonomyPartition {
+    font-size: 90%;
+    }
+    #taxonomyPartition text {
+        pointer-events: none;
+    }
+    #taxonomyPartition rect {
+        fill: #0099cc;
+        fill-opacity: .8;
+        stroke: #ffffff;
+        stroke-width: 1.5;
+        }
+        #taxonomyPartition rect.parent {
+            cursor: pointer;
+        }
+        #taxonomyPartition rect.child {
+            cursor: zoom-out;
+            fill: #dddddd;
+        }
+        #taxonomyPartition rect.unknown {
+            fill: #dddddd;
+        }
+
+/* Downloads chart */
 #downloadChart {
     height: 300px;
     margin-bottom: 20px;
