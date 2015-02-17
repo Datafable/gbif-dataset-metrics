@@ -21,18 +21,54 @@ var addNoMetricsMessage = function () {
 
 var getMetrics = function (datasetKey, showMetrics) {
     // Get data from metrics store in CartoDB.
-    var url = "http://datafable.cartodb.com/api/v2/sql?q=SELECT * FROM gbif_dataset_metrics_test WHERE dataset_key ='" + datasetKey + "'";
+    var sql = "WITH ranked_metrics AS ( SELECT *, ntile(100) OVER (ORDER BY occurrences) AS occurrences_percentile FROM gbif_dataset_metrics_test WHERE type = 'OCCURRENCE' AND occurrences IS NOT NULL) SELECT * FROM ranked_metrics WHERE dataset_key ='" + datasetKey + "'"
+    var url = "http://datafable.cartodb.com/api/v2/sql?q=" + sql;
     $.getJSON(url, function (result) {
-        if (result.rows.length === 0) { // Dataset is not in metrics store
+        if (result.rows.length === 0) { // Dataset is not in query: not OCCURRENCE, no data yet or a new dataset
             addNoMetricsMessage();
-        } else if (result.rows[0].type === 'OCCURRENCE') { // Only do something for OCCURRENCE datasets
-            if (result.rows[0].occurrences === null) { // No metrics (yet)
-                addNoMetricsMessage();
-            } else {
-                showMetrics(result.rows[0]); // Only one row [0] expected
-            }
+        } else {
+            showMetrics(result.rows[0]); // Only one row [0] expected
         }
     });
+};
+
+var createAchievementLabel = function (achievement, title, rank) {
+    return '<span class="label ' + rank + '" data-toggle="tooltip" data-placement="top" title="' + title + '">' + achievement + '</span> ';
+};
+
+var occurrencesAchievement = function (metrics) {
+    var html = "";
+    var rank = metrics.occurrences_percentile;
+    if (rank > 90) {
+        html = createAchievementLabel("Colossal dataset", "In the top 10% biggest datasets on GBIF", "gold");
+    } else if (rank > 80) {
+        html = createAchievementLabel("Huge dataset", "In the top 20% biggest datasets on GBIF", "silver");
+    }
+    return html;
+};
+
+var georeferenceAchievement = function (metrics) {
+    var html = "";
+    var rank = metrics.coordinates_valid / metrics.occurrences;
+    console.log(rank);
+    if (rank === 1) {
+        html = createAchievementLabel("Georeferencing perfection", "100% valid coordinates", "gold");
+    } else if (rank > 0.95) {
+        html = createAchievementLabel("Georeferencing excellence", " More than 95% valid coordinates", "silver");
+    }
+    return html;
+};
+
+var multimediaAchievement = function (metrics) {
+    var html = "";
+    var rank = metrics.multimedia_valid / metrics.occurrences;
+    console.log(rank);
+    if (rank > 0.75) {
+        html = createAchievementLabel("Multimedia treasure", "More than 75% related multimedia", "gold");
+    } else if (rank >= 0.50) {
+        html = createAchievementLabel("Multimedia gem", " More than 50% related multimedia", "silver");
+    }
+    return html;
 };
 
 var createMetricBar = function (metric) {

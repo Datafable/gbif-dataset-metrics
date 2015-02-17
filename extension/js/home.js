@@ -12,6 +12,14 @@ var addMetricsToHomePage = function (metrics) {
     html = html + basisOfRecordBar(metrics);
     anchor.find(".content").prepend(html);
 
+    // Add achievements
+    html = '<p class="labels">';
+    html = html + occurrencesAchievement(metrics); // Occurrences achievement
+    html = html + georeferenceAchievement(metrics); // Georeference achievement
+    html = html + multimediaAchievement(metrics); // Multimedia achievement
+    html = html + '</p>';
+    $("#aboveContent").append(html);
+
     // Activate tooltip
     $('[data-toggle="tooltip"]').tooltip();
 };
