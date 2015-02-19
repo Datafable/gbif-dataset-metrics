@@ -27,7 +27,7 @@
 
 #aboveContent {
     margin: -75px auto 35px auto!important; /* Inherits <article> styling by GBIF */
-    height: 40px; /* Allow to increase in height */
+    height: 40px; /* Ideally min-height */
     }
     #aboveContent .alert {
         height: 40px;
