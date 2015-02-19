@@ -25,10 +25,14 @@ class ReportAggregator():
             if metric_type in metrics_data.keys():
                 if type(dataset[metric_type]) is dict:
                     for metric_name in dataset[metric_type].keys():
-                        if metric_name in metrics_data[metric_type].keys():
-                            metrics_data[metric_type][metric_name] += dataset[metric_type][metric_name]
+                        if type(dataset[metric_type][metric_name]) is dict:
+                            for occurrence_id in dataset[metric_type][metric_name].keys():
+                                metrics_data[metric_type][metric_name][occurrence_id] = dataset[metric_type][metric_name][occurrence_id]
                         else:
-                            metrics_data[metric_type][metric_name] = dataset[metric_type][metric_name]
+                            if metric_name in metrics_data[metric_type].keys():
+                                metrics_data[metric_type][metric_name] += dataset[metric_type][metric_name]
+                            else:
+                                metrics_data[metric_type][metric_name] = dataset[metric_type][metric_name]
                 else:
                     metrics_data[metric_type] += dataset[metric_type]
             else:

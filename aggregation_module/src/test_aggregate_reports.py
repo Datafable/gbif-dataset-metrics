@@ -12,7 +12,6 @@ class TestAggregator(unittest.TestCase):
         {
             '3F2504E0-4F89-11D3-9A0C-0305E82C3301': {
                 'BASISOFRECORDS': { 'HUMAN_OBSERVATION': 3710, 'FOSSIL_SPECIMEN': 3 },
-                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 420, 'MEDIA_NOT_PROVIDED': 3293},
                 'TAXONOMY': {'taxon1': 10},
                 'TAXON_MATCHES': {
                     'TAXON_MATCH_HIGHERRANK': 10,
@@ -26,11 +25,31 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
                 },
+                'MEDIA': {
+                    'movingimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'audio': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'stillimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'no type': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'media_not_provided': 37,
+                    'media_url_invalid': 12,
+                    'media_valid': 61,
+                },
                 'NUMBER_OF_RECORDS': 3713
             },
             '05ebc824-3a3b-4f64-ab22-99b0e2c3aa48': {
                 'BASISOFRECORDS': { 'UNKNOWN': 6695 },
-                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 6595},
                 'TAXONOMY': {'taxon1': 13, 'taxon2': 5},
                 'TAXON_MATCHES': {
                     'TAXON_MATCH_HIGHERRANK': 10,
@@ -48,7 +67,6 @@ class TestAggregator(unittest.TestCase):
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
                 'BASISOFRECORDS': { 'FOSSIL_SPECIMEN': 532, 'UNKNOWN': 10 },
-                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon1': 8},
                 'TAXON_MATCHES': {
                     'TAXON_MATCH_HIGHERRANK': 10,
@@ -68,7 +86,6 @@ class TestAggregator(unittest.TestCase):
         {
             '3F2504E0-4F89-11D3-9A0C-0305E82C3301': {
                 'BASISOFRECORDS': { 'HUMAN_OBSERVATION': 10134, 'UNKNOWN': 7 },
-                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon2': 30},
                 'TAXON_MATCHES': {
                     'TAXON_MATCH_HIGHERRANK': 10,
@@ -82,11 +99,31 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
                 },
+                'MEDIA': {
+                    'movingimage': {
+                        'occid3': ['url4', 'url5'],
+                        'occid4': ['url6']
+                    },
+                    'audio': {
+                        'occid3': ['url4', 'url5'],
+                        'occid4': ['url6']
+                    },
+                    'stillimage': {
+                        'occid3': ['url4', 'url5'],
+                        'occid4': ['url6']
+                    },
+                    'no type': {
+                        'occid3': ['url4', 'url5'],
+                        'occid4': ['url6']
+                    },
+                    'media_not_provided': 15,
+                    'media_url_invalid': 2,
+                    'media_valid': 20,
+                },
                 'NUMBER_OF_RECORDS': 10141
             },
             '05ebc824-3a3b-4f64-ab22-99b0e2c3aa48': {
                 'BASISOFRECORDS': { 'UNKNOWN': 89963 },
-                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon1': 5},
                 'TAXON_MATCHES': {
                     'TAXON_MATCH_HIGHERRANK': 10,
@@ -104,7 +141,6 @@ class TestAggregator(unittest.TestCase):
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
                 'BASISOFRECORDS': { 'UNKNOWN': 130 },
-                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon1': 10},
                 'TAXON_MATCHES': {
                     'TAXON_MATCH_HIGHERRANK': 10,
@@ -124,7 +160,6 @@ class TestAggregator(unittest.TestCase):
         {
             '3F2504E0-4F89-11D3-9A0C-0305E82C3301': {
                 'BASISOFRECORDS': { 'MACHINE_OBSERVATION': 5, 'UNKNOWN': 9 },
-                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon1': 8},
                 'TAXON_MATCHES': {
                     'TAXON_MATCH_HIGHERRANK': 10,
@@ -142,7 +177,6 @@ class TestAggregator(unittest.TestCase):
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
                 'BASISOFRECORDS': { 'UNKNOWN': 137 },
-                'MEDIA_CATEGORIES': {'MEDIA_IMAGE': 10, 'MEDIA_NOT_PROVIDED': 400},
                 'TAXONOMY': {'taxon4': 9},
                 'TAXON_MATCHES': {
                     'TAXON_MATCH_HIGHERRANK': 10,
@@ -202,8 +236,6 @@ class TestAggregator(unittest.TestCase):
         fossil_specimen = 3
         machine_observation = 5
         nr_of_records = 3710 + 10134 + 7 + 9 + 3 + 5
-        media_image = 420 + 10 + 10
-        media_not_provided = 3293 + 400 + 400
         taxonomy = {'taxon1': 18, 'taxon2': 30}
         coordinates_not_provided = 3 * 20
         coordinates_minor_issues = 3 * 5
@@ -213,6 +245,13 @@ class TestAggregator(unittest.TestCase):
         taxon_fuzzy = 3 * 10
         taxon_complete = 3 * 10
         taxon_not_provided = 3 * 10
+        media_not_provided = 37 + 15
+        media_url_invalid = 12 + 2
+        media_valid = 61 + 20
+        movingimage = {'occid1': ['url1', 'url2'], 'occid3': ['url4', 'url5'], 'occid2': ['url3'], 'occid4': ['url6']}
+        stillimage = movingimage
+        audio = movingimage
+        notype = movingimage
         aggregated_metrics = self.agg.aggregate(self.test_dir)
         self.assertEqual(aggregated_metrics[dataset_key]['BASISOFRECORDS']['HUMAN_OBSERVATION'], human_observations)
         self.assertEqual(aggregated_metrics[dataset_key]['BASISOFRECORDS']['UNKNOWN'], unknown)
@@ -232,8 +271,19 @@ class TestAggregator(unittest.TestCase):
         self.assertEqual(aggregated_metrics[dataset_key]['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_MINOR_ISSUES'], coordinates_minor_issues)
         self.assertEqual(aggregated_metrics[dataset_key]['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_MAJOR_ISSUES'], coordinates_major_issues)
         self.assertEqual(aggregated_metrics[dataset_key]['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_VALID'], coordinates_valid)
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA_CATEGORIES']['MEDIA_IMAGE'], media_image)
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA_CATEGORIES']['MEDIA_NOT_PROVIDED'], media_not_provided)
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['media_not_provided'], media_not_provided)
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['media_url_invalid'], media_url_invalid)
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['media_valid'], media_valid)
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['movingimage'].keys().sort(), movingimage.keys().sort())
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['movingimage']['occid1'], movingimage['occid1'])
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['movingimage']['occid2'], movingimage['occid2'])
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['stillimage']['occid1'], stillimage['occid1'])
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['stillimage']['occid2'], stillimage['occid2'])
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['audio']['occid1'], audio['occid1'])
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['audio']['occid2'], audio['occid2'])
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['no type']['occid1'], notype['occid1'])
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['no type']['occid2'], notype['occid2'])
+
 
     def test_get_sum(self):
         test_arrays = [[1, 2, 3], [5, 6, 7]]
