@@ -38,7 +38,7 @@ class TestAggregator(unittest.TestCase):
                         'occid1': ['url1', 'url2'],
                         'occid2': ['url3']
                     },
-                    'no type': {
+                    'no_type': {
                         'occid1': ['url1', 'url2'],
                         'occid2': ['url3']
                     },
@@ -112,7 +112,7 @@ class TestAggregator(unittest.TestCase):
                         'occid3': ['url4', 'url5'],
                         'occid4': ['url6']
                     },
-                    'no type': {
+                    'no_type': {
                         'occid3': ['url4', 'url5'],
                         'occid4': ['url6']
                     },
@@ -281,9 +281,18 @@ class TestAggregator(unittest.TestCase):
         self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['stillimage']['occid2'], stillimage['occid2'])
         self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['audio']['occid1'], audio['occid1'])
         self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['audio']['occid2'], audio['occid2'])
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['no type']['occid1'], notype['occid1'])
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['no type']['occid2'], notype['occid2'])
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['no_type']['occid1'], notype['occid1'])
+        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['no_type']['occid2'], notype['occid2'])
 
+    def test_get_images_sample(self):
+        data = {'stillimage': {'occ1': [], 'occ2': [], 'occ3': [], 'occ4': []}}
+        counter = 1
+        for occ in data['stillimage'].keys():
+            for i in range(5):
+                data['stillimage'][occ].append('url' + str(counter))
+                counter += 1
+        result = self.agg.get_images_sample(data, 2)
+        self.assertEqual(len(result.keys()), 2)
 
     def test_get_sum(self):
         test_arrays = [[1, 2, 3], [5, 6, 7]]

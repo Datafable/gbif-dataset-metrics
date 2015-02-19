@@ -1,5 +1,6 @@
 from glob import glob
 import json
+import random
 import requests
 from nesting import Nest
 
@@ -59,7 +60,33 @@ class ReportAggregator():
         for dataset in metrics.keys():
             taxonomy = self.aggregate_taxonomy(metrics[dataset]['TAXONOMY'])
             metrics[dataset]['TAXONOMY'] = taxonomy
+            images_sample = self.get_images_sample(metrics[dataset]['MEDIA'])
+            metrics[dataset]['MEDIA']['images_sample'] = images_sample
         return metrics
+
+    def get_images_sample(self, indata, sample_size):
+        """
+        Select images from occurrences randomly. From all occurrences
+        that have at least one image url, a number of occurrences that
+        equals `sample_size` is selected at random. For each occurrence,
+        one image url is randomly selected resulting in an output like
+            {
+                'occurrenceid1': 'image_url_1',
+                'occurrenceid2': 'image_url_2'
+            }
+        """
+        images_sample = {}
+        all_images = indata['stillimage']
+        if all_images is {}:
+            all_images = indata['no type']
+        occurrences = all_images.keys()
+        random.shuffle(occurrences)
+        occ_sample = occurrences[0:sample_size]
+        for occ in occ_sample:
+            occ_images = all_images[occ]
+            random.shuffle(occ_images)
+            images_sample[occ] = occ_images[0]
+        return images_sample
 
     def _get_sum(self, arr):
         """
@@ -134,7 +161,7 @@ class ReportAggregator():
 
 class CartoDBWriter():
     def __init__(self):
-        self.sql_statement = "update gbif_dataset_metrics_test set bor_preserved_specimen={0}, bor_fossil_specimen={1}, bor_living_specimen={2}, bor_material_sample={3}, bor_observation={4}, bor_human_observation={5}, bor_machine_observation={6}, bor_literature={7}, bor_unknown={8}, taxon_not_provided={9}, taxon_match_none={10}, taxon_match_higherrank={11}, taxon_match_fuzzy={12}, taxon_match_complete={13}, media_audio={14}, media_image={15}, media_not_provided={16}, media_url_invalid={17}, media_video={18}, coordinates_not_provided={19}, coordinates_minor_issues={20}, coordinates_major_issues={21}, coordinates_valid={22}, occurrences={23}, taxonomy='{24}' where dataset_key='{25}'"
+        self.sql_statement = "update gbif_dataset_metrics_test set bor_preserved_specimen={0}, bor_fossil_specimen={1}, bor_living_specimen={2}, bor_material_sample={3}, bor_observation={4}, bor_human_observation={5}, bor_machine_observation={6}, bor_literature={7}, bor_unknown={8}, taxon_not_provided={9}, taxon_match_none={10}, taxon_match_higherrank={11}, taxon_match_fuzzy={12}, taxon_match_complete={13}, media_not_provided={14}, media_url_invalid={15}, media_valid={16}, coordinates_not_provided={17}, coordinates_minor_issues={18}, coordinates_major_issues={19}, coordinates_valid={20}, occurrences={21}, taxonomy='{22}', images_sample='{23}' where dataset_key='{24}'"
 
     def write_metrics(self, row, api_key):
         params = {'q': self.sql_statement.format(*row), 'api_key': api_key}
