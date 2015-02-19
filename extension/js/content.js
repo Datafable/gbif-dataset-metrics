@@ -50,7 +50,6 @@ var occurrencesAchievement = function (metrics) {
 var georeferenceAchievement = function (metrics) {
     var html = "";
     var rank = metrics.coordinates_valid / metrics.occurrences;
-    console.log(rank);
     if (rank === 1) {
         html = createAchievementLabel("Georeferencing perfection", "100% valid coordinates", "gold");
     } else if (rank > 0.95) {
@@ -62,7 +61,6 @@ var georeferenceAchievement = function (metrics) {
 var multimediaAchievement = function (metrics) {
     var html = "";
     var rank = metrics.multimedia_valid / metrics.occurrences;
-    console.log(rank);
     if (rank > 0.75) {
         html = createAchievementLabel("Multimedia treasure", "More than 75% related multimedia", "gold");
     } else if (rank >= 0.50) {
