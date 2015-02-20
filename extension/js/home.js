@@ -1,6 +1,6 @@
 var main = function () {
     var datasetKey = getDatasetKeyFromURL();
-    addAboveContent();
+    addMessageArea();
     getMetrics(datasetKey,addMetricsToHomePage);
 };
 
@@ -13,7 +13,7 @@ var addMetricsToHomePage = function (metrics) {
     anchor.find(".content").prepend(html);
 
     // Add achievements
-    html = '<p class="labels">';
+    html = '<p id="achievements">';
     html = html + occurrencesAchievement(metrics); // Occurrences achievement
     html = html + georeferenceAchievement(metrics); // Georeference achievement
     html = html + multimediaAchievement(metrics); // Multimedia achievement

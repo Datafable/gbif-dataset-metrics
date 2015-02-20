@@ -27,7 +27,7 @@
 
 #aboveContent {
     margin: -75px auto 35px auto!important; /* Inherits <article> styling by GBIF */
-    height: 40px; /* Ideally min-height */
+    min-height: 40px; /* Ideally min-height */
     }
     #aboveContent .alert {
         height: 40px;
@@ -35,18 +35,19 @@
         #aboveContent strong {
             font-weight: bold; /* For some reason, GBIF has turned this off */
         }
-    #aboveContent .labels {
-        padding-top: 13px; /* Normally 5px, 13px used to center vertically for one line */
+#achievements {
+    margin-top: 10px;
+    
+    }
+    #achievements .label {
+        font-size: 100%;
         }
-        #aboveContent .label {
-            font-size: 100%;
-            }
-            #aboveContent .gold {
-                background-color: #d4af37;
-            }
-            #aboveContent .silver {
-                background-color: #a9a9a9;
-            }
+        .label.gold {
+            background-color: #d4af37;
+        }
+        .label.silver {
+            background-color: #a9a9a9;
+        }
 
 /* Basis of record bar */
 .basis-of-record-0 { background-color: #e2b70d; } /* Preserved specimens */

@@ -9,13 +9,18 @@ var getDatasetKeyFromURL = function () {
     return datasetKey;
 };
 
-var addAboveContent = function () {
+var addMessageArea = function () {
     var html = '<article id="aboveContent"></content>';
     $("#content").prepend(html);
 };
 
 var addNoMetricsMessage = function () {
-    var html = '<p class="alert alert-warning"><strong>GBIF dataset metrics extension:</strong> We have no metrics for this dataset yet. Want some? <a href="https://github.com/peterdesmet/gbif-challenge/issues/new" target="_blank">Submit a request.</a></p>';
+    var html = '<p class="alert alert-warning"><strong>Dataset metrics extension:</strong> We have no metrics for this dataset yet. Want some? <a href="https://github.com/peterdesmet/gbif-challenge/issues/new" target="_blank">Submit a request.</a></p>';
+    $("#aboveContent").append(html);
+};
+
+var addOutdatedMetricsMessage = function () {
+    var html = '<p class="alert alert-warning"><strong>Dataset metrics extension:</strong> This dataset has been republished since we last crunched the metrics. <a href="https://github.com/peterdesmet/gbif-challenge/issues/new" target="_blank">Submit a request if you want new ones.</a></p>';
     $("#aboveContent").append(html);
 };
 

@@ -1,6 +1,6 @@
 var main = function () {
     var datasetKey = getDatasetKeyFromURL();
-    addAboveContent();
+    addMessageArea();
     getMetrics(datasetKey,addMetricsToStatsPage);
 };
 
