@@ -20,7 +20,14 @@ class ReportAggregator():
 
     def merge_data_set_in_metrics(self, dataset, metrics_data):
         """
-        merge the metric data by metric type and metric name
+        merge the metric data by metric type and metric name and return
+            a new outdata object. Merging should follow these rules:
+                - if the value of a key is not a dict, return the sum of the values for this
+                  key in newdata and outdata.
+                - if the value of key is a dict, check every key in that dict and:
+                    - if the value is not a dict, return the sum
+                    - if the value is a dict, add every key and value from newdata to outdata
+                        (logically, duplicate keys cannot occur)
         """
         for metric_type in dataset.keys():
             if metric_type in metrics_data.keys():
@@ -45,7 +52,9 @@ class ReportAggregator():
         """
         iterate over all the *.json files
         and merge the metrics data by dataset key and
-        metric type
+        metric type.
+        Once the aggregation is finished, create a taxonomy tree
+        and create a sample of image urls.
         """
         files = self.find_files(data_folder)
         metrics = {}
@@ -98,6 +107,14 @@ class ReportAggregator():
         return sum([int(x[-1]) for x in arr])
 
     def _taxonkey_to_array(self, taxonkey):
+        """
+        The taxonkey in the output of the extractor has the format:
+            'taxon1|taxon2|taxon3|...'
+        where every subsequent taxon is a subtaxon of the previous taxon.
+        _taxonkey_to_array splits these keys and returns an array of the
+        taxa. If a taxon is not named (there is an empty string), then 
+        'Unknown' is returned for that taxon.
+        """
         taxa = taxonkey.split('|')
         outtaxa = ['Unknown' if x is None or x is '' or x is u'' else x for x in taxa]
         if len(taxa) < 7:
