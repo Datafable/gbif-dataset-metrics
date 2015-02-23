@@ -26,24 +26,6 @@ def get_taxon_match_category(row):
         return 'TAXON_MATCH_COMPLETE'
 
 
-# Takes a CoreRow and returns a media type category, according to:
-# https://github.com/peterdesmet/gbif-challenge/issues/43
-def get_media_type_category(row):
-    issues = row.data[ISSUES_TERM]
-    media_types = row.data['http://rs.gbif.org/terms/1.0/mediaType']
-
-    if 'MULTIMEDIA_URI_INVALID' in issues:
-        return 'MEDIA_URL_INVALID'
-    elif 'MOVINGIMAGE' in media_types:
-        return 'MEDIA_VIDEO'
-    elif 'AUDIO' in media_types:
-        return 'MEDIA_AUDIO'
-    elif 'STILLIMAGE' in media_types:
-        return 'MEDIA_IMAGE'
-    else:
-        return 'MEDIA_NOT_PROVIDED'
-
-
 def get_coordinates_quality_category(row):
     issues = row.data[ISSUES_TERM]
     lon = row.data['http://rs.tdwg.org/dwc/terms/decimalLongitude']
