@@ -248,7 +248,7 @@ class TestAggregator(unittest.TestCase):
         media_not_provided = 37 + 15
         media_url_invalid = 12 + 2
         media_valid = 61 + 20
-        movingimage = {'occid1': ['url1', 'url2'], 'occid3': ['url4', 'url5'], 'occid2': ['url3'], 'occid4': ['url6']}
+        movingimage = {u'occid1': [u'url1', u'url2'], u'occid3': [u'url4', u'url5'], u'occid2': [u'url3'], u'occid4': [u'url6']}
         stillimage = movingimage
         audio = movingimage
         notype = movingimage

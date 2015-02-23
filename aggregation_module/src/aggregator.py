@@ -60,8 +60,9 @@ class ReportAggregator():
         for dataset in metrics.keys():
             taxonomy = self.aggregate_taxonomy(metrics[dataset]['TAXONOMY'])
             metrics[dataset]['TAXONOMY'] = taxonomy
-            images_sample = self.get_images_sample(metrics[dataset]['MEDIA'])
-            metrics[dataset]['MEDIA']['images_sample'] = images_sample
+            if 'MEDIA' in metrics[dataset].keys():
+                images_sample = self.get_images_sample(metrics[dataset]['MEDIA'], 20)
+                metrics[dataset]['MEDIA']['images_sample'] = json.dumps(images_sample)
         return metrics
 
     def get_images_sample(self, indata, sample_size):
@@ -77,8 +78,10 @@ class ReportAggregator():
         """
         images_sample = {}
         all_images = indata['stillimage']
-        if all_images is {}:
-            all_images = indata['no type']
+        if len(all_images.keys()) is 0:
+            all_images = indata['no_type']
+            if len(all_images.keys()) is 0:
+                return None
         occurrences = all_images.keys()
         random.shuffle(occurrences)
         occ_sample = occurrences[0:sample_size]
@@ -161,7 +164,7 @@ class ReportAggregator():
 
 class CartoDBWriter():
     def __init__(self):
-        self.sql_statement = "update gbif_dataset_metrics_test set bor_preserved_specimen={0}, bor_fossil_specimen={1}, bor_living_specimen={2}, bor_material_sample={3}, bor_observation={4}, bor_human_observation={5}, bor_machine_observation={6}, bor_literature={7}, bor_unknown={8}, taxon_not_provided={9}, taxon_match_none={10}, taxon_match_higherrank={11}, taxon_match_fuzzy={12}, taxon_match_complete={13}, media_not_provided={14}, media_url_invalid={15}, media_valid={16}, coordinates_not_provided={17}, coordinates_minor_issues={18}, coordinates_major_issues={19}, coordinates_valid={20}, occurrences={21}, taxonomy='{22}', images_sample='{23}' where dataset_key='{24}'"
+        self.sql_statement = "update gbif_dataset_metrics_test set bor_preserved_specimen={0}, bor_fossil_specimen={1}, bor_living_specimen={2}, bor_material_sample={3}, bor_observation={4}, bor_human_observation={5}, bor_machine_observation={6}, bor_literature={7}, bor_unknown={8}, taxon_not_provided={9}, taxon_match_none={10}, taxon_match_higherrank={11}, taxon_match_fuzzy={12}, taxon_match_complete={13}, multimedia_not_provided={14}, multimedia_url_invalid={15}, multimedia_valid={16}, coordinates_not_provided={17}, coordinates_minor_issues={18}, coordinates_major_issues={19}, coordinates_valid={20}, occurrences={21}, taxonomy='{22}', images_sample='{23}' where dataset_key='{24}'"
 
     def write_metrics(self, row, api_key):
         params = {'q': self.sql_statement.format(*row), 'api_key': api_key}
