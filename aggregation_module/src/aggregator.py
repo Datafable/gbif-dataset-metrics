@@ -185,7 +185,7 @@ class CartoDBWriter():
 
     def write_metrics(self, row, api_key):
         params = {'q': self.sql_statement.format(*row), 'api_key': api_key}
-        print self.sql_statement.format(*row)
+        #print self.sql_statement.format(*row)
         r = requests.post('http://datafable.cartodb.com/api/v2/sql', data=params)
         print r.status_code
         print r.text
