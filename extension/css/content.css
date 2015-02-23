@@ -40,6 +40,7 @@
     
     }
     #achievements .label {
+        cursor: default;
         font-size: 100%;
         }
         .label.gold {
