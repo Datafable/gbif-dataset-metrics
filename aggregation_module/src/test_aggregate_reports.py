@@ -219,13 +219,19 @@ class TestAggregator(unittest.TestCase):
         self.assertEqual(files, self.test_files)
 
     def test_merge_data(self):
-        outdata = {'metric_type1': {'metric1': 10, 'metric2': 2}}
+        outdata = {'metric_type1': {'metric1': 10, 'metric2': 2}, 'metric_type3': {'metric_subtype4': {'occurrence1': ['one', 'two']}}}
         newdata = {'metric_type1':
                    {'metric1': 2, 'metric2': 5, 'metric3': 1},
                    'metric_type2':
-                   {'metric4': 1}
+                   {'metric4': 1},
+                   'metric_type3': {
+                       'metric_subtype4': {
+                           'occurrence2': ['one', 'two'],
+                           'occurrence4': ['three']
+                       }
+                   }
                   }
-        mergeddata = {'metric_type1': {'metric1': 12, 'metric2': 7, 'metric3': 1}, 'metric_type2': {'metric4': 1}}
+        mergeddata = {'metric_type1': {'metric1': 12, 'metric2': 7, 'metric3': 1}, 'metric_type2': {'metric4': 1}, 'metric_type3': {'metric_subtype4': {'occurrence1': ['one', 'two'], 'occurrence2': ['one', 'two'], 'occurrence4': ['three']}}}
         self.agg.merge_data_set_in_metrics(newdata, outdata)
         self.assertEqual(outdata, mergeddata)
 
