@@ -280,15 +280,26 @@ class TestAggregator(unittest.TestCase):
         self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['media_not_provided'], media_not_provided)
         self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['media_url_invalid'], media_url_invalid)
         self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['media_valid'], media_valid)
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['movingimage'].keys().sort(), movingimage.keys().sort())
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['movingimage']['occid1'], movingimage['occid1'])
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['movingimage']['occid2'], movingimage['occid2'])
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['stillimage']['occid1'], stillimage['occid1'])
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['stillimage']['occid2'], stillimage['occid2'])
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['audio']['occid1'], audio['occid1'])
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['audio']['occid2'], audio['occid2'])
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['no_type']['occid1'], notype['occid1'])
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['no_type']['occid2'], notype['occid2'])
+        for mediatypes in [['movingimage', movingimage], ['stillimage', stillimage], ['audio', audio], ['no_type', notype]]:
+            mediatype_key, expected = mediatypes
+            result = aggregated_metrics[dataset_key]['MEDIA'][mediatype_key]
+            keys_result = result.keys()
+            keys_result.sort()
+            occid1_result = result['occid1']
+            occid1_result.sort()
+            occid2_result = result['occid2']
+            occid2_result.sort()
+            keys_expected = expected.keys()
+            keys_expected.sort()
+            occid1_expected = expected['occid1']
+            occid1_expected.sort()
+            occid2_expected = expected['occid2']
+            occid2_expected.sort()
+            # assert that the keys (occurrence ids) are as expected
+            self.assertEqual(keys_result, keys_expected)
+            # assert that the values (media urls) are as expected for 2 occurrences
+            self.assertEqual(occid1_result, occid1_expected)
+            self.assertEqual(occid2_result, occid2_expected)
 
     def test_get_images_sample(self):
         data = {'stillimage': {'occ1': [], 'occ2': [], 'occ3': [], 'occ4': []}}
