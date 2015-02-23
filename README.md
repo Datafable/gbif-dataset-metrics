@@ -1,4 +1,29 @@
-gbif-challenge-2015
-===================
+# GBIF dataset metrics
 
-Our entry for the GBIF challenge 2015
+## Rationale
+
+## Result
+
+## Installation
+
+## How it works
+
+* [Achievement labels]()
+* [Images sample]()
+* [Basis of record bar]()
+* [Coordinates bar]()
+* [Multimedia bar]()
+* [Taxon match bar]()
+* [Taxonomy partition]()
+* [Download chart]()
+
+## Contributors
+
+Developed by [Datafable](http://datafable.com):
+
+* [Peter Desmet](https://twitter.com/peterdesmet) (frontend)
+* [Bart Aelterman](https://twitter.com/bartaelterman) (aggregation)
+* [Nicolas Noé](https://twitter.com/niconoe) (harvesting)
+
+## License
+
