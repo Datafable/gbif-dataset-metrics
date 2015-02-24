@@ -19,6 +19,21 @@ var addMetricsToHomePage = function (metrics) {
     html = html + '</p>';
     $("#aboveContent").append(html);
 
+    // Add image thumbnails
+    html =  '<article id="imagesSample">' +
+                '<header></header>' +
+                '<div class="content">' +
+                    '<div class="header"><div class="left"><h2>Images Sample</h2></div></div>' +
+                    '<div class="fullwidth">' +
+                        '<div class="thumbnails">' +
+                        imageThumbnails(metrics) +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<footer></footer>' +
+            '</article>';
+    anchor.after(html);
+
     // Activate tooltip
     $('[data-toggle="tooltip"]').tooltip();
 };
@@ -39,10 +54,12 @@ var imageThumbnails = function (metrics) {
     var thumbnails = [];
 
     $.each (images, function (gbifID, url) {
-        thumbnails.push('<div class="col-xs-6 col-md-3"><a href="http://gbif.org/occurrence/' + gbifID + '" class="thumbnail"><img src="' + url + '" alt="Image for occurrence ' + gbifID + '"></a></div>');
+        thumbnails.push('<a href="http://gbif.org/occurrence/' + gbifID + '" class="thumbnail"><img src="' + url + '" alt="Image for occurrence ' + gbifID + '"></a>');
     });
 
-    return '<div class="row">' + thumbnails.join("") + '</div>';
+    console.log(thumbnails);
+
+    return thumbnails.join("");
 }; 
 
 main();
