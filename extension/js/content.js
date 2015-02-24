@@ -82,10 +82,10 @@ var georeferenceAchievement = function (metrics) {
 var multimediaAchievement = function (metrics) {
     var html = "";
     var rank = metrics.multimedia_valid / metrics.occurrences;
-    if (rank > 0.75) {
-        html = createAchievementLabel("Multimedia treasure", "More than 75% related multimedia", "gold");
-    } else if (rank >= 0.50) {
-        html = createAchievementLabel("Multimedia gem", " More than 50% related multimedia", "silver");
+    if (rank > 0.90) {
+        html = createAchievementLabel("Multimedia treasure", "More than 90% related multimedia", "gold");
+    } else if (rank > 0.80) {
+        html = createAchievementLabel("Multimedia gem", " More than 80% related multimedia", "silver");
     }
     return html;
 };
