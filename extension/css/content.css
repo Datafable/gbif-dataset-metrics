@@ -25,30 +25,32 @@
     Custom styling
     ------------------------- */
 
-#aboveContent {
-    margin: -75px auto 35px auto!important; /* Inherits <article> styling by GBIF */
-    min-height: 40px; /* Ideally min-height */
+#aboveContent { /* Inherits <article> styling by GBIF */
+    margin: -75px auto 35px auto!important; 
+    min-height: 40px;
+    width: 920px!important; /* 924 with 2px padding left and right */
     }
     #aboveContent .alert {
         height: 40px;
+        margin: 0;
         }
         #aboveContent strong {
             font-weight: bold; /* For some reason, GBIF has turned this off */
         }
-#achievements {
-    margin-top: 10px;
-    
-    }
-    #achievements .label {
-        cursor: default;
-        font-size: 100%;
+    #achievements {
+        line-height: 2;
+        padding-top: 10px;
         }
-        .label.gold {
-            background-color: #d4af37;
-        }
-        .label.silver {
-            background-color: #a9a9a9;
-        }
+        #achievements .label {
+            cursor: default;
+            font-size: 100%;
+            }
+            .label.gold {
+                background-color: #d4af37;
+            }
+            .label.silver {
+                background-color: #a9a9a9;
+            }
 
 /* Basis of record bar */
 .basis-of-record-0 { background-color: #e2b70d; } /* Preserved specimens */
