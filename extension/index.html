@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>GBIF dataset metrics</title>
+        <meta name="author" content="Datafable">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link rel="shortcut icon" href="img/favicon.ico"> -->
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"><!-- Use full Bootstrap -->
+        <link rel="stylesheet" type="text/css" href="css/c3.min.css">
+        <link rel="stylesheet" type="text/css" href="css/content.css">
+    </head>
+
+    <body id="demo">
+        <div id="intro">
+            <div class="container">
+                <div class="page-header">
+                    <h1>GBIF dataset metrics</h1>
+                </div>
+                <p class="lead">This page demonstrates for a <a href="http://www.gbif.org/dataset/42319b8f-9b9d-448d-969f-656792a69176">single GBIF-mediated dataset</a> the metrics we crunch and visualize. To see metrics for all GBIF-mediated occurrence datasets, download the <a href="">GBIF dataset metrics extension</a>. Documentation and source code are available on <a href="https://github.com/datafable/gbif-dataset-metrics">GitHub</a>. Contact us at <a href="https://twitter.com/datafable">@Datafable</a>.</p>
+            </div>
+        </div>
+
+        <div id="achievements-title">
+            <div class="container">
+                <div class="content">
+                    <div class="header">
+                        <h2>Achievement labels</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- aboveContent will be added here (twice), with achievement labels (ones). -->
+        <div id="content" style="min-height:600px">
+            <div class="container">
+                <article id="occmetrics">
+                    <div class="content">
+                        <div class="header">
+                            <h2>Metric bars</h2>
+                        </div>
+                        <div class="fullwidth">
+                            <!-- Metric bars will be added here. -->
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Taxonomy partition will be added here. -->
+
+                <article class="results">
+                    <div class="content">
+                        <!-- Download chart and title will be added here. -->
+                        <div class="header" style="display:none">
+                            <h2>Downloads</h2><!-- Will be altered. -->
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <div id="footer">
+            <div class="container clearfix">
+                <p class="pull-left">Created by <a href="http://datafable.com">Datafable</a></p>
+                <p class="pull-right"><a href="https://github.com/datafable/gbif-dataset-metrics">Source code</a></p>
+            </div>
+        </div>
+
+        <!-- Scripts -->
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script><!-- Use full Bootstrap -->
+        <script type="text/javascript" src="js/d3.min.js"></script>
+        <script type="text/javascript" src="js/c3.min.js"></script>
+        <script type="text/javascript" src="js/content.js"></script>
+        <script type="text/javascript" src="js/home.js"></script>
+        <script type="text/javascript" src="js/stats.js"></script>
+        <script type="text/javascript" src="js/activity.js"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-54642803-2', 'auto');
+            ga('send', 'pageview');
+        </script>
+    </body>
+</html>
