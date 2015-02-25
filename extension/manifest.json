@@ -1,16 +1,18 @@
 {
     "name": "GBIF dataset metrics",
     "version": "0.1",
-    "description": "Enhance GBIF dataset pages with charts and metrics.",
+    "description": "Get insights in GBIF-mediated datasets with charts and metrics.",
     "author": "Datafable",
     "homepage_url": "https://github.com/datafable/gbif-dataset-metrics",
+    "icons": {
+        "128": "img/logo-128.png"
+    },
 
     "manifest_version": 2,
     "minimum_chrome_version": "20",
     
     "content_scripts": [
         {
-            // Dataset homepage
             "matches": [
                 "http://www.gbif.org/dataset/*"
             ],
@@ -34,7 +36,6 @@
             ]
         },
         {
-            // Dataset stats page
             "matches": [
                 "http://www.gbif.org/dataset/*/stats"
             ],
@@ -51,7 +52,6 @@
             ]
         },
         {
-            // Dataset activity page
             "matches": [
                 "http://www.gbif.org/dataset/*/activity"
             ],
@@ -66,8 +66,5 @@
                 "js/activity.js"
             ]
         }
-    ],
-    "icons": {
-        "128": "img/logo-128.png"
-    }
+    ]
 }
