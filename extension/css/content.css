@@ -171,3 +171,7 @@
     padding-bottom: 20px;
     padding-top: 20px;
 }
+
+#demo .alert {
+    display: none;
+}

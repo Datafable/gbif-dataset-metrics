@@ -3,8 +3,8 @@ var getDatasetKeyFromURL = function () {
         datasetKey = "";
     if (pathArray[1] === "dataset") { // On GBIF website, get datasetKey from URL.
         datasetKey = pathArray[2];
-    } else { // Elsewhere, e.g. demo pages, use demo datasetKey.
-        datasetKey = "42319b8f-9b9d-448d-969f-656792a69176"; // Coccinellidae
+    } else { // Elsewhere, use demo datasetKey.
+        datasetKey = "0debafd0-6c8a-11de-8225-b8a03c50a862"; // Australian National Wildlife Collection
     }
     return datasetKey;
 };
