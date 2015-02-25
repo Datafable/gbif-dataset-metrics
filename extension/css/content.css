@@ -4,11 +4,11 @@
 
 #content {
     padding-top: 90px!important;
-}
+    }
+    #content .scrollable {
+        height: auto!important; /* A fix for those big empty sections */
+    }
 
-#occmetrics h3 {
-    margin-bottom: 20px;
-}
 
 /*  -------------------------
     Activate specific Bootstrap CSS
@@ -25,28 +25,66 @@
     Custom styling
     ------------------------- */
 
-#aboveContent {
-    margin: -75px auto 35px auto!important; /* Inherits <article> styling by GBIF */
-    height: 40px; /* Allow to increase in height */
+/* Messages and achievements */
+#aboveContent { /* Inherits <article> styling by GBIF */
+    margin: -75px auto 35px auto!important;
+    min-height: 40px;
+    width: 920px!important; /* 924 with 2px padding left and right */
     }
     #aboveContent .alert {
         height: 40px;
+        margin: 0;
         }
         #aboveContent strong {
             font-weight: bold; /* For some reason, GBIF has turned this off */
         }
-    #aboveContent .labels {
-        padding-top: 13px; /* Normally 5px, 13px used to center vertically for one line */
+    #achievements {
+        line-height: 2;
+        padding-top: 10px;
         }
-        #aboveContent .label {
+        #achievements .label {
+            cursor: default;
             font-size: 100%;
             }
-            #aboveContent .gold {
+            .label.gold {
                 background-color: #d4af37;
             }
-            #aboveContent .silver {
+            .label.silver {
                 background-color: #a9a9a9;
             }
+
+/* Images sample*/
+#imagesSample {
+    }
+    #imagesSample .thumbnails {;
+        margin-right: -15px; /* For margin-right of last thumbnail in row */
+    }
+    #imagesSample .thumbnail { /* Inherits from Bootstrap */
+        background-color: #efefef;
+        display: block;
+        float: left;
+        height: 204px;
+        margin-bottom: 15px;
+        margin-right: 15px;
+        padding: 0;
+        position: relative;
+        width: 204px;
+        }
+        #imagesSample .thumbnail img {
+            bottom: 5px;
+            left: 5px;
+            margin: auto;
+            max-height: 194px;
+            max-width: 194px;
+            position: absolute;
+            right: 5px;
+            top: 5px;
+        }
+
+/* Metric bar titles */
+#occmetrics h3 {
+    margin-bottom: 20px;
+}
 
 /* Basis of record bar */
 .basis-of-record-0 { background-color: #e2b70d; } /* Preserved specimens */
@@ -119,4 +157,21 @@
 }
 .c3-tooltip td > span {
     background-color: #0099cc!important;
+}
+
+
+/*  -------------------------
+    Demo styling
+    ------------------------- */
+
+#demo #footer {
+    background-color: #f8f8f8;
+    border-top: 1px solid #e7e7e7;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+#demo .alert {
+    display: none;
 }

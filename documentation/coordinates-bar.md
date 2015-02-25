@@ -1,4 +1,4 @@
-# Coordinates quality
+# Coordinates bar
 
 ## Description
 

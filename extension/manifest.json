@@ -1,25 +1,25 @@
 {
     "name": "GBIF dataset metrics",
     "version": "0.1",
-    "description": "Enhance GBIF dataset pages with charts and metrics.",
-    "author": "Peter Desmet",
-    // "homepage_url": "http://datafable.com",
+    "description": "Get insights in GBIF-mediated datasets with charts and metrics.",
+    "author": "Datafable",
+    "homepage_url": "https://github.com/datafable/gbif-dataset-metrics",
+    "icons": {
+        "128": "img/logo-128.png"
+    },
 
     "manifest_version": 2,
     "minimum_chrome_version": "20",
-    // "permissions": [
-    //     "tabs"
-    // ],
     
     "content_scripts": [
         {
-            // Dataset homepage
             "matches": [
                 "http://www.gbif.org/dataset/*"
             ],
             "exclude_matches": [
                 "http://www.gbif.org/dataset",
                 "http://www.gbif.org/dataset/",
+                "http://www.gbif.org/dataset/search*",
                 "http://www.gbif.org/dataset/*/*",
                 "http://www.gbif.org/dataset/*/stats",
                 "http://www.gbif.org/dataset/*/activity"
@@ -36,7 +36,6 @@
             ]
         },
         {
-            // Dataset stats page
             "matches": [
                 "http://www.gbif.org/dataset/*/stats"
             ],
@@ -45,15 +44,14 @@
                 "css/content.css"
             ],
             "js": [
-                "js/d3.min.js",
                 "js/jquery.min.js",
                 "js/bootstrap-custom.min.js",
+                "js/d3.min.js",
                 "js/content.js",
                 "js/stats.js"
             ]
         },
         {
-            // Dataset activity page
             "matches": [
                 "http://www.gbif.org/dataset/*/activity"
             ],
@@ -68,9 +66,5 @@
                 "js/activity.js"
             ]
         }
-    ],
-
-    "icons": {
-
-    }
+    ]
 }

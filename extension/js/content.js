@@ -3,32 +3,53 @@ var getDatasetKeyFromURL = function () {
         datasetKey = "";
     if (pathArray[1] === "dataset") { // On GBIF website, get datasetKey from URL.
         datasetKey = pathArray[2];
-    } else { // Elsewhere, e.g. demo pages, use demo datasetKey.
-        datasetKey = "42319b8f-9b9d-448d-969f-656792a69176"; // Coccinellidae
+    } else { // Elsewhere, use demo datasetKey.
+        datasetKey = "0debafd0-6c8a-11de-8225-b8a03c50a862"; // Australian National Wildlife Collection
     }
     return datasetKey;
 };
 
-var addAboveContent = function () {
+var addMessageArea = function () {
     var html = '<article id="aboveContent"></content>';
     $("#content").prepend(html);
 };
 
-var addNoMetricsMessage = function () {
-    var html = '<p class="alert alert-warning"><strong>GBIF dataset metrics extension:</strong> We have no metrics for this dataset yet. Want some? <a href="https://github.com/peterdesmet/gbif-challenge/issues/new" target="_blank">Submit a request.</a></p>';
+var addMessage = function(html) {
+    html = '<p class="alert alert-warning"><strong>Dataset metrics extension:</strong> ' + html + '</p>';
     $("#aboveContent").append(html);
-};
+}
 
 var getMetrics = function (datasetKey, showMetrics) {
-    // Get data from metrics store in CartoDB.
-    var sql = "WITH ranked_metrics AS ( SELECT *, ntile(100) OVER (ORDER BY occurrences) AS occurrences_percentile FROM gbif_dataset_metrics_test WHERE type = 'OCCURRENCE' AND occurrences IS NOT NULL) SELECT * FROM ranked_metrics WHERE dataset_key ='" + datasetKey + "'"
-    var url = "http://datafable.cartodb.com/api/v2/sql?q=" + sql;
+    // Get dataset metadata from GBIF
+    var url = "http://api.gbif.org/v1/dataset/" + datasetKey;
     $.getJSON(url, function (result) {
-        if (result.rows.length === 0) { // Dataset is not in query: not OCCURRENCE, no data yet or a new dataset
-            addNoMetricsMessage();
-        } else {
-            showMetrics(result.rows[0]); // Only one row [0] expected
+        var type = result.type,
+            datasetModifiedAt = new Date(result.modified); // This is actually the date that the dataset was last updated in the registry. Ideally, we use e.g. http://api.gbif.org/v1/dataset/50c9509d-22c7-4a22-a47d-8c48425ef4a7/process
+        
+        // Add container for messages and achievements
+        addMessageArea();
+
+        if (type === "OCCURRENCE") {
+            // Get data from metrics store in CartoDB.
+            var url = "http://datafable.cartodb.com/api/v2/sql?q=WITH ranked_metrics AS ( SELECT *, ntile(100) OVER (ORDER BY occurrences) AS occurrences_percentile FROM gbif_dataset_metrics_test WHERE type = 'OCCURRENCE' AND occurrences IS NOT NULL) SELECT * FROM ranked_metrics WHERE dataset_key ='" + datasetKey + "'";
+            $.getJSON(url, function (result) {
+                if (Object.keys(result.rows).length === 0) { // Dataset is not in query: no data yet or a new dataset
+                    addMessage('Sorry, we have no metrics for this dataset yet. Want some? <a href="https://github.com/peterdesmet/gbif-challenge/issues/new" target="_blank">Submit a request.</a>');
+                } else {
+                    var metricsModifiedAt = new Date("2015-02-01"); // TODO: Use the actual download date
+                    if (datasetModifiedAt > metricsModifiedAt) {
+                        addMessage('This dataset has been republished since we last crunched the metrics. <a href="https://github.com/peterdesmet/gbif-challenge/issues/new" target="_blank">Submit a request if you want updated metrics.</a>');
+                    }
+                    showMetrics(result.rows[0]); // Only one row [0] expected
+                }
+            }).fail(function() {
+                console.log("CartoDB API error.");
+            });    
+        } else { // Not an occurrence dataset
+            addMessage('Sorry, we have no metrics for ' + type + ' datasets.');
         }
+    }).fail(function() {
+        console.log("GBIF dataset API error.");
     });
 };
 
@@ -50,7 +71,6 @@ var occurrencesAchievement = function (metrics) {
 var georeferenceAchievement = function (metrics) {
     var html = "";
     var rank = metrics.coordinates_valid / metrics.occurrences;
-    console.log(rank);
     if (rank === 1) {
         html = createAchievementLabel("Georeferencing perfection", "100% valid coordinates", "gold");
     } else if (rank > 0.95) {
@@ -62,11 +82,10 @@ var georeferenceAchievement = function (metrics) {
 var multimediaAchievement = function (metrics) {
     var html = "";
     var rank = metrics.multimedia_valid / metrics.occurrences;
-    console.log(rank);
-    if (rank > 0.75) {
-        html = createAchievementLabel("Multimedia treasure", "More than 75% related multimedia", "gold");
-    } else if (rank >= 0.50) {
-        html = createAchievementLabel("Multimedia gem", " More than 50% related multimedia", "silver");
+    if (rank > 0.90) {
+        html = createAchievementLabel("Multimedia treasure", "More than 90% related multimedia", "gold");
+    } else if (rank > 0.80) {
+        html = createAchievementLabel("Multimedia gem", " More than 80% related multimedia", "silver");
     }
     return html;
 };

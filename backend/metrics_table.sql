@@ -21,4 +21,5 @@ ADD COLUMN taxon_match_complete integer,
 ADD COLUMN multimedia_not_provided integer,
 ADD COLUMN multimedia_url_invalid integer,
 ADD COLUMN multimedia_valid integer,
-ADD COLUMN taxonomy text;
+ADD COLUMN taxonomy text
+ADD COLUMN images_sample text;
