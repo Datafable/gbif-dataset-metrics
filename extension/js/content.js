@@ -31,7 +31,7 @@ var getMetrics = function (datasetKey, showMetrics) {
 
         if (type === "OCCURRENCE") {
             // Get data from metrics store in CartoDB.
-            var url = "http://datafable.cartodb.com/api/v2/sql?q=WITH ranked_metrics AS ( SELECT *, ntile(100) OVER (ORDER BY occurrences) AS occurrences_percentile FROM gbif_dataset_metrics_test WHERE type = 'OCCURRENCE' AND occurrences IS NOT NULL) SELECT * FROM ranked_metrics WHERE dataset_key ='" + datasetKey + "'";
+            var url = "http://datafable.cartodb.com/api/v2/sql?q=WITH ranked_metrics AS ( SELECT *, ntile(100) OVER (ORDER BY occurrences) AS occurrences_percentile FROM gbif_dataset_metrics WHERE type = 'OCCURRENCE' AND occurrences IS NOT NULL) SELECT * FROM ranked_metrics WHERE dataset_key ='" + datasetKey + "'";
             $.getJSON(url, function (result) {
                 if (Object.keys(result.rows).length === 0) { // Dataset is not in query: no data yet or a new dataset
                     addMessage('Sorry, we have no metrics for this dataset yet. Want some? <a href="https://github.com/peterdesmet/gbif-challenge/issues/new" target="_blank">Submit a request.</a>');
