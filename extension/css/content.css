@@ -59,30 +59,29 @@
 /* Images sample*/
 #imagesSample {
     }
-    #imagesSample .thumbnails {
-        margin-right: -11px; /* For margin-right of last thumbnail in row */
+    #imagesSample .thumbnails {;
+        margin-right: -15px; /* For margin-right of last thumbnail in row */
     }
     #imagesSample .thumbnail { /* Inherits from Bootstrap */
         background-color: #efefef;
         display: block;
         float: left;
-        height: 198px;
-        margin-bottom: 11px;
-        margin-right: 11px;
-        text-align: center;
-        width: 198px;
-        }
-        #imagesSample .thumbnail:before {
-            content: "";
-            display: inline-block;
-            height: 100%;
-            vertical-align: middle;
+        height: 204px;
+        margin-bottom: 15px;
+        margin-right: 15px;
+        padding: 0;
+        position: relative;
+        width: 204px;
         }
         #imagesSample .thumbnail img {
-            /*margin: 0 auto;*/
-            max-height: 100%;
-            max-width: 100%;
-            vertical-align: middle;f
+            bottom: 5px;
+            left: 5px;
+            margin: auto;
+            max-height: 194px;
+            max-width: 194px;
+            position: absolute;
+            right: 5px;
+            top: 5px;
         }
 
 /* Basis of record bar */

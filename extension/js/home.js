@@ -25,7 +25,7 @@ var addMetricsToHomePage = function (metrics) {
                 '<div class="content">' +
                     '<div class="header"><div class="left"><h2>Images Sample</h2></div></div>' +
                     '<div class="fullwidth">' +
-                        '<div class="thumbnails">' +
+                        '<div class="thumbnails clearfix">' +
                         imageThumbnails(metrics) +
                         '</div>' +
                     '</div>' +
