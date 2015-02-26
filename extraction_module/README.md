@@ -1,4 +1,4 @@
-# Extraction
+# Extraction module
 
 The Data extraction module walks in a directory full of Darwin Core Archives, and for each one generate a simple report file in JSON format.
 
