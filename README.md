@@ -21,12 +21,12 @@ The proof of concept consists of two parts: 1) an extraction and aggregation mod
 ## How it works
 
 * [Basis of record bar](documentation/basis-of-record-bar.md)
-* [Coordinates bar](coordinates-bar.md)
-* [Multimedia bar](multimedia-bar.md)
-* [Taxon match bar](taxon-match-bar.md)
-* [Achievements](achievements.md)
-* [Taxonomy partition](taxonomy-partition.md)
-* [Download chart](download-chart.md)
+* [Coordinates bar](documentation/coordinates-bar.md)
+* [Multimedia bar](documentation/multimedia-bar.md)
+* [Taxon match bar](documentation/taxon-match-bar.md)
+* [Achievements](documentation/achievements.md)
+* [Taxonomy partition](documentation/taxonomy-partition.md)
+* [Download chart](documentation/download-chart.md)
 
 ----
 
