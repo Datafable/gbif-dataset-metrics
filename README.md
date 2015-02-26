@@ -14,13 +14,11 @@ The proof of concept consists of two parts: 1) an extraction and aggregation mod
 
 ## Installation
 
-[Install the Google Chrome Extension]() and visit a [GBIF dataset page](http://www.gbif.org/dataset/0debafd0-6c8a-11de-8225-b8a03c50a862). See limitations below to see which datasets currently have metrics.
+[Install the Google Chrome Extension]() and visit a [GBIF dataset page](http://www.gbif.org/dataset/0debafd0-6c8a-11de-8225-b8a03c50a862). See limitations below to know which datasets currently have metrics.
 
-If you want to run the extraction or aggregation module, see these pages: [extraction](extraction_module/README.md) / [aggregation](aggregation_module/README.md).
+*If you want to calculate the metrics yourself (i.e. run the backend), see the documentation on the [extraction](extraction_module/README.md) and [aggregation module](aggregation_module/README.md).*
 
 ## How it works
-
-### Frontend
 
 * [Basis of record bar](documentation/basis-of-record-bar.md)
 * [Coordinates bar](coordinates-bar.md)
@@ -30,15 +28,18 @@ If you want to run the extraction or aggregation module, see these pages: [extra
 * [Taxonomy partition](taxonomy-partition.md)
 * [Download chart](download-chart.md)
 
-### Backend
+----
 
 * [Extraction module](extraction_module/README.md)
 * [Aggregation module](aggregation_module/README.md)
 
 ## Limitations
 
-* We currently have metrics for [326 datasets](http://www.gbif.org/dataset/search?q=&publishing_country=BE&publishing_country=AU&publishing_country=FR&type=OCCURRENCE), covering ... occurrences, and published by the following countries: Australia, Belgium, France.
-* The metrics are processed using a download of all occurrences. If a dataset is republished, the metrics might be out of date. If so, a message will be shown on the dataset page.
+* We currently have metrics for [326 datasets](http://www.gbif.org/dataset/search?q=&publishing_country=BE&publishing_country=AU&publishing_country=FR&type=OCCURRENCE), covering ... occurrences, published by the following countries: Australia, Belgium, France. If you want us to process a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
+* The metrics are processed using a download of all occurrences. If a dataset is republished, the metrics might be out of date. If so, a message will be shown on the dataset page. If you want us to reprocess a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
+
+Follow [@Datafable](https://twitter.com/datafable) to be notified of new metrics or improvements.
+
 
 ## Contributors
 
