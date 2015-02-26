@@ -61,9 +61,9 @@ var occurrencesAchievement = function (metrics) {
     var html = "";
     var rank = metrics.occurrences_percentile;
     if (rank > 90) {
-        html = createAchievementLabel("Colossal dataset", "In the top 10% biggest datasets on GBIF", "gold");
+        html = createAchievementLabel("Colossal dataset", "More occurrences than 90% of the datasets on GBIF", "gold");
     } else if (rank > 80) {
-        html = createAchievementLabel("Huge dataset", "In the top 20% biggest datasets on GBIF", "silver");
+        html = createAchievementLabel("Huge dataset", "More occurrences than 80% of the datasets on GBIF", "silver");
     }
     return html;
 };
