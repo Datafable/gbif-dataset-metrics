@@ -2,22 +2,43 @@
 
 ## Rationale
 
+The [Global Biodiversity Information Facility (GBIF)](http://www.gbif.org) facilitates access to ... species occurrence datasets, collectively holding ... records. **Dataset pages** on the GBIF website show metadata, a map of georeferenced occurrences, some basic statistics, and a paged table of download events. If a user wants to know what a dataset contains, he/she has to filter/page through a table of occurrences or download the data. Neither are convenient ways to get quick insights or assess the fitness for use.
+
 ## Result
+
+For the [2015 GBIF challenge](http://gbif.challengepost.com/), we have developed a proof of concept for **enhancing GBIF dataset pages with aggregated occurrence metrics**. These metrics are visualized as stacked bar charts - showing the distribution of basis of record, coordinates, multimedia, and taxa matched with the GBIF backbone - as well as an interactive taxonomy partition and a downloads chart. Metrics that score particularly well are highlighted as achievements. Collectively this new information not only informs the user what a dataset contains and if it is fit for use, but also helps data publishers discover what aspects could be improved.
+
+![Screenshot](documentation/images/screenshot.png)
+
+The proof of concept consists of two parts: 1) an extraction and aggregation module to process GBIF occurrence downloads and calculate, aggregate, and store the metrics for each dataset and 2) a [Google Chrome extension](), allowing you to view these metrics in context on the GBIF website. It can be extended and improved in numerous ways, such as additional metrics and achievements, multimedia previews, metrics for publisher and country pages, or on the fly metrics for search results. Ideally, we hope this work can be integrated into the GBIF architecture and website.
 
 ## Installation
 
+[Install the Google Chrome Extension]() and visit a [GBIF dataset page](http://www.gbif.org/dataset/0debafd0-6c8a-11de-8225-b8a03c50a862). See limitations below to see which datasets currently have metrics.
+
+If you want to run the extraction or aggregation module, see these pages: [extraction](documentation/extraction.md) / [aggregation](documentation/aggregation.md).
+
 ## How it works
 
-* [Achievement labels]()
-* [Images sample]()
-* [Basis of record bar]()
-* [Coordinates bar]()
-* [Multimedia bar]()
-* [Taxon match bar]()
-* [Taxonomy partition]()
-* [Download chart]()
-* [Extraction]()
-* [Aggregation]()
+### Frontend
+
+* [Basis of record bar](documentation/basis-of-record-bar.md)
+* [Coordinates bar](coordinates-bar.md)
+* [Multimedia bar](multimedia-bar.md)
+* [Taxon match bar](taxon-match-bar.md)
+* [Achievements](achievements.md)
+* [Taxonomy partition](taxonomy-partition.md)
+* [Download chart](download-chart.md)
+
+### Backend
+
+* [Extraction module](documentation/extraction.md)
+* [Aggregation module](documentation/aggregation.md)
+
+## Limitations
+
+* We currently have metrics for [326 datasets](http://www.gbif.org/dataset/search?q=&publishing_country=BE&publishing_country=AU&publishing_country=FR&type=OCCURRENCE), covering ... occurrences, and published by the following countries: Australia, Belgium, France.
+* The metrics are processed using a download of all occurrences. If a dataset is republished, the metrics might be out of date. If so, a message will be shown on the dataset page.
 
 ## Contributors
 
@@ -26,5 +47,3 @@ Developed by [Datafable](http://datafable.com):
 * [Peter Desmet](https://twitter.com/peterdesmet) (frontend)
 * [Bart Aelterman](https://twitter.com/bartaelterman) (aggregation)
 * [Nicolas Noé](https://twitter.com/niconoe) (extraction)
-
-## License
