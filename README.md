@@ -2,11 +2,11 @@
 
 ## Rationale
 
-The [Global Biodiversity Information Facility (GBIF)](http://www.gbif.org) facilitates access to ... species occurrence datasets, collectively holding ... records. **Dataset pages** on the GBIF website show metadata, a map of georeferenced occurrences, some basic statistics, and a paged table of download events. If a user wants to know what a dataset contains, he/she has to filter/page through a table of occurrences or download the data. Neither are convenient ways to get quick insights or assess the fitness for use.
+The [Global Biodiversity Information Facility (GBIF)](http://www.gbif.org) facilitates access to over 12,370 species occurrence datasets, collectively holding more than 528 million records. **Dataset pages** on the GBIF website currently show dataset metadata, a map of georeferenced occurrences, some basic statistics, and a paged table of download events. If a user wants to know more about the occurrences a dataset contains, he/she has to filter/page through a table of occurrences or download the data. Neither are convenient ways to get quick insights or assess the fitness for use.
 
 ## Result
 
-For the [2015 GBIF challenge](http://gbif.challengepost.com/), we have developed a proof of concept for **enhancing GBIF dataset pages with aggregated occurrence metrics**. These metrics are visualized as stacked bar charts - showing the distribution of basis of record, coordinates, multimedia, and taxa matched with the GBIF backbone - as well as an interactive taxonomy partition and a downloads chart. Metrics that score particularly well are highlighted as achievements. Collectively this new information not only informs the user what a dataset contains and if it is fit for use, but also helps data publishers discover what aspects could be improved.
+For the [2015 GBIF challenge](http://gbif.challengepost.com/), we have developed a proof of concept for **enhancing GBIF dataset pages with aggregated occurrence metrics**. These metrics are visualized as stacked bar charts - showing the occurrence distribution for basis of record, coordinates, multimedia, and taxa matched with the GBIF backbone - as well as an interactive taxonomy partition and a downloads chart. Metrics that score particularly well are highlighted as achievements. Collectively these features not only inform the user what a dataset contains and if it is fit for use, but also help data publishers discover what aspects could be improved.
 
 ![Screenshot](documentation/images/screenshot.png)
 
@@ -16,7 +16,7 @@ The proof of concept consists of two parts: 1) an extraction and aggregation mod
 
 [Install the Google Chrome Extension]() and visit a [GBIF dataset page](http://www.gbif.org/dataset/0debafd0-6c8a-11de-8225-b8a03c50a862). See limitations below to know which datasets currently have metrics.
 
-*If you want to calculate the metrics yourself (i.e. run the backend), see the documentation on the [extraction](extraction_module/README.md) and [aggregation module](aggregation_module/README.md).*
+If you want to calculate the metrics yourself (i.e. run the backend), then read the documentation on the [extraction](extraction_module/README.md) and [aggregation module](aggregation_module/README.md).
 
 ## How it works
 
@@ -35,7 +35,7 @@ The proof of concept consists of two parts: 1) an extraction and aggregation mod
 
 ## Limitations
 
-* We currently have metrics for [326 datasets](http://www.gbif.org/dataset/search?q=&publishing_country=BE&publishing_country=AU&publishing_country=FR&type=OCCURRENCE), covering ... occurrences, published by the following countries: Australia, Belgium, France. If you want us to process a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
+* We currently have metrics for [317 datasets](http://www.gbif.org/dataset/search?q=&publishing_country=BE&publishing_country=AU&publishing_country=FR&type=OCCURRENCE), covering over 62 million occurrences, published by the following countries: Australia, Belgium, France. If you want us to process a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
 * The metrics are processed using a download of all occurrences. If a dataset is republished, the metrics might be out of date. If so, a message will be shown on the dataset page. If you want us to reprocess a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
 
 Follow [@Datafable](https://twitter.com/datafable) to be notified of new metrics or improvements.
