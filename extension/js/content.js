@@ -34,11 +34,11 @@ var getMetrics = function (datasetKey, showMetrics) {
             var url = "http://datafable.cartodb.com/api/v2/sql?q=WITH ranked_metrics AS ( SELECT *, ntile(100) OVER (ORDER BY occurrences) AS occurrences_percentile FROM gbif_dataset_metrics WHERE type = 'OCCURRENCE' AND occurrences IS NOT NULL) SELECT * FROM ranked_metrics WHERE dataset_key ='" + datasetKey + "'";
             $.getJSON(url, function (result) {
                 if (Object.keys(result.rows).length === 0) { // Dataset is not in query: no data yet or a new dataset
-                    addMessage('Sorry, we have no metrics for this dataset yet. Want some? <a href="https://github.com/peterdesmet/gbif-challenge/issues/new" target="_blank">Submit a request.</a>');
+                    addMessage('Sorry, we have no metrics for this dataset yet. Want some? <a href="https://github.com/datafable/gbif-dataset-metrics/issues/new" target="_blank">Submit a request.</a>');
                 } else {
                     var metricsModifiedAt = new Date("2015-02-01"); // TODO: Use the actual download date
                     if (datasetModifiedAt > metricsModifiedAt) {
-                        addMessage('This dataset has been republished since we last crunched the metrics. <a href="https://github.com/peterdesmet/gbif-challenge/issues/new" target="_blank">Submit a request if you want updated metrics.</a>');
+                        addMessage('This dataset has been republished since we last crunched the metrics. <a href="https://github.com/datafable/gbif-dataset-metrics/issues/new" target="_blank">Submit a request if you want updated metrics.</a>');
                     }
                     showMetrics(result.rows[0]); // Only one row [0] expected
                 }
