@@ -16,7 +16,7 @@ The proof of concept consists of two parts: 1) an extraction and aggregation mod
 
 [Install the Google Chrome Extension]() and visit a [GBIF dataset page](http://www.gbif.org/dataset/0debafd0-6c8a-11de-8225-b8a03c50a862). See limitations below to see which datasets currently have metrics.
 
-If you want to run the extraction or aggregation module, see these pages: [extraction](documentation/extraction.md) / [aggregation](documentation/aggregation.md).
+If you want to run the extraction or aggregation module, see these pages: [extraction](documentation/extraction.md) / [aggregation](aggregation_module/README.md).
 
 ## How it works
 
@@ -33,7 +33,7 @@ If you want to run the extraction or aggregation module, see these pages: [extra
 ### Backend
 
 * [Extraction module](documentation/extraction.md)
-* [Aggregation module](documentation/aggregation.md)
+* [Aggregation module](aggregation_module/README.md)
 
 ## Limitations
 
