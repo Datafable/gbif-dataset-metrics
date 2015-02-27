@@ -1,5 +1,5 @@
 ALTER TABLE gbif_dataset_metrics
-ADD COLUMN downloaded_at date,
+ADD COLUMN archive_generated_at date,
 ADD COLUMN occurrences integer,
 ADD COLUMN bor_preserved_specimen integer,
 ADD COLUMN bor_fossil_specimen integer,
