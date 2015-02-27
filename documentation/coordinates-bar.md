@@ -2,7 +2,7 @@
 
 ## Description
 
-The coordinates bar groups the occurrences of a dataset in categories based on the quality of the provided coordinates. This functionality is mainly based on the geospatial issues GBIF assigns to occurrences as part of its data processing.
+The coordinates bar groups the occurrences of a dataset in categories based on the quality of the provided coordinates. This functionality is mainly based on the geospatial issues assigned by GBIF as part of its occurrence processing.
 
 ![screenshot](../images/features/coordinates-bar-0debafd0-6c8a-11de-8225-b8a03c50a862.png)
 
