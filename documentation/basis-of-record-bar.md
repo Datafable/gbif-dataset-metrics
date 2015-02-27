@@ -4,7 +4,7 @@
 
 The basis of record bar groups the occurrences of a dataset in categories based on the [basis of record](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/BasisOfRecord.html).
 
-![screenshot](../images/features/basis-of-record-bar-42319b8f-9b9d-448d-969f-656792a69176.png)
+![screenshot](../images/features/basis-of-record-bar-0debafd0-6c8a-11de-8225-b8a03c50a862.png)
 
 ## How we categorize
 
