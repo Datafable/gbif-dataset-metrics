@@ -16,7 +16,7 @@ The proof of concept consists of two parts: 1) an extraction and aggregation mod
 
 [Install the Google Chrome Extension](https://chrome.google.com/webstore/detail/gbif-dataset-metrics/kcianglkepodpjdiebgidhdghoaeefba) and visit a [GBIF dataset page](http://www.gbif.org/dataset/0debafd0-6c8a-11de-8225-b8a03c50a862). See the limitations below to know which datasets currently have metrics.
 
-* Don't want to install, but just see a preview? [See this demo page](http://datafable.com/gbif-dataset-metrics/).
+* Don't want to install the extension, but just see a preview? [See this demo page](http://datafable.com/gbif-dataset-metrics/).
 * Want to calculate the metrics yourself (i.e. run the backend)? Read the documentation on the [extraction](extraction_module/README.md) and [aggregation module](aggregation_module/README.md).
 
 ## How it works
