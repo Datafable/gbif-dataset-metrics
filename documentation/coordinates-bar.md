@@ -37,11 +37,13 @@ The occurrence has one of the following issues:
 * [COORDINATE_INVALID](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/OccurrenceIssue.html#COORDINATE_INVALID)
 * [COORDINATE_OUT_OF_RANGE](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/OccurrenceIssue.html#COORDINATE_OUT_OF_RANGE)
 * [ZERO_COORDINATE](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/OccurrenceIssue.html#ZERO_COORDINATE)
-* [COUNTRY_COORDINATE_MISMATCH](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/OccurrenceIssue.html#COUNTRY_COORDINATE_MISMATCH), which is only raised for valid countries, so the issue is coordinate and not country related.
+* [COUNTRY_COORDINATE_MISMATCH](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/OccurrenceIssue.html#COUNTRY_COORDINATE_MISMATCH), which is only raised for valid countries, so the issue is related to the coordinates, not the country.
+
+The first two issues will result in empty `decimalLatitude` and `decimalLongitude`, but are categorised here since the publisher intended to provide coordinates.
 
 ### Coordinates not provided
 
-The `decimalLatitude` or `decimalLongitude` for the occurrence is empty: it is not provided by the publisher or populated by GBIF based on other geospatial fields. Occurrences with major issues that result in no coordinates are not included here.
+The occurrence has empty `decimalLatitude` or `decimalLongitude`: it is not provided by the publisher or populated by GBIF based on other geospatial fields.
 
 ## Suggestions for improvement
 
