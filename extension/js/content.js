@@ -36,7 +36,7 @@ var getMetrics = function (datasetKey, showMetrics) {
                 if (Object.keys(result.rows).length === 0) { // Dataset is not in query: no data yet or a new dataset
                     addMessage('Sorry, we have no metrics for this dataset yet. Want some? <a href="https://github.com/datafable/gbif-dataset-metrics/issues/new" target="_blank">Submit a request.</a>');
                 } else {
-                    var metricsModifiedAt = new Date("2015-02-01"); // TODO: Use the actual download date
+                    var metricsModifiedAt = new Date(result.rows[0].downloaded_at); // If null, date will be set to 1970-01-01
                     if (datasetModifiedAt > metricsModifiedAt) {
                         addMessage('This dataset has been republished since we last crunched the metrics. <a href="https://github.com/datafable/gbif-dataset-metrics/issues/new" target="_blank">Submit a request if you want updated metrics.</a>');
                     }
