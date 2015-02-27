@@ -17,8 +17,8 @@ from helpers import (is_dwca, get_taxon_match_category, get_taxonomy,
 
 # A report file will be generated for each DwC-A in this directory.
 # All zip files and subdirectories will be assumed to be DwC-A
-DATA_SOURCE_DIR = os.path.join(os.path.dirname(__file__), 'sample_base_data')
-REPORTS_DIR = os.path.join(os.path.dirname(__file__), 'reports')
+DATA_SOURCE_DIR = os.path.join(CURRENT_DIR, 'sample_base_data')
+REPORTS_DIR = os.path.join(CURRENT_DIR, 'reports')
 
 # A dot (progress bar) will be printed on screen each time PROGRESS_EACH_X_RECORDS were processed.
 PROGRESS_EACH_X_RECORDS = 1000
