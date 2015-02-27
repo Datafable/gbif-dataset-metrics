@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# TODO: Pep8
+# TODO: Add Belgian Coccinellidae - Ladybird bee… to test data
+# TODO: Ensure it works with multuiple dataset per archive
+# TODO: output: unicode string or not ?
 import os
 import json
 import sys
 
 from dwca.read import DwCAReader
-
-CURRENT_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-SRC_DIR = os.path.join(CURRENT_DIR, 'src')
-sys.path.append(SRC_DIR)
 
 from descriptors import DatasetDescriptor, DatasetDescriptorAwareEncoder
 from helpers import (is_dwca, get_taxon_match_category, get_taxonomy,
@@ -22,7 +22,6 @@ REPORTS_DIR = os.path.join(os.path.dirname(__file__), 'reports')
 
 # A dot (progress bar) will be printed on screen each time PROGRESS_EACH_X_RECORDS were processed.
 PROGRESS_EACH_X_RECORDS = 1000
-
 
 # Parse the archive located at 'a' and return a JSON report
 def parse_archive(a):
