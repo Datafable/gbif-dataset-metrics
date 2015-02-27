@@ -26,16 +26,15 @@
     ------------------------- */
 
 /* Messages and achievements */
-#aboveContent { /* Inherits <article> styling by GBIF */
+#firstContent { /* Inherits <article> styling by GBIF */
     margin: -75px auto 35px auto!important;
     min-height: 40px;
-    width: 920px!important; /* 924 with 2px padding left and right */
     }
-    #aboveContent .alert {
+    #firstContent .alert {
         height: 40px;
         margin: 0;
         }
-        #aboveContent strong {
+        #firstContent strong {
             font-weight: bold; /* For some reason, GBIF has turned this off */
         }
     #achievements {

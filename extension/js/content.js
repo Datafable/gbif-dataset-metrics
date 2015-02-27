@@ -10,13 +10,13 @@ var getDatasetKeyFromURL = function () {
 };
 
 var addMessageArea = function () {
-    var html = '<article id="aboveContent"></content>';
+    var html = '<article id="firstContent"></content>';
     $("#content").prepend(html);
 };
 
 var addMessage = function(html) {
     html = '<p class="alert alert-warning"><strong>Dataset metrics extension:</strong> ' + html + '</p>';
-    $("#aboveContent").append(html);
+    $("#firstContent").append(html);
 }
 
 var getMetrics = function (datasetKey, showMetrics) {

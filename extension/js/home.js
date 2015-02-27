@@ -17,7 +17,7 @@ var addMetricsToHomePage = function (metrics) {
     html = html + georeferenceAchievement(metrics); // Georeference achievement
     html = html + multimediaAchievement(metrics); // Multimedia achievement
     if (html != "") {
-        $("#aboveContent").append('<p id="achievements">' + html + '</p>');
+        $("#firstContent").append('<p id="achievements">' + html + '</p>');
     }
 
     // Add image thumbnails
