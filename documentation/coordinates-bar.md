@@ -44,7 +44,7 @@ The first two issues will result in empty `decimalLatitude` and `decimalLongitud
 
 The occurrence has empty `decimalLatitude` or `decimalLongitude`: it is not provided by the publisher or populated by GBIF based on other geospatial fields.
 
-## Suggestions for improvement
+## Suggestions for improvement/extension
 
 For valid coordinates, calculate the precision (e.g. up to 1km, 100m, etc.) so the user can better assess the fitness for use.
 

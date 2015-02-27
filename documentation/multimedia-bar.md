@@ -20,7 +20,7 @@ The occurrence has the following issue: [MULTIMEDIA_URI_INVALID](http://gbif.git
 
 The occurrence has no related multimedia available through GBIF.
 
-## Suggestions for improvement
+## Suggestions for improvement/extension
 
 * Show the distribution of [multimedia type](http://gbif.github.io/dwc-api/apidocs/org/gbif/dwc/terms/GbifTerm.html#mediaType) (`StillImage`, `MovingImage`, `Sound`, and unknown type) for all related multimedia, so the user can discover what types of related multimedia a dataset contains. Note that this cannot be done as a distribution over occurrences, as one occurrence can have multiple related multimedia.
 * Show the distribution of number of related multimedia per occurrence, so the user can assess if occurrences typically have one or more related multimedia.

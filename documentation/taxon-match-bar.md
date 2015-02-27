@@ -28,7 +28,7 @@ The occurrence has a scientific name and the following issue: [TAXON_MATCH_NONE]
 
 The occurrence does not have a scientific name. Note that GBIF will always attempt to use the `scientificName` provided by the publisher or build one from the atomized fields `genus`, `specificEpithet`, etc. For recent datasets, `TAXON_MATCH_NONE` is also applied to occurrences with no `scientificName`, but we categorize those here as not provided.
 
-## Suggestions for improvement
+## Suggestions for improvement/extension
 
 * For matched taxa, indicate the taxon rank of the determination, so the user can better assess the fitness for use.
 * For unmatched taxa, assess if the `scientificName` format is valid.
