@@ -1,12 +1,23 @@
 # Extraction module
 
-The Data extraction module walks in a directory full of Darwin Core Archives, and for each one generate a simple report file in JSON format.
+The extraction module is the first stage of data processing.
 
-### Notes
+It walks in a directory full of Darwin Core Archives (downloaded from the [GBIF website](http://www.gbif.org)), and for each one generate a simple report file containing "raw metrics" in JSON format.
 
-- An archive/report can describe multiple datasets AND a specific dataset can be enclosed in several archives, hence the need for the "data aggregation and storage" module. That provides in return much flexibility in terms of data volume and horizontal scalability capabilities.
-- Performance: at this step, we can easily extract data from Archives containing 17+ million records in a few minutes. There's still work in progress.
+These JSON reports will then be used as the input of the aggregation module.
 
-### Code
+## Notes
 
-- [`data_extraction_module/data_extract.py`](/data_extraction_module/data_extract.py) is the main script. Its input/output directories are configured by constants (DATA_SOURCE_DIR and REPORTS_DIR). Its requirements are listed in [`data_extraction_module/requirements.txt`](/data_extraction_module/requirements.txt)
+- **Requirements:** [python-dwca-reader](http://python-dwca-reader.readthedocs.org/) (and indirectly Beautifulsoup and lxml)
+- An archive/report can describe multiple datasets AND a specific dataset can be enclosed in several archives, hence the need for the aggregation module. That provides in return much flexibility in terms of data volume and horizontal scalability capabilities.
+- **Performance:** at this stage, we are able to process 7Gb+ compressed archives in a couple of hours on a standard Macbook Pro. Performance is still incrementally being improved, and we expect to be ultimately able to parse the whole GBIF archive.
+- This module is very concise, since the hard/low-level work is delegated to [python-dwca-reader](http://python-dwca-reader.readthedocs.org/).
+
+## To run
+1. Install the requirements: ```$ pip install -r requirements.txt```
+2. Download data from GBIF (search per dataset or per publishing country for example) and place the Darwin Core Archives (zip files) it in an empty directory.
+3. Create another empty directory somewhere else to receive the reports.
+4. Configure these two directories in ```DATA_SOURCE_DIR```and ```REPORTS_DIR```(at the top of data_extract.py)
+5. Run the extractor: ```$ python ./data_extract.py```
+
+That's it! You can now use the generated reports in the aggregation module.
