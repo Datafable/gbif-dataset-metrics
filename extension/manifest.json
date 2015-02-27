@@ -1,6 +1,6 @@
 {
     "name": "GBIF dataset metrics",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Get insights in GBIF-mediated datasets with charts and metrics.",
     "author": "Datafable",
     "homepage_url": "https://github.com/datafable/gbif-dataset-metrics",
@@ -11,7 +11,8 @@
     "manifest_version": 2,
     "minimum_chrome_version": "20",
     "permissions": [
-        "http://www.gbif.org/"
+        "http://*.gbif.org/",
+        "http://datafable.cartodb.com/"
     ],
 
     "content_scripts": [
