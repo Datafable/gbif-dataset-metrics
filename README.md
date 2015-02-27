@@ -48,3 +48,7 @@ Developed by [Datafable](http://datafable.com):
 * [Peter Desmet](https://twitter.com/peterdesmet) (frontend)
 * [Bart Aelterman](https://twitter.com/bartaelterman) (aggregation)
 * [Nicolas Noé](https://twitter.com/niconoe) (extraction)
+
+## License
+
+[LICENSE](LICENSE)
