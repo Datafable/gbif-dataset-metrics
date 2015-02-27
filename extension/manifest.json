@@ -10,7 +10,10 @@
 
     "manifest_version": 2,
     "minimum_chrome_version": "20",
-    
+    "permissions": [
+        "http://www.gbif.org/"
+    ],
+
     "content_scripts": [
         {
             "matches": [
