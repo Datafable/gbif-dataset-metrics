@@ -2,7 +2,7 @@
 
 ## Description
 
-The coordinates bar groups the occurrences of a dataset in categories based on the quality of the provided coordinates. This functionality is mainly based on the geospatial issues assigned by GBIF as part of its occurrence processing.
+The coordinates bar groups the occurrences of a dataset in categories based on the quality of the provided coordinates. This functionality is mainly based on the geospatial issues assigned by GBIF as part of its occurrence processing. It allows the user to assess fitness for use and the data publisher to discover coordinate issues.
 
 ![screenshot](../images/features/coordinates-bar-0debafd0-6c8a-11de-8225-b8a03c50a862.png)
 
@@ -44,7 +44,7 @@ The first two issues will result in empty `decimalLatitude` and `decimalLongitud
 
 The occurrence has empty `decimalLatitude` or `decimalLongitude`: it is not provided by the publisher or populated by GBIF based on other geospatial fields.
 
-## Suggestions for improvement/extension
+## Suggestions for improvement
 
 For valid coordinates, calculate the precision (e.g. up to 1km, 100m, etc.) so the user can better assess the fitness for use.
 

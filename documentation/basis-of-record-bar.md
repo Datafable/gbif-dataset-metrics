@@ -2,7 +2,7 @@
 
 ## Description
 
-The basis of record bar groups the occurrences of a dataset in categories based on the [basis of record](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/BasisOfRecord.html).
+The basis of record bar groups the occurrences of a dataset in categories based on the [basis of record](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/BasisOfRecord.html). It allows the user to discover what kind of occurrences a dataset contains.
 
 ![screenshot](../images/features/basis-of-record-bar-0debafd0-6c8a-11de-8225-b8a03c50a862.png)
 
