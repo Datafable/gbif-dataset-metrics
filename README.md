@@ -10,11 +10,11 @@ For the [2015 GBIF challenge](http://gbif.challengepost.com/), we have developed
 
 ![Screenshot](documentation/images/screenshot.png)
 
-The proof of concept consists of two parts: 1) an extraction and aggregation module to process GBIF occurrence downloads and calculate, aggregate, and store the metrics for each dataset and 2) a [Google Chrome extension](), allowing you to view these metrics in context on the GBIF website. It can be extended and improved in numerous ways, such as additional metrics and achievements, multimedia previews, metrics for publisher and country pages, or on the fly metrics for search results. Ideally, we hope this work can be integrated into the GBIF architecture and website.
+The proof of concept consists of two parts: 1) an extraction and aggregation module to process GBIF occurrence downloads and calculate, aggregate, and store the metrics for each dataset and 2) a [Google Chrome extension](https://chrome.google.com/webstore/detail/gbif-dataset-metrics/kcianglkepodpjdiebgidhdghoaeefba), allowing you to view these metrics in context on the GBIF website. It can be extended and improved in numerous ways, such as additional metrics and achievements, multimedia previews, metrics for publisher and country pages, or on the fly metrics for search results. Ideally, we hope this work can be integrated into the GBIF architecture and website.
 
 ## Installation
 
-[Install the Google Chrome Extension]() and visit a [GBIF dataset page](http://www.gbif.org/dataset/0debafd0-6c8a-11de-8225-b8a03c50a862). See limitations below to know which datasets currently have metrics.
+[Install the Google Chrome Extension](https://chrome.google.com/webstore/detail/gbif-dataset-metrics/kcianglkepodpjdiebgidhdghoaeefba) and visit a [GBIF dataset page](http://www.gbif.org/dataset/0debafd0-6c8a-11de-8225-b8a03c50a862). See limitations below to know which datasets currently have metrics.
 
 If you want to calculate the metrics yourself (i.e. run the backend), then read the documentation on the [extraction](extraction_module/README.md) and [aggregation module](aggregation_module/README.md).
 
