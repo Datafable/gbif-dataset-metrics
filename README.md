@@ -6,7 +6,7 @@ The [Global Biodiversity Information Facility (GBIF)](http://www.gbif.org) facil
 
 ## Result
 
-For the [2015 GBIF challenge](http://gbif.challengepost.com/), we have developed a proof of concept for **enhancing GBIF dataset pages with aggregated occurrence metrics**. These metrics are visualized as stacked bar charts - showing the occurrence distribution for basis of record, coordinates, multimedia, and taxa matched with the GBIF backbone - as well as an interactive taxonomy partition and a downloads chart. Metrics that score particularly well are highlighted as achievements. Collectively these features not only inform the user what a dataset contains and if it is fit for use, but also help data publishers discover what aspects could be improved.
+For the [2015 GBIF Ebbe Nielsen challenge](http://gbif.challengepost.com/), we have developed a proof of concept for **enhancing GBIF dataset pages with aggregated occurrence metrics**. These metrics are visualized as stacked bar charts - showing the occurrence distribution for basis of record, coordinates, multimedia, and taxa matched with the GBIF backbone - as well as an interactive taxonomy partition and a downloads chart. Metrics that score particularly well are highlighted as achievements. Collectively these features not only inform the user what a dataset contains and if it is fit for use, but also help data publishers discover what aspects could be improved.
 
 ![Screenshot](documentation/images/screenshot.png)
 
