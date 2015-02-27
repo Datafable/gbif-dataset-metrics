@@ -12,12 +12,13 @@ var addMetricsToHomePage = function (metrics) {
     anchor.find(".content").prepend(html);
 
     // Add achievements
-    html = '<p id="achievements">';
+    html = "";
     html = html + occurrencesAchievement(metrics); // Occurrences achievement
     html = html + georeferenceAchievement(metrics); // Georeference achievement
     html = html + multimediaAchievement(metrics); // Multimedia achievement
-    html = html + '</p>';
-    $("#aboveContent").append(html);
+    if (html != "") {
+        $("#aboveContent").append('<p id="achievements">' + html + '</p>');
+    }
 
     // Add image thumbnails
     // html = imageThumbnails(metrics);
