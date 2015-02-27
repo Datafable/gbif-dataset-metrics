@@ -8,7 +8,7 @@ The [Global Biodiversity Information Facility (GBIF)](http://www.gbif.org) facil
 
 For the [2015 GBIF Ebbe Nielsen challenge](http://gbif.challengepost.com/), we have developed a proof of concept for **enhancing GBIF dataset pages with aggregated occurrence metrics**. These metrics are visualized as stacked bar charts - showing the occurrence distribution for basis of record, coordinates, multimedia, and taxa matched with the GBIF backbone - as well as an interactive taxonomy partition and a downloads chart. Metrics that score particularly well are highlighted as achievements. Collectively these features not only inform the user what a dataset contains and if it is fit for use, but also help data publishers discover what aspects could be improved.
 
-![Screenshot](documentation/images/screenshot.png)
+![Screenshot](images/screenshots/screenshot.png)
 
 The proof of concept consists of two parts: 1) an extraction and aggregation module to process GBIF occurrence downloads and calculate, aggregate, and store the metrics for each dataset and 2) a [Google Chrome extension](https://chrome.google.com/webstore/detail/gbif-dataset-metrics/kcianglkepodpjdiebgidhdghoaeefba), allowing you to view these metrics in context on the GBIF website. It can be extended and improved in numerous ways, such as additional metrics and achievements, multimedia previews, metrics for publisher and country pages, or on the fly metrics for search results. Ideally, we hope this work can be integrated into the GBIF architecture and website.
 
