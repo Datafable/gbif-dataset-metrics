@@ -29,7 +29,6 @@ The occurrence does not have major issues, but has one of the following issues:
 * [COORDINATE_REPROJECTION_FAILED](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/OccurrenceIssue.html#COORDINATE_REPROJECTION_FAILED), in which case GBIF provides the original coordinates.
 * [COORDINATE_REPROJECTION_SUSPICIOUS](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/OccurrenceIssue.html#COORDINATE_REPROJECTION_SUSPICIOUS) 
 
-
 ### Coordinates with major issues
 
 The occurrence has one of the following issues:
@@ -47,7 +46,7 @@ The occurrence has empty `decimalLatitude` or `decimalLongitude`: it is not prov
 
 ## Suggestions for improvement
 
-For valid coordinates, assess the precision (e.g. up to 1km, 100m, etc.) to better indicate the fitness for use.
+For valid coordinates, calculate the precision (e.g. up to 1km, 100m, etc.) so the user can better assess the fitness for use.
 
 ## Suggestions for GBIF
 
