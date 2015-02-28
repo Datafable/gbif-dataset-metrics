@@ -2,7 +2,7 @@
 
 ## Description
 
-Since the [extraction module](../extraction_module) can result in metrics of a single dataset being divided over different output files, the aggregation module was implemented to aggregate the metrics of each dataset. Once these metrics are aggregated, the aggretion module will constructs a taxonomy tree for each dataset. The metrics and the taxonomy tree are written to a [CartoDB table](https://datafable.cartodb.com/tables/gbif_dataset_metrics) that will serve as a back end for the [extension](../extension).
+Since the [extraction module](../extraction_module) can result in metrics of a single dataset being divided over different output files, the aggregation module was implemented to aggregate the metrics of each dataset. Once these metrics are aggregated, the aggretion module will construct a taxonomy tree for each dataset. The metrics and the taxonomy tree are written to a [CartoDB table](https://datafable.cartodb.com/tables/gbif_dataset_metrics) that will serve as a back end for the [extension](../extension).
 
 ## Requirements
 
@@ -29,7 +29,7 @@ $ pip install requests
 4. Run the aggregator:
 
 ```
-python aggregate_metrics.py <data directory> <settings.json>
+python bin/aggregate_metrics.py <data directory> <settings.json>
 
     data directory:  this should point to a directory
                      containing chunks of metric data.
