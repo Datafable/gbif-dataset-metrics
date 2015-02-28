@@ -16,9 +16,9 @@ The extraction module calculates the metrics from the occurrences. It crawls a d
 
 ## To run
 
-1. Install the requirements: `pip install -r requirements.txt`
+1. Install the requirements: `$ pip install -r requirements.txt`
 2. Download data from GBIF (search per dataset or per publishing country for example) and place the Darwin Core Archives (zip files) in an empty directory.
 3. Create another empty directory somewhere else to receive the reports.
 4. Configure these two directories in `DATA_SOURCE_DIR` and `REPORTS_DIR`(at the top of `bin/extract_data.py`)
-5. Run the extractor: `python bin/extract_data.py`.
+5. Run the extractor: `$ python bin/extract_data.py`.
 6. That's it! You can now use the generated reports in the [aggregation module](../aggregation_module).
