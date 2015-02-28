@@ -36,7 +36,7 @@ The proof of concept consists of two parts: 1) an extraction and aggregation mod
 
 ## Limitations
 
-* We currently have metrics for [317 datasets](http://www.gbif.org/dataset/search?q=&publishing_country=BE&publishing_country=AU&publishing_country=FR&type=OCCURRENCE), covering over 62 million occurrences, published by the following countries: Australia, Belgium, France. If you want us to process a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
+* We currently have metrics for 10,259 datasets (83%), covering close to 145 million occurrences (27%). If you want us to process a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
 * The metrics are processed using a download of all occurrences. If a dataset is republished, the metrics might be out of date. If so, a message will be shown on the dataset page. If you want us to reprocess a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
 
 Follow [@Datafable](https://twitter.com/datafable) to be notified of new metrics or improvements.
