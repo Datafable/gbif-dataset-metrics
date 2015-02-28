@@ -60,10 +60,10 @@ var createAchievementLabel = function (achievement, title, rank) {
 var occurrencesAchievement = function (metrics) {
     var html = "";
     var rank = metrics.occurrences_percentile;
-    if (rank > 90) {
-        html = createAchievementLabel("Colossal dataset", "More occurrences than 90% of the datasets on GBIF", "gold");
-    } else if (rank > 80) {
-        html = createAchievementLabel("Huge dataset", "More occurrences than 80% of the datasets on GBIF", "silver");
+    if (rank > 99) {
+        html = createAchievementLabel("Colossal dataset", "More occurrences than 99% of the datasets on GBIF", "gold");
+    } else if (rank > 95) {
+        html = createAchievementLabel("Huge dataset", "More occurrences than 95% of the datasets on GBIF", "silver");
     }
     return html;
 };

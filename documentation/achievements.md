@@ -12,8 +12,8 @@ Achievements highlight certain aspects of a dataset that score particularly well
 
 This achievement compares the number of occurrences of a dataset with other GBIF-mediated datasets for which we have calculated metrics.
 
-* **Colossal dataset**: More occurrences than 90% of the datasets on GBIF.
-* **Huge dataset**: More occurrences than 80% of the datasets on GBIF.
+* **Colossal dataset**: More occurrences than 99% of the datasets on GBIF.
+* **Huge dataset**: More occurrences than 95% of the datasets on GBIF.
 
 Note that until we have calculated metrics for all datasets, this achievement will be granted "too soon".
 
