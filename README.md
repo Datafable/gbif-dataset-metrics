@@ -2,7 +2,7 @@
 
 ## Rationale
 
-The [Global Biodiversity Information Facility (GBIF)](http://www.gbif.org) facilitates access to over 12,370 species occurrence datasets, collectively holding more than 528 million records. **Dataset pages** on the GBIF website currently show dataset metadata, a map of georeferenced occurrences, some basic statistics, and a paged table of download events. If a user wants to know more about the occurrences a dataset contains, he/she has to filter/page through a table of occurrences or download the data. Neither are convenient ways to get quick insights or assess the fitness for use.
+The [Global Biodiversity Information Facility (GBIF)](http://www.gbif.org) facilitates access to over 12,370 species occurrence datasets, collectively holding more than 528 million records. GBIF **dataset pages** are important access points to GBIF-mediated data (e.g. via DOIs) and currently show dataset metadata, a map of georeferenced occurrences, some basic statistics, and a paged table of download events. If a user wants to know more about the occurrences a dataset contains, he/she has to filter/page through a table of occurrences or download the data. Neither are convenient ways to get quick insights or assess the fitness for use.
 
 ## Result
 

@@ -34,7 +34,7 @@ var getMetrics = function (datasetKey, showMetrics) {
             var url = "http://datafable.cartodb.com/api/v2/sql?q=WITH ranked_metrics AS ( SELECT *, ntile(100) OVER (ORDER BY occurrences) AS occurrences_percentile FROM gbif_dataset_metrics WHERE type = 'OCCURRENCE' AND occurrences IS NOT NULL) SELECT * FROM ranked_metrics WHERE dataset_key ='" + datasetKey + "'";
             $.getJSON(url, function (result) {
                 if (Object.keys(result.rows).length === 0) { // Dataset is not in query: no data yet or a new dataset
-                    addMessage('Sorry, we have no metrics for this dataset yet. Want some? <a href="https://github.com/datafable/gbif-dataset-metrics/issues/new" target="_blank">Submit a request.</a>');
+                    addMessage('Sorry, we don\'t have metrics for this dataset yet. Want some? <a href="https://github.com/datafable/gbif-dataset-metrics/issues/new" target="_blank">Submit a request.</a>');
                 } else {
                     var metricsModifiedAt = new Date(result.rows[0].archive_generated_at); // If null, date will be set to 1970-01-01
                     if (datasetModifiedAt > metricsModifiedAt) {
@@ -46,7 +46,7 @@ var getMetrics = function (datasetKey, showMetrics) {
                 console.log("CartoDB API error.");
             });    
         } else { // Not an occurrence dataset
-            addMessage('Sorry, we have no metrics for ' + type + ' datasets.');
+            addMessage('Sorry, we don\'t have metrics for ' + type + ' datasets.');
         }
     }).fail(function() {
         console.log("GBIF dataset API error.");
@@ -60,10 +60,10 @@ var createAchievementLabel = function (achievement, title, rank) {
 var occurrencesAchievement = function (metrics) {
     var html = "";
     var rank = metrics.occurrences_percentile;
-    if (rank > 90) {
-        html = createAchievementLabel("Colossal dataset", "More occurrences than 90% of the datasets on GBIF", "gold");
-    } else if (rank > 80) {
-        html = createAchievementLabel("Huge dataset", "More occurrences than 80% of the datasets on GBIF", "silver");
+    if (rank > 99) {
+        html = createAchievementLabel("Colossal dataset", "More occurrences than 99% of the datasets on GBIF", "gold");
+    } else if (rank > 95) {
+        html = createAchievementLabel("Huge dataset", "More occurrences than 95% of the datasets on GBIF", "silver");
     }
     return html;
 };
