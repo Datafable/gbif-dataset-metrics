@@ -29,9 +29,11 @@ def write_data(data, settings_file):
     basis_of_records_metrics = ['PRESERVED_SPECIMEN', 'FOSSIL_SPECIMEN', 'LIVING_SPECIMEN', 'MATERIAL_SAMPLE', 'OBSERVATION', 'HUMAN_OBSERVATION', 'MACHINE_OBSERVATION', 'LITERATURE', 'UNKNOWN']
     taxon_match_metrics = ['TAXON_NOT_PROVIDED', 'TAXON_MATCH_NONE', 'TAXON_MATCH_HIGHERRANK', 'TAXON_MATCH_FUZZY', 'TAXON_MATCH_COMPLETE']
     media_metrics = ['media_not_provided', 'media_url_invalid', 'media_valid']
-    coordinate_metrics = ['COORDINATES_NOT_PROVIDED', 'COORDINATES_MAJOR_ISSUES', 'COORDINATES_MINOR_ISSUES', 'COORDINATES_VALID']
+    coordinate_metrics = ['COORDINATES_NOT_PROVIDED', 'COORDINATES_MINOR_ISSUES', 'COORDINATES_MAJOR_ISSUES', 'COORDINATES_VALID']
+    counter = 0
     for dataset in data:
-        print dataset
+        counter += 1
+        print '{0} out of {1} datasets. Key: {2}'.format(counter, len(data.keys()), dataset)
         basis_of_records = data[dataset]['BASISOFRECORDS']
         taxon_match = data[dataset]['TAXON_MATCHES']
         media_metr = data[dataset]['MEDIA']
@@ -43,7 +45,8 @@ def write_data(data, settings_file):
         nr_of_records = data[dataset]['NUMBER_OF_RECORDS']
         taxonomy = json.dumps(data[dataset]['TAXONOMY'])
         images_sample = data[dataset]['MEDIA']['images_sample']
-        row = basis_of_record_data + taxon_match_data + media_data + coordinate_quality_data + [nr_of_records, taxonomy, images_sample, dataset]
+        archive_generated_date = data[dataset]['archive_generated_at']
+        row = basis_of_record_data + taxon_match_data + media_data + coordinate_quality_data + [nr_of_records, taxonomy, images_sample, archive_generated_date, dataset]
         writer.write_metrics(row, settings['api_key'])
 
 def main():
