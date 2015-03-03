@@ -29,6 +29,9 @@ def parse_archive(a):
     with DwCAReader(a, extensions_to_ignore="verbatim.txt") as dwca:
         r = {}
 
+        # YYYY-MM-DD, polluted with spaces and \n's
+        archive_published_at = dwca.metadata.eml.dataset.pubDate.string.strip()
+
         i = 0
         for row in dwca:
             # 0. Add dataset if previously unknown...
@@ -36,6 +39,7 @@ def parse_archive(a):
             if not (dataset_key in r):
                 # Newly encountered dataset
                 r[dataset_key] = DatasetDescriptor()
+                r[dataset_key].set_archive_generated_at(archive_published_at)
 
             # 1. Increment total number of records per dataset...
             r[dataset_key].increment_number_records()
@@ -47,6 +51,7 @@ def parse_archive(a):
 
             r[dataset_key].store_or_increment_coordinatecategory(get_coordinates_quality_category(row))
 
+            # Multimedia categories
             if 'MULTIMEDIA_URL_INVALID' in row.data[ISSUES_TERM]:
                 r[dataset_key].mul_increment_invalid_url_count()
             else:
