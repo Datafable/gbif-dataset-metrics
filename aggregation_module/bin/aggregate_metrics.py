@@ -45,7 +45,7 @@ def write_data(data, settings_file):
         nr_of_records = data[dataset]['NUMBER_OF_RECORDS']
         taxonomy = json.dumps(data[dataset]['TAXONOMY'])
         images_sample = data[dataset]['MEDIA']['images_sample']
-        archive_generated_date = data[dataset]['archive_generated_at']
+        archive_generated_date = data[dataset]['ARCHIVE_GENERATED_AT']
         row = basis_of_record_data + taxon_match_data + media_data + coordinate_quality_data + [nr_of_records, taxonomy, images_sample, archive_generated_date, dataset]
         writer.write_metrics(row, settings['api_key'])
 

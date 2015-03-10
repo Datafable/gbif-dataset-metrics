@@ -2,6 +2,7 @@ from glob import glob
 import json
 import random
 import requests
+from dateutil import parser
 from nesting import Nest
 
 class ReportAggregator():
@@ -181,7 +182,7 @@ class ReportAggregator():
 
 class CartoDBWriter():
     def __init__(self):
-        self.sql_statement = "update gbif_dataset_metrics_test set bor_preserved_specimen={0}, bor_fossil_specimen={1}, bor_living_specimen={2}, bor_material_sample={3}, bor_observation={4}, bor_human_observation={5}, bor_machine_observation={6}, bor_literature={7}, bor_unknown={8}, taxon_not_provided={9}, taxon_match_none={10}, taxon_match_higherrank={11}, taxon_match_fuzzy={12}, taxon_match_complete={13}, multimedia_not_provided={14}, multimedia_url_invalid={15}, multimedia_valid={16}, coordinates_not_provided={17}, coordinates_minor_issues={18}, coordinates_major_issues={19}, coordinates_valid={20}, occurrences={21}, taxonomy='{22}', images_sample='{23}' where dataset_key='{24}'"
+        self.sql_statement = "update gbif_dataset_metrics_test set bor_preserved_specimen={0}, bor_fossil_specimen={1}, bor_living_specimen={2}, bor_material_sample={3}, bor_observation={4}, bor_human_observation={5}, bor_machine_observation={6}, bor_literature={7}, bor_unknown={8}, taxon_not_provided={9}, taxon_match_none={10}, taxon_match_higherrank={11}, taxon_match_fuzzy={12}, taxon_match_complete={13}, multimedia_not_provided={14}, multimedia_url_invalid={15}, multimedia_valid={16}, coordinates_not_provided={17}, coordinates_minor_issues={18}, coordinates_major_issues={19}, coordinates_valid={20}, occurrences={21}, taxonomy='{22}', images_sample='{23}', archive_generated_at='{24}' where dataset_key='{25}'; insert into gbif_dataset_metrics_test (type, bor_preserved_specimen, bor_fossil_specimen, bor_living_specimen, bor_material_sample, bor_observation, bor_human_observation, bor_machine_observation, bor_literature, bor_unknown, taxon_not_provided, taxon_match_none, taxon_match_higherrank, taxon_match_fuzzy, taxon_match_complete, multimedia_not_provided, multimedia_url_invalid, multimedia_valid, coordinates_not_provided, coordinates_minor_issues, coordinates_major_issues, coordinates_valid, occurrences, taxonomy, images_sample, archive_generated_at, dataset_key) SELECT 'OCCURRENCE', {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21}, '{22}', '{23}', '{24}', '{25}' WHERE NOT EXISTS (SELECT 1 FROM gbif_dataset_metrics_test WHERE dataset_key='{25}')"
 
     def write_metrics(self, row, api_key):
         params = {'q': self.sql_statement.format(*row), 'api_key': api_key}
