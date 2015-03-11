@@ -34,14 +34,17 @@ class ReportAggregator():
             if metric_type in metrics_data.keys():
                 if type(dataset[metric_type]) is dict:
                     for metric_name in dataset[metric_type].keys():
-                        if type(dataset[metric_type][metric_name]) is dict:
-                            for occurrence_id in dataset[metric_type][metric_name].keys():
-                                metrics_data[metric_type][metric_name][occurrence_id] = dataset[metric_type][metric_name][occurrence_id]
+                        if metric_name in ['audio', 'no_type', 'movingimage', 'stillimage'] and metric_type is 'MEDIA':
+                            pass # Skip the multimedia. We will not use it at this point and it's consuming lots of resources
                         else:
-                            if metric_name in metrics_data[metric_type].keys():
-                                metrics_data[metric_type][metric_name] += dataset[metric_type][metric_name]
+                            if type(dataset[metric_type][metric_name]) is dict:
+                                for occurrence_id in dataset[metric_type][metric_name].keys():
+                                    metrics_data[metric_type][metric_name][occurrence_id] = dataset[metric_type][metric_name][occurrence_id]
                             else:
-                                metrics_data[metric_type][metric_name] = dataset[metric_type][metric_name]
+                                if metric_name in metrics_data[metric_type].keys():
+                                    metrics_data[metric_type][metric_name] += dataset[metric_type][metric_name]
+                                else:
+                                    metrics_data[metric_type][metric_name] = dataset[metric_type][metric_name]
                 else:
                     metrics_data[metric_type] += dataset[metric_type]
             else:
