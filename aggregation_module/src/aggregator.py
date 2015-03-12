@@ -31,7 +31,7 @@ class ReportAggregator():
                         (logically, duplicate keys cannot occur)
         """
         for metric_type in dataset.keys():
-            if metric_type in metrics_data.keys():
+            if metric_type in metrics_data.keys() and metric_type is not 'ARCHIVE_GENERATED_AT':
                 if type(dataset[metric_type]) is dict:
                     for metric_name in dataset[metric_type].keys():
                         if metric_name in ['audio', 'no_type', 'movingimage', 'stillimage'] and metric_type is 'MEDIA':
