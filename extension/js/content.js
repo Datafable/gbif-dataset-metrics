@@ -17,7 +17,7 @@ var addMessageArea = function () {
 var addMessage = function(html) {
     html = '<p class="alert alert-warning"><strong>Dataset metrics extension:</strong> ' + html + '</p>';
     $("#firstContent").append(html);
-}
+};
 
 var getMetrics = function (datasetKey, showMetrics) {
     // Get dataset metadata from GBIF

@@ -16,7 +16,7 @@ var addMetricsToHomePage = function (metrics) {
     html = html + occurrencesAchievement(metrics); // Occurrences achievement
     html = html + georeferenceAchievement(metrics); // Georeference achievement
     html = html + multimediaAchievement(metrics); // Multimedia achievement
-    if (html != "") {
+    if (html !== "") {
         $("#firstContent").append('<p id="achievements">' + html + '</p>');
     }
 
@@ -30,7 +30,7 @@ var addMetricsToHomePage = function (metrics) {
 
 var imageThumbnails = function (metrics) {
     var html = "",
-        images = JSON.parse(metrics.images_sample)
+        images = JSON.parse(metrics.images_sample),
         thumbnails = [];
 
     if (Object.keys(images).length === 0) {
@@ -54,7 +54,7 @@ var imageThumbnails = function (metrics) {
             thumbnails.push('<a href="http://gbif.org/occurrence/' + gbifID + '" class="thumbnail"><img src="' + url + '" alt="Image for occurrence ' + gbifID + '"></a>');
         });
 
-        var html =  '<article id="imagesSample">' +
+        html =  '<article id="imagesSample">' +
                         '<header></header>' +
                         '<div class="content">' +
                             '<div class="header"><div class="left"><h2>Images Sample</h2></div></div>' +
