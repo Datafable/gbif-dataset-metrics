@@ -1,57 +1,36 @@
+import click
 import sys
 import os
 import json
 SRC_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + '/src'
 sys.path.append(SRC_DIR)
-from aggregator import ReportAggregator, CartoDBWriter
+from aggregator import AggregationJobsManager
 
-def check_arguments():
-    if len(sys.argv) != 3:
-        print 'usage: aggregate_metrics.py <data directory> <settings.json>\n'
-        print '    data directory:  this should point to a directory'
-        print '                     containing chunks of metric data.'
-        print '                     metric data should be in json and'
-        print '                     ordered by dataset key.\n'
-        print '    settings.json:   contains the `api_key` that will'
-        print '                     be used to contact the cartodb API.'
-        sys.exit(-1)
-    data_dir, settings_file = sys.argv[1:]
-    return [data_dir, settings_file]
+@click.group()
+def aggregate_metrics():
+    pass
 
-def aggregate_metrics(data_dir):
-    agg = ReportAggregator()
-    data = agg.aggregate(data_dir)
-    return data
 
-def write_data(data, settings_file):
-    settings = json.load(open(settings_file))
-    writer = CartoDBWriter()
-    basis_of_records_metrics = ['PRESERVED_SPECIMEN', 'FOSSIL_SPECIMEN', 'LIVING_SPECIMEN', 'MATERIAL_SAMPLE', 'OBSERVATION', 'HUMAN_OBSERVATION', 'MACHINE_OBSERVATION', 'LITERATURE', 'UNKNOWN']
-    taxon_match_metrics = ['TAXON_NOT_PROVIDED', 'TAXON_MATCH_NONE', 'TAXON_MATCH_HIGHERRANK', 'TAXON_MATCH_FUZZY', 'TAXON_MATCH_COMPLETE']
-    media_metrics = ['media_not_provided', 'media_url_invalid', 'media_valid']
-    coordinate_metrics = ['COORDINATES_NOT_PROVIDED', 'COORDINATES_MINOR_ISSUES', 'COORDINATES_MAJOR_ISSUES', 'COORDINATES_VALID']
-    counter = 0
-    for dataset in data:
-        counter += 1
-        print '{0} out of {1} datasets. Key: {2}'.format(counter, len(data.keys()), dataset)
-        basis_of_records = data[dataset]['BASISOFRECORDS']
-        taxon_match = data[dataset]['TAXON_MATCHES']
-        media_metr = data[dataset]['MEDIA']
-        coordinate_quality = data[dataset]['COORDINATE_QUALITY_CATEGORIES']
-        basis_of_record_data = [basis_of_records[x] if x in basis_of_records.keys() else 0 for x in basis_of_records_metrics]
-        taxon_match_data = [taxon_match[x] if x in taxon_match.keys() else 0 for x in taxon_match_metrics]
-        media_data = [media_metr[x] if x in media_metr.keys() else 0 for x in media_metrics]
-        coordinate_quality_data = [coordinate_quality[x] if x in coordinate_quality.keys() else 0 for x in coordinate_metrics]
-        nr_of_records = data[dataset]['NUMBER_OF_RECORDS']
-        taxonomy = json.dumps(data[dataset]['TAXONOMY'])
-        images_sample = data[dataset]['MEDIA']['images_sample']
-        archive_generated_date = data[dataset]['ARCHIVE_GENERATED_AT']
-        row = basis_of_record_data + taxon_match_data + media_data + coordinate_quality_data + [nr_of_records, taxonomy, images_sample, archive_generated_date, dataset]
-        writer.write_metrics(row, settings['api_key'])
+@click.command()
+@click.argument('dir', type=click.Path(exists=True))
+def create_index(dir):
+    """Create an index of the datasets found in DIR"""
+    agg = AggregationJobsManager()
+    agg.createIndex(dir)
 
-def main():
-    data_dir, settings_file = check_arguments()
-    data = aggregate_metrics(data_dir)
-    write_data(data, settings_file)
+@click.command()
+@click.argument('dir', type=click.Path(exists=True))
+@click.option('--api_key', help='CartoDB API key', default=None)
+@click.option('--offset', help='skip the first number of datasets', default=0, type=int)
+@click.option('--limit', help='only aggregate LIMIT number of datasets', default=None, type=int)
+def aggregate(dir, api_key, offset, limit):
+    """Aggregate data in DIR"""
+    agg = AggregationJobsManager()
+    agg.aggregate(dir, api_key=api_key, minindex=offset, limit=limit)
 
-main()
+aggregate_metrics.add_command(create_index)
+aggregate_metrics.add_command(aggregate)
+
+
+if __name__ == '__main__':
+    aggregate_metrics()

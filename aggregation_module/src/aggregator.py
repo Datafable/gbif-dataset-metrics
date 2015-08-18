@@ -1,15 +1,16 @@
 from glob import glob
 import json
+import pickle
+import os
+import re
 import random
 import requests
-from dateutil import parser
+import logging
 from nesting import Nest
 
-class ReportAggregator():
-    """
-    This class will be used to aggregate *.json files.
-    Metric data will be aggregated by data set key
-    """
+logging.basicConfig(level=logging.DEBUG, format='(%(threadName)-10s) %(message)s',)
+
+class AggregationJobsManager():
 
     def find_files(self, folder):
         """
@@ -18,6 +19,77 @@ class ReportAggregator():
         """
         files = glob(folder + '/*.json')
         return files
+
+    def createIndex(self, folder):
+        """
+        The index contains an array of files that contain metrics
+        for a given dataset, per dataset key. This means that if
+        you need all the metrics for one dataset, you can use the
+        index to find out which files you need to open.
+        """
+        index_file_name = os.path.join(folder, 'dataset_index.pkl')
+        if os.path.exists(index_file_name):
+            index = pickle.load(open(index_file_name))
+            if len(index.keys()) > 0:
+                logging.debug('reading existing index')
+                logging.debug('index contains {0} datasets'.format(len(index.keys())))
+                return index
+        logging.debug('creating index')
+        files = self.find_files(folder)
+        index = {}
+        for f in files:
+            data = json.load(open(f))
+            for data_set in data.keys():
+                if data_set in index.keys():
+                    index[data_set].append(f)
+                else:
+                    index[data_set] = [f]
+        index_file = open(index_file_name, 'w+')
+        pickle.dump(index, index_file)
+        logging.debug('index created')
+        logging.debug('index contains {0} datasets'.format(len(index.keys())))
+        return index
+
+
+    def aggregate(self, data_folder, api_key=None, minindex=0, limit=None):
+        """
+        iterate over all the *.json files
+        and merge the metrics data by dataset key and
+        metric type.
+        Once the aggregation is finished, create a taxonomy tree
+        and create a sample of image urls.
+        """
+        index = self.createIndex(data_folder)
+        sorted_datasets = sorted(index.keys())
+        outfile = open('agg_data.json', 'w+')
+        outfile.write('{')
+        separator = ''
+        if limit is None:
+            limit = len(sorted_datasets) - minindex
+            maxindex = len(sorted_datasets)
+        else:
+            if limit > len(sorted_datasets) - minindex:
+                limit = len(sorted_datasets) - minindex
+            maxindex = limit + minindex
+        logging.debug('{0} datasets to process'.format(limit))
+        for x in sorted_datasets[minindex:maxindex]:
+            subindex = {'index': [x, index[x]], 'api_key': api_key}
+            r = ReportAggregator()
+            metrics = r.aggregate_dataset(subindex)
+            if api_key is None:
+                outfile.write(separator)
+                separator = ','
+                outfile.write('"{0}": '.format(x))
+                json.dump(metrics, outfile)
+        outfile.write('}')
+        outfile.close()
+
+
+class ReportAggregator():
+    """
+    This class will be used to aggregate *.json files.
+    Metric data will be aggregated by data set key
+    """
 
     def merge_data_set_in_metrics(self, dataset, metrics_data):
         """
@@ -31,7 +103,7 @@ class ReportAggregator():
                         (logically, duplicate keys cannot occur)
         """
         for metric_type in dataset.keys():
-            if metric_type in metrics_data.keys() and metric_type is not 'ARCHIVE_GENERATED_AT':
+            if metric_type in metrics_data.keys() and not re.search('ARCHIVE_GENERATED_AT', metric_type):
                 if type(dataset[metric_type]) is dict:
                     for metric_name in dataset[metric_type].keys():
                         if metric_name in ['audio', 'no_type', 'movingimage', 'stillimage'] and metric_type is 'MEDIA':
@@ -52,30 +124,27 @@ class ReportAggregator():
         return True
                 
 
-    def aggregate(self, data_folder):
-        """
-        iterate over all the *.json files
-        and merge the metrics data by dataset key and
-        metric type.
-        Once the aggregation is finished, create a taxonomy tree
-        and create a sample of image urls.
-        """
-        files = self.find_files(data_folder)
+    def aggregate_dataset(self, data):
+        index = data['index']
+        api_key = data['api_key']
+        dataset_key = index[0]
+        files = index[1]
         metrics = {}
         for f in files:
-            print 'aggregating {0}'.format(f)
             data = json.load(open(f))
-            for data_set in data.keys():
-                if data_set in metrics.keys():
-                    self.merge_data_set_in_metrics(data[data_set], metrics[data_set])
-                else:
-                    metrics[data_set] = data[data_set]
-        for dataset in metrics.keys():
-            taxonomy = self.aggregate_taxonomy(metrics[dataset]['TAXONOMY'])
-            metrics[dataset]['TAXONOMY'] = taxonomy
-            if 'MEDIA' in metrics[dataset].keys():
-                images_sample = self.get_images_sample(metrics[dataset]['MEDIA'], 20)
-                metrics[dataset]['MEDIA']['images_sample'] = json.dumps(images_sample)
+            if metrics is {}:
+                metrics = data[dataset_key]
+            else:
+                self.merge_data_set_in_metrics(data[dataset_key], metrics)
+        taxonomy = self.aggregate_taxonomy(metrics['TAXONOMY'])
+        metrics['TAXONOMY'] = taxonomy
+        if 'MEDIA' in metrics.keys():
+            images_sample = self.get_images_sample(metrics['MEDIA'], 20)
+            metrics['MEDIA']['images_sample'] = json.dumps(images_sample)
+        if api_key is not None:
+            writer = CartoDBWriter()
+            writer.write_metrics(dataset_key, metrics, api_key)
+        logging.debug('dataset {0} processed'.format(dataset_key))
         return metrics
 
     def get_images_sample(self, indata, sample_size):
@@ -185,11 +254,55 @@ class ReportAggregator():
 
 class CartoDBWriter():
     def __init__(self):
-        self.sql_statement = "update gbif_dataset_metrics_test set bor_preserved_specimen={0}, bor_fossil_specimen={1}, bor_living_specimen={2}, bor_material_sample={3}, bor_observation={4}, bor_human_observation={5}, bor_machine_observation={6}, bor_literature={7}, bor_unknown={8}, taxon_not_provided={9}, taxon_match_none={10}, taxon_match_higherrank={11}, taxon_match_fuzzy={12}, taxon_match_complete={13}, multimedia_not_provided={14}, multimedia_url_invalid={15}, multimedia_valid={16}, coordinates_not_provided={17}, coordinates_minor_issues={18}, coordinates_major_issues={19}, coordinates_valid={20}, occurrences={21}, taxonomy='{22}', images_sample='{23}', archive_generated_at='{24}' where dataset_key='{25}'; insert into gbif_dataset_metrics_test (type, bor_preserved_specimen, bor_fossil_specimen, bor_living_specimen, bor_material_sample, bor_observation, bor_human_observation, bor_machine_observation, bor_literature, bor_unknown, taxon_not_provided, taxon_match_none, taxon_match_higherrank, taxon_match_fuzzy, taxon_match_complete, multimedia_not_provided, multimedia_url_invalid, multimedia_valid, coordinates_not_provided, coordinates_minor_issues, coordinates_major_issues, coordinates_valid, occurrences, taxonomy, images_sample, archive_generated_at, dataset_key) SELECT 'OCCURRENCE', {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21}, '{22}', '{23}', '{24}', '{25}' WHERE NOT EXISTS (SELECT 1 FROM gbif_dataset_metrics_test WHERE dataset_key='{25}')"
+        self.sql_statement = """
+        update gbif_dataset_metrics_test
+        set bor_preserved_specimen={0}, bor_fossil_specimen={1}, bor_living_specimen={2}, bor_material_sample={3},
+        bor_observation={4}, bor_human_observation={5}, bor_machine_observation={6}, bor_literature={7},
+        bor_unknown={8}, taxon_not_provided={9}, taxon_match_none={10}, taxon_match_higherrank={11},
+        taxon_match_fuzzy={12}, taxon_match_complete={13}, multimedia_not_provided={14}, multimedia_url_invalid={15},
+        multimedia_valid={16}, coordinates_not_provided={17}, coordinates_minor_issues={18},
+        coordinates_major_issues={19}, coordinates_valid={20}, occurrences={21}, taxonomy='{22}', images_sample={23},
+        archive_generated_at='{24}' where dataset_key='{25}';
+        insert into gbif_dataset_metrics_test (
+            type, bor_preserved_specimen, bor_fossil_specimen, bor_living_specimen, bor_material_sample,
+            bor_observation, bor_human_observation, bor_machine_observation, bor_literature, bor_unknown,
+            taxon_not_provided, taxon_match_none, taxon_match_higherrank, taxon_match_fuzzy, taxon_match_complete,
+            multimedia_not_provided, multimedia_url_invalid, multimedia_valid, coordinates_not_provided,
+            coordinates_minor_issues, coordinates_major_issues, coordinates_valid, occurrences, taxonomy, images_sample,
+            archive_generated_at, dataset_key
+        ) SELECT 'OCCURRENCE', {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15},
+        {16}, {17}, {18}, {19}, {20}, {21}, '{22}', {23}, '{24}', '{25}'
+        WHERE NOT EXISTS (
+            SELECT 1 FROM gbif_dataset_metrics_test WHERE dataset_key='{25}'
+        )"""
 
-    def write_metrics(self, row, api_key):
+    def metrics2row(self, metrics):
+        basis_of_records_metrics = ['PRESERVED_SPECIMEN', 'FOSSIL_SPECIMEN', 'LIVING_SPECIMEN', 'MATERIAL_SAMPLE',
+                                    'OBSERVATION', 'HUMAN_OBSERVATION', 'MACHINE_OBSERVATION', 'LITERATURE', 'UNKNOWN']
+        taxon_match_metrics = ['TAXON_NOT_PROVIDED', 'TAXON_MATCH_NONE', 'TAXON_MATCH_HIGHERRANK', 'TAXON_MATCH_FUZZY',
+                               'TAXON_MATCH_COMPLETE']
+        media_metrics = ['media_not_provided', 'media_url_invalid', 'media_valid']
+        coordinate_metrics = ['COORDINATES_NOT_PROVIDED', 'COORDINATES_MINOR_ISSUES', 'COORDINATES_MAJOR_ISSUES',
+                              'COORDINATES_VALID']
+        basis_of_records = metrics['BASISOFRECORDS']
+        taxon_match = metrics['TAXON_MATCHES']
+        media_metr = metrics['MEDIA']
+        coordinate_quality = metrics['COORDINATE_QUALITY_CATEGORIES']
+        basis_of_record_data = [basis_of_records[x] if x in basis_of_records.keys() else 0 for x in basis_of_records_metrics]
+        taxon_match_data = [taxon_match[x] if x in taxon_match.keys() else 0 for x in taxon_match_metrics]
+        media_data = [media_metr[x] if x in media_metr.keys() else 0 for x in media_metrics]
+        coordinate_quality_data = [coordinate_quality[x] if x in coordinate_quality.keys() else 0 for x in coordinate_metrics]
+        nr_of_records = metrics['NUMBER_OF_RECORDS']
+        taxonomy = json.dumps(metrics['TAXONOMY'])
+        images_sample = metrics['MEDIA']['images_sample']
+        archive_generated_date = metrics['ARCHIVE_GENERATED_AT']
+        row = basis_of_record_data + taxon_match_data + media_data + coordinate_quality_data + [nr_of_records, taxonomy, images_sample, archive_generated_date]
+        return row
+
+    def write_metrics(self, dataset_key, metrics, api_key):
+        row = self.metrics2row(metrics)
+        row.append(dataset_key)
         params = {'q': self.sql_statement.format(*row), 'api_key': api_key}
         #print self.sql_statement.format(*row)
         r = requests.post('http://datafable.cartodb.com/api/v2/sql', data=params)
-        print r.status_code
-        print r.text
+        logging.debug('{0}: {1}: {2}'.format(dataset_key, r.status_code, r.text))
