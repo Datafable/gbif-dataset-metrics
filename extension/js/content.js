@@ -1,27 +1,27 @@
 var getDatasetKeyFromURL = function () {
     var pathArray = window.location.pathname.split('/'),
-        datasetKey = "";
-    if (pathArray[1] === "dataset") { // On GBIF website, get datasetKey from URL.
+        datasetKey = '';
+    if (pathArray[1] === 'dataset') { // On GBIF website, get datasetKey from URL.
         datasetKey = pathArray[2];
     } else { // Elsewhere, use demo datasetKey.
-        datasetKey = "0debafd0-6c8a-11de-8225-b8a03c50a862"; // Australian National Wildlife Collection
+        datasetKey = '0debafd0-6c8a-11de-8225-b8a03c50a862'; // Australian National Wildlife Collection
     }
     return datasetKey;
 };
 
 var addMessageArea = function () {
     var html = '<article id="firstContent"></content>';
-    $("#content").prepend(html);
+    $('#content').prepend(html);
 };
 
 var addMessage = function(html) {
     html = '<p class="alert alert-warning"><strong>Dataset metrics extension:</strong> ' + html + '</p>';
-    $("#firstContent").append(html);
+    $('#firstContent').append(html);
 };
 
 var getMetrics = function (datasetKey, showMetrics) {
     // Get dataset metadata from GBIF
-    var url = "http://api.gbif.org/v1/dataset/" + datasetKey;
+    var url = 'http://api.gbif.org/v1/dataset/' + datasetKey;
     $.getJSON(url, function (result) {
         var type = result.type,
             datasetModifiedAt = new Date(result.modified); // This is actually the date that the dataset was last updated in the registry. Ideally, we use e.g. http://api.gbif.org/v1/dataset/50c9509d-22c7-4a22-a47d-8c48425ef4a7/process
@@ -29,7 +29,7 @@ var getMetrics = function (datasetKey, showMetrics) {
         // Add container for messages and achievements
         addMessageArea();
 
-        if (type === "OCCURRENCE") {
+        if (type === 'OCCURRENCE') {
             // Get data from metrics store in CartoDB.
             var url = "http://datafable.cartodb.com/api/v2/sql?q=WITH ranked_metrics AS ( SELECT *, ntile(100) OVER (ORDER BY occurrences) AS occurrences_percentile FROM gbif_dataset_metrics WHERE type = 'OCCURRENCE' AND occurrences IS NOT NULL) SELECT * FROM ranked_metrics WHERE dataset_key ='" + datasetKey + "'";
             $.getJSON(url, function (result) {
@@ -43,13 +43,13 @@ var getMetrics = function (datasetKey, showMetrics) {
                     showMetrics(result.rows[0]); // Only one row [0] expected
                 }
             }).fail(function() {
-                console.log("CartoDB API error.");
+                console.log('CartoDB API error.');
             });    
         } else { // Not an occurrence dataset
             addMessage('Sorry, we don\'t have metrics for ' + type + ' datasets.');
         }
     }).fail(function() {
-        console.log("GBIF dataset API error.");
+        console.log('GBIF dataset API error.');
     });
 };
 
@@ -58,34 +58,34 @@ var createAchievementLabel = function (achievement, title, rank) {
 };
 
 var occurrencesAchievement = function (metrics) {
-    var html = "";
+    var html = '';
     var rank = metrics.occurrences_percentile;
     if (rank > 99) {
-        html = createAchievementLabel("Colossal dataset", "More occurrences than 99% of the datasets on GBIF", "gold");
+        html = createAchievementLabel('Colossal dataset', 'More occurrences than 99% of the datasets on GBIF', 'gold');
     } else if (rank > 95) {
-        html = createAchievementLabel("Huge dataset", "More occurrences than 95% of the datasets on GBIF", "silver");
+        html = createAchievementLabel('Huge dataset', 'More occurrences than 95% of the datasets on GBIF', 'silver');
     }
     return html;
 };
 
 var georeferenceAchievement = function (metrics) {
-    var html = "";
+    var html = '';
     var rank = metrics.coordinates_valid / metrics.occurrences;
     if (rank === 1) {
-        html = createAchievementLabel("Georeferencing perfection", "100% valid coordinates", "gold");
+        html = createAchievementLabel('Georeferencing perfection', '100% valid coordinates', 'gold');
     } else if (rank > 0.95) {
-        html = createAchievementLabel("Georeferencing excellence", " More than 95% valid coordinates", "silver");
+        html = createAchievementLabel('Georeferencing excellence', 'More than 95% valid coordinates', 'silver');
     }
     return html;
 };
 
 var multimediaAchievement = function (metrics) {
-    var html = "";
+    var html = '';
     var rank = metrics.multimedia_valid / metrics.occurrences;
     if (rank > 0.90) {
-        html = createAchievementLabel("Multimedia treasure", "More than 90% related multimedia", "gold");
+        html = createAchievementLabel('Multimedia treasure', 'More than 90% related multimedia', 'gold');
     } else if (rank > 0.80) {
-        html = createAchievementLabel("Multimedia gem", " More than 80% related multimedia", "silver");
+        html = createAchievementLabel('Multimedia gem', 'More than 80% related multimedia', 'silver');
     }
     return html;
 };
@@ -104,18 +104,18 @@ var createMetricBar = function (metric) {
 
 var basisOfRecordBar = function (metrics) {
     var metric = {
-        cssClass: "basis-of-record",
+        cssClass: 'basis-of-record',
         total: metrics.occurrences,
         labels: [
-            "Preserved specimens",
-            "Fossil specimens",
-            "Living specimens",
-            "Material samples",
-            "Observations",
-            "Human observations",
-            "Machine observations",
-            "Literature occurrences",
-            "Unknown"
+            'Preserved specimens',
+            'Fossil specimens',
+            'Living specimens',
+            'Material samples',
+            'Observations',
+            'Human observations',
+            'Machine observations',
+            'Literature occurrences',
+            'Unknown'
         ],
         counts: [
             metrics.bor_preserved_specimen,
@@ -134,13 +134,13 @@ var basisOfRecordBar = function (metrics) {
 
 var coordinatesBar = function (metrics) {
     var metric = {
-        cssClass: "coordinates",
+        cssClass: 'coordinates',
         total: metrics.occurrences,
         labels: [
-            "Valid coordinates (all in WGS84)",
-            "Coordinates with minor issues",
-            "Coordinates with major issues",
-            "Coordinates not provided"
+            'Valid coordinates (all in WGS84)',
+            'Coordinates with minor issues',
+            'Coordinates with major issues',
+            'Coordinates not provided'
         ],
         counts: [
             metrics.coordinates_valid,
@@ -154,12 +154,12 @@ var coordinatesBar = function (metrics) {
 
 var multimediaBar = function (metrics) {
     var metric = {
-        cssClass: "multimedia",
+        cssClass: 'multimedia',
         total: metrics.occurrences,
         labels: [
-            "Valid multimedia",
-            "Multimedia URL invalid",
-            "Multimedia not provided"
+            'Valid multimedia',
+            'Multimedia URL invalid',
+            'Multimedia not provided'
         ],
         counts: [
             metrics.multimedia_valid,
@@ -172,14 +172,14 @@ var multimediaBar = function (metrics) {
 
 var taxonMatchBar = function (metrics) {
     var metric = {
-        cssClass: "taxon-match",
+        cssClass: 'taxon-match',
         total: metrics.occurrences,
         labels: [
-            "Taxon found in taxonomic backbone",
-            "Taxon found in taxonomic backbone using fuzzy match",
-            "Taxon not found in taxonomic backbone, but a higher taxon was",
-            "Taxon not found in taxonomic backbone",
-            "Taxon not provided"
+            'Taxon found in taxonomic backbone',
+            'Taxon found in taxonomic backbone using fuzzy match',
+            'Taxon not found in taxonomic backbone, but a higher taxon was',
+            'Taxon not found in taxonomic backbone',
+            'Taxon not provided'
         ],
         counts: [
             metrics.taxon_match_complete,
