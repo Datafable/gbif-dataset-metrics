@@ -25,36 +25,36 @@ var downloadChart = function(datasetKey, dayRange) {
     }
 
     // Update title
-    var anchor = d3.select("#content .results .content");
-    var currentTitle = anchor.select("h2");
-    currentTitle.text(currentTitle.text() + " in total");
+    var anchor = d3.select('#content .results .content');
+    var currentTitle = anchor.select('h2');
+    currentTitle.text(currentTitle.text() + ' in total');
 
     // Add title and div for chart to DOM
-    anchor.insert("div", ":first-child")
-        .attr("class","fullwidth")
-        .attr("id","downloadChart");
-    anchor.insert("div", ":first-child")
-        .attr("class", "header")
-        .append("div")
-            .attr("class", "left")
-            .append("h2")
-                .text("Download activity over the last 30 days");
+    anchor.insert('div', ':first-child')
+        .attr('class','fullwidth')
+        .attr('id','downloadChart');
+    anchor.insert('div', ':first-child')
+        .attr('class', 'header')
+        .append('div')
+            .attr('class', 'left')
+            .append('h2')
+                .text('Download activity over the last 30 days');
 
     var downloadChart = c3.generate({
-        bindto: "#downloadChart",
+        bindto: '#downloadChart',
         data: {
-            x: "days",
+            x: 'days',
             columns: [
-                ["days"].concat(days),
-                ["downloads"].concat(downloads)
+                ['days'].concat(days),
+                ['downloads'].concat(downloads)
             ],
-            type: "bar"
+            type: 'bar'
         },
         axis: {
             x: {
-                type: "timeseries",
+                type: 'timeseries',
                 tick: {
-                    format: "%d/%m"
+                    format: '%d/%m'
                 }
             },
             y: {
@@ -83,7 +83,7 @@ var loadDownloadData = function(datasetKey, pageLimit, startDay, oneDayInMs, dow
     /*  Note: this function does only one call to the GBIF API, so if dayRange 
         is high and pageLimit low, it might not retrieve all downloads. */
     
-    var url = "http://api.gbif.org/v1/occurrence/download/dataset/" + datasetKey + "?limit=" + pageLimit;
+    var url = 'http://api.gbif.org/v1/occurrence/download/dataset/' + datasetKey + '?limit=' + pageLimit;
     d3.json(url,function(error, result) {
         if (error) return console.warn(error);
 
@@ -92,7 +92,7 @@ var loadDownloadData = function(datasetKey, pageLimit, startDay, oneDayInMs, dow
             // console.log(downloadDay);
             
             if (downloadDay >= startDay) {
-                if (result.download.status == "SUCCEEDED") {
+                if (result.download.status == 'SUCCEEDED') {
                     var i = (downloadDay - startDay) / oneDayInMs; // Day index
                     downloads[i] += 1;
                 }
@@ -104,7 +104,7 @@ var loadDownloadData = function(datasetKey, pageLimit, startDay, oneDayInMs, dow
 
         downloadChart.load({
             columns: [
-                ["downloads"].concat(downloads)
+                ['downloads'].concat(downloads)
             ]
         });
     });

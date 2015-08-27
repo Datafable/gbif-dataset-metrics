@@ -4,25 +4,25 @@ var main = function () {
 };
 
 var addMetricsToHomePage = function (metrics) {
-    var html = "";
-    var anchor = $("#summary");
+    var html = '';
+    var anchor = $('#summary');
     
     // Add basis of record bar
     html = html + basisOfRecordBar(metrics);
-    anchor.find(".content").prepend(html);
+    anchor.find('.content').prepend(html);
 
     // Add achievements
-    html = "";
+    html = '';
     html = html + occurrencesAchievement(metrics); // Occurrences achievement
     html = html + georeferenceAchievement(metrics); // Georeference achievement
     html = html + multimediaAchievement(metrics); // Multimedia achievement
-    if (html !== "") {
-        $("#firstContent").append('<p id="achievements">' + html + '</p>');
+    if (html !== '') {
+        $('#firstContent').append('<p id="achievements">' + html + '</p>');
     }
 
     // Add image thumbnails
-    // html = imageThumbnails(metrics);
-    // anchor.after(html);
+    html = imageThumbnails(metrics);
+    anchor.after(html);
 
     // Activate tooltip
     $('[data-toggle="tooltip"]').tooltip();
