@@ -17,11 +17,11 @@ from helpers import (is_dwca, get_taxon_match_category, get_taxonomy,
 
 # A report file will be generated for each DwC-A in this directory.
 # All zip files and subdirectories will be assumed to be DwC-A
-DATA_SOURCE_DIR = os.path.join(CURRENT_DIR, 'sample_base_data')
-REPORTS_DIR = os.path.join(CURRENT_DIR, 'reports')
+DATA_SOURCE_DIR = "/media/nnoe/ffba891c-ca17-4be8-9acc-017cec86c7cc"
+REPORTS_DIR = "/home/nnoe/Dropbox/reports"
 
 # A dot (progress bar) will be printed on screen each time PROGRESS_EACH_X_RECORDS were processed.
-PROGRESS_EACH_X_RECORDS = 1000
+PROGRESS_EACH_X_RECORDS = 50000
 
 
 # Parse the archive located at 'a' and return a JSON report
@@ -63,13 +63,13 @@ def parse_archive(a):
                     for e in mul_ext:
                         t = e.data['http://purl.org/dc/terms/type']
                         if 'StillImage' in t:
-                            r[dataset_key].mul_add_image(row.id, e.data['http://purl.org/dc/terms/references'])
+                            r[dataset_key].mul_add_image(row.id, e.data['http://purl.org/dc/terms/identifier'])
                         elif 'MovingImage' in t:
-                            r[dataset_key].mul_add_video(row.id, e.data['http://purl.org/dc/terms/references'])
+                            r[dataset_key].mul_add_video(row.id, e.data['http://purl.org/dc/terms/identifier'])
                         elif 'Audio' in t:
-                            r[dataset_key].mul_add_audio(row.id, e.data['http://purl.org/dc/terms/references'])
+                            r[dataset_key].mul_add_audio(row.id, e.data['http://purl.org/dc/terms/identifier'])
                         else:
-                            r[dataset_key].mul_add_notype(row.id, e.data['http://purl.org/dc/terms/references'])
+                            r[dataset_key].mul_add_notype(row.id, e.data['http://purl.org/dc/terms/identifier'])
                 else:
                     r[dataset_key].mul_increment_not_provided_count()
 
