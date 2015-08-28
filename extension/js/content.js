@@ -4,7 +4,7 @@ var getDatasetKeyFromURL = function () {
     if (pathArray[1] === 'dataset') { // On GBIF website, get datasetKey from URL.
         datasetKey = pathArray[2];
     } else { // Elsewhere, use demo datasetKey.
-        datasetKey = '0debafd0-6c8a-11de-8225-b8a03c50a862'; // Australian National Wildlife Collection
+        datasetKey = '858d51e0-f762-11e1-a439-00145eb45e9a'; // The Erysiphales Collection at the Botanische Staatssammlung München
     }
     return datasetKey;
 };
