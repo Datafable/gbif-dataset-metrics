@@ -2,7 +2,7 @@
 
 ## Rationale
 
-The [Global Biodiversity Information Facility (GBIF)](http://www.gbif.org) facilitates access to over 12,607 species occurrence datasets, collectively holding more than 570 million records. GBIF **dataset pages** are important access points to GBIF-mediated data (e.g. via DOIs) and currently show dataset metadata, a map of georeferenced occurrences, some basic statistics, and a paged table of download events. If a user wants to know more about the occurrences a dataset contains, he/she has to filter/page through a table of occurrences or download the data. Neither are convenient ways to get quick insights or assess the fitness for use.
+The [Global Biodiversity Information Facility (GBIF)](http://www.gbif.org) facilitates access to over 13,207 species occurrence datasets, collectively holding more than 570 million records. GBIF **dataset pages** are important access points to GBIF-mediated data (e.g. via DOIs) and currently show dataset metadata, a map of georeferenced occurrences, some basic statistics, and a paged table of download events. If a user wants to know more about the occurrences a dataset contains, he/she has to filter/page through a table of occurrences or download the data. Neither are convenient ways to get quick insights or assess the fitness for use.
 
 ## Result
 
@@ -12,7 +12,7 @@ For the [2015 GBIF Ebbe Nielsen challenge](http://gbif.devpost.com/), we develop
 
 The proof of concept consists of two parts: 1) an extraction and aggregation module to process GBIF occurrence downloads and calculate, aggregate, and store the metrics for each dataset and 2) a [Google Chrome extension](https://chrome.google.com/webstore/detail/gbif-dataset-metrics/kcianglkepodpjdiebgidhdghoaeefba), allowing you to view these metrics in context on the GBIF website.
 
-For the [2015 GBIF Ebbe Nielsen Challenge - Round 2](http://gbif2.devpost.com/), we added a sample of the images referenced in (the occurrences of) a dataset. Together with the multimedia bar and achievement, it highlights the currently undervalued multimedia richness of some datasets. We also improved our extraction and aggregation module to process all 570 million GBIF occurrences on the [Amazon EC2 infrastructure](https://aws.amazon.com/ec2/) and are now able to provide metrics for **all** GBIF occurrence datasets. We strongly believe however, that the functionality of our proof of concept - if considered useful - should be implemented on the GBIF infrastructure. For our motivation on this, including its challenges and opportunities, see our [feedback to the jury comments](documentation/feedback-to-comments.md).
+For the [2015 GBIF Ebbe Nielsen Challenge - Round 2](http://gbif2.devpost.com/), we added a sample of the images referenced in (the occurrences of) a dataset. Together with the multimedia bar and achievement, it highlights the currently undervalued multimedia richness of some datasets. We also improved our extraction and aggregation module to process all GBIF occurrences on the [Amazon EC2 infrastructure](https://aws.amazon.com/ec2/) and are now able to provide metrics for all GBIF occurrence datasets. We strongly believe however, that the functionality of our proof of concept - if considered useful - should be implemented on the GBIF infrastructure. For our motivation on this, including its challenges and opportunities, see our [feedback to the jury comments](documentation/feedback-to-comments.md).
 
 ## Installation
 
@@ -39,7 +39,7 @@ For the [2015 GBIF Ebbe Nielsen Challenge - Round 2](http://gbif2.devpost.com/),
 
 ## Limitations
 
-* The metrics are processed using a download of all occurrences on August 5, 2015. It contains xx.xxx occurrences datasets, covering 577.245.398 occurrences. If a dataset is republished since then, the metrics might be out of date. If so, a message will be shown on the dataset page. If you want us to reprocess a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
+* The metrics are processed using a download of all occurrences on August 5, 2015. It contains 12.257 occurrences datasets, covering 577.245.398 occurrences. If a dataset is published or republished since then, it respectively won't have metrics or those might be out of date. If so, a message will be shown on the dataset page. If you want us to reprocess a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
 
 Follow [@Datafable](https://twitter.com/datafable) to be notified of new metrics or improvements.
 
