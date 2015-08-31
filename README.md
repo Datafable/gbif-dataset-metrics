@@ -16,7 +16,7 @@ For the [2015 GBIF Ebbe Nielsen Challenge - Round 2](http://gbif2.devpost.com/),
 
 ## Installation
 
-[Install the Google Chrome Extension](https://chrome.google.com/webstore/detail/gbif-dataset-metrics/kcianglkepodpjdiebgidhdghoaeefba) and visit a [GBIF dataset page](http://www.gbif.org/dataset/858d51e0-f762-11e1-a439-00145eb45e9a).
+[Install the Google Chrome Extension](https://chrome.google.com/webstore/detail/gbif-dataset-metrics/kcianglkepodpjdiebgidhdghoaeefba) and visit a [GBIF dataset page](http://www.gbif.org/dataset/85930e96-f762-11e1-a439-00145eb45e9a).
 
 * Don't want to install the extension, but just see a preview? [See this demo page](http://datafable.com/gbif-dataset-metrics/).
 * Want to calculate the metrics yourself (i.e. run the backend)? Read the documentation on the [extraction](extraction_module/README.md) and [aggregation module](aggregation_module/README.md).
