@@ -2,7 +2,7 @@
 
 ## Rationale
 
-The [Global Biodiversity Information Facility (GBIF)](http://www.gbif.org) facilitates access to over 13,207 species occurrence datasets, collectively holding more than 570 million records. GBIF **dataset pages** are important access points to GBIF-mediated data (e.g. via DOIs) and currently show dataset metadata, a map of georeferenced occurrences, some basic statistics, and a paged table of download events. If a user wants to know more about the occurrences a dataset contains, he/she has to filter/page through a table of occurrences or download the data. Neither are convenient ways to get quick insights or assess the fitness for use.
+The [Global Biodiversity Information Facility (GBIF)](http://www.gbif.org) facilitates access to over 13,233 species occurrence datasets, collectively holding more than 570 million records. GBIF **dataset pages** are important access points to GBIF-mediated data (e.g. via DOIs) and currently show dataset metadata, a map of georeferenced occurrences, some basic statistics, and a paged table of download events. If a user wants to know more about the occurrences a dataset contains, he/she has to filter/page through a table of occurrences or download the data. Neither are convenient ways to get quick insights or assess the fitness for use.
 
 ## Result
 
@@ -39,7 +39,7 @@ For the [2015 GBIF Ebbe Nielsen Challenge - Round 2](http://gbif2.devpost.com/),
 
 ## Limitations
 
-* The metrics are processed using a download of all occurrences on August 5, 2015. It contains 12.257 occurrences datasets, covering 577.245.398 occurrences. If a dataset is published or republished since then, it respectively won't have metrics or those might be out of date. If so, a message will be shown on the dataset page. If you want us to reprocess a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
+* The metrics are processed using a download of all occurrences on August 31, 2015. It contains 13,233 occurrences datasets, covering 570,238,233 occurrences. If a dataset is published or republished since then, it respectively won't have metrics or those might be out of date. If so, a message will be shown on the dataset page. If you want us to reprocess a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
 
 Follow [@Datafable](https://twitter.com/datafable) to be notified of new metrics or improvements.
 
