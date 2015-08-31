@@ -1,14 +1,15 @@
 from glob import glob
-import json
+import simplejson as json
 import pickle
 import os
-import re
 import random
 import requests
 import logging
+import sys
+from collections import Counter
 from nesting import Nest
 
-logging.basicConfig(level=logging.DEBUG, format='(%(threadName)-10s) %(message)s',)
+logging.basicConfig(level=logging.DEBUG, format='%(message)s',)
 
 class AggregationJobsManager():
 
@@ -51,7 +52,7 @@ class AggregationJobsManager():
         return index
 
 
-    def aggregate(self, data_folder, api_key=None, minindex=0, limit=None):
+    def aggregate(self, data_folder, api_key=None, minindex=0, limit=None, keyfile=None):
         """
         iterate over all the *.json files
         and merge the metrics data by dataset key and
@@ -60,21 +61,27 @@ class AggregationJobsManager():
         and create a sample of image urls.
         """
         index = self.createIndex(data_folder)
-        sorted_datasets = sorted(index.keys())
+        r = ReportAggregator()
         outfile = open('agg_data.json', 'w+')
         outfile.write('{')
         separator = ''
-        if limit is None:
-            limit = len(sorted_datasets) - minindex
-            maxindex = len(sorted_datasets)
+        if keyfile:
+            f = open(keyfile)
+            datasets_to_process = [x.strip() for x in f.readlines()]
         else:
-            if limit > len(sorted_datasets) - minindex:
-                limit = len(sorted_datasets) - minindex
-            maxindex = limit + minindex
-        logging.debug('{0} datasets to process'.format(limit))
-        for x in sorted_datasets[minindex:maxindex]:
+            sorted_datasets = sorted(index.keys())
+            if limit is None:
+                maxindex = len(sorted_datasets)
+            else:
+                if limit > len(sorted_datasets) - minindex:
+                    limit = len(sorted_datasets) - minindex
+                maxindex = limit + minindex
+            datasets_to_process = sorted_datasets[minindex:maxindex]
+        logging.debug('{0} datasets to process'.format(len(datasets_to_process)))
+        logging.debug('PROFILING:key,in_data_size,taxonomy_size,media_size,time')
+
+        for x in datasets_to_process:
             subindex = {'index': [x, index[x]], 'api_key': api_key}
-            r = ReportAggregator()
             metrics = r.aggregate_dataset(subindex)
             if api_key is None:
                 outfile.write(separator)
@@ -91,6 +98,9 @@ class ReportAggregator():
     Metric data will be aggregated by data set key
     """
 
+    def __init__(self):
+        self.input_data_cache = {}
+
     def merge_data_set_in_metrics(self, dataset, metrics_data):
         """
         merge the metric data by metric type and metric name and return
@@ -102,25 +112,17 @@ class ReportAggregator():
                     - if the value is a dict, add every key and value from newdata to outdata
                         (logically, duplicate keys cannot occur)
         """
-        for metric_type in dataset.keys():
-            if metric_type in metrics_data.keys() and not re.search('ARCHIVE_GENERATED_AT', metric_type):
-                if type(dataset[metric_type]) is dict:
-                    for metric_name in dataset[metric_type].keys():
-                        if metric_name in ['audio', 'no_type', 'movingimage', 'stillimage'] and metric_type is 'MEDIA':
-                            pass # Skip the multimedia. We will not use it at this point and it's consuming lots of resources
-                        else:
-                            if type(dataset[metric_type][metric_name]) is dict:
-                                for occurrence_id in dataset[metric_type][metric_name].keys():
-                                    metrics_data[metric_type][metric_name][occurrence_id] = dataset[metric_type][metric_name][occurrence_id]
-                            else:
-                                if metric_name in metrics_data[metric_type].keys():
-                                    metrics_data[metric_type][metric_name] += dataset[metric_type][metric_name]
-                                else:
-                                    metrics_data[metric_type][metric_name] = dataset[metric_type][metric_name]
-                else:
-                    metrics_data[metric_type] += dataset[metric_type]
-            else:
-                metrics_data[metric_type] = dataset[metric_type]
+        for metric_name in ['audio', 'no_type', 'movingimage', 'stillimage']:
+            metrics_data['MEDIA'][metric_name].update(dataset['MEDIA'][metric_name])
+        for metric_name in ['media_not_provided', 'media_url_invalid', 'media_valid']:
+            metrics_data['MEDIA'][metric_name] += dataset['MEDIA'][metric_name]
+        metrics_data['NUMBER_OF_RECORDS'] += dataset['NUMBER_OF_RECORDS']
+        for metric_type in ['BASISOFRECORDS', 'COORDINATE_QUALITY_CATEGORIES', 'TAXONOMY', 'TAXON_MATCHES']:
+            metrics_data[metric_type] = dict(
+                sum([
+                    Counter(dataset[metric_type]), Counter(metrics_data[metric_type])
+                ], Counter())
+            )
         return True
                 
 
@@ -129,11 +131,14 @@ class ReportAggregator():
         api_key = data['api_key']
         dataset_key = index[0]
         files = index[1]
+        logging.debug('{0} files to read for this dataset'.format(len(files)))
         metrics = {}
         for f in files:
-            data = json.load(open(f))
-            if metrics is {}:
-                metrics = data[dataset_key]
+            if not f in self.input_data_cache.keys():
+                self.input_data_cache[f] = json.load(open(f))
+            data = self.input_data_cache[f]
+            if not metrics:
+                metrics = dict(data[dataset_key])
             else:
                 self.merge_data_set_in_metrics(data[dataset_key], metrics)
         taxonomy = self.aggregate_taxonomy(metrics['TAXONOMY'])
@@ -161,9 +166,7 @@ class ReportAggregator():
         images_sample = {}
         all_images = indata['stillimage']
         if len(all_images.keys()) is 0:
-            all_images = indata['no_type']
-            if len(all_images.keys()) is 0:
-                return None
+            return None
         occurrences = all_images.keys()
         random.shuffle(occurrences)
         occ_sample = occurrences[0:sample_size]
@@ -304,5 +307,5 @@ class CartoDBWriter():
         row.append(dataset_key)
         params = {'q': self.sql_statement.format(*row), 'api_key': api_key}
         #print self.sql_statement.format(*row)
-        r = requests.post('http://datafable.cartodb.com/api/v2/sql', data=params)
-        logging.debug('{0}: {1}: {2}'.format(dataset_key, r.status_code, r.text))
+        r = requests.post('https://datafable.cartodb.com/api/v2/sql', data=params)
+        logging.debug('API_RESPONSE:{0}: {1}: {2}'.format(dataset_key, r.status_code, r.text))

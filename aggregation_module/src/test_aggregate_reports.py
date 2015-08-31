@@ -64,6 +64,27 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
                 },
+                'MEDIA': {
+                    'movingimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'audio': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'stillimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'no_type': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'media_not_provided': 37,
+                    'media_url_invalid': 12,
+                    'media_valid': 61,
+                },
                 'NUMBER_OF_RECORDS': 6695
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
@@ -80,6 +101,27 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MINOR_ISSUES': 5,
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
+                },
+                'MEDIA': {
+                    'movingimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'audio': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'stillimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'no_type': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'media_not_provided': 37,
+                    'media_url_invalid': 12,
+                    'media_valid': 61,
                 },
                 'NUMBER_OF_RECORDS': 542
             }
@@ -138,6 +180,27 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
                 },
+                'MEDIA': {
+                    'movingimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'audio': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'stillimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'no_type': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'media_not_provided': 37,
+                    'media_url_invalid': 12,
+                    'media_valid': 61,
+                },
                 'NUMBER_OF_RECORDS': 89963
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
@@ -154,6 +217,27 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MINOR_ISSUES': 5,
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
+                },
+                'MEDIA': {
+                    'movingimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'audio': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'stillimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'no_type': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'media_not_provided': 37,
+                    'media_url_invalid': 12,
+                    'media_valid': 61,
                 },
                 'NUMBER_OF_RECORDS': 130
             }
@@ -174,6 +258,15 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
                 },
+                'MEDIA': {
+                    'movingimage': {},
+                    'audio': {},
+                    'stillimage': {},
+                    'no_type': {},
+                    'media_not_provided': 10,
+                    'media_url_invalid': 10,
+                    'media_valid': 10,
+                },
                 'NUMBER_OF_RECORDS': 14
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
@@ -190,6 +283,27 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MINOR_ISSUES': 5,
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
+                },
+                'MEDIA': {
+                    'movingimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'audio': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'stillimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'no_type': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'media_not_provided': 37,
+                    'media_url_invalid': 12,
+                    'media_valid': 61,
                 },
                 'NUMBER_OF_RECORDS': 137
             }
@@ -208,6 +322,7 @@ class TestAggregator(unittest.TestCase):
     def setUp(self):
         self.test_files = []
         self.agg = aggregator.ReportAggregator()
+        self.agg_man = aggregator.AggregationJobsManager()
         self.createFixtureData()
 
     def tearDown(self):
@@ -231,28 +346,11 @@ class TestAggregator(unittest.TestCase):
         expected_index = {'05ebc824-3a3b-4f64-ab22-99b0e2c3aa48': ['gbif_extract0.json', 'gbif_extract1.json'],
             '3F2504E0-4F89-11D3-9A0C-0305E82C3301': ['gbif_extract0.json', 'gbif_extract1.json', 'gbif_extract2.json'],
             '82746a3e-f762-11e1-a439-00145eb45e9a': ['gbif_extract0.json', 'gbif_extract1.json', 'gbif_extract2.json']}
-        index = self.agg.createIndex(self.test_dir)
+        index = self.agg_man.createIndex(self.test_dir)
         self.compare_indices(index, expected_index)
         indexfile = open(os.path.join(self.test_dir, 'dataset_index.pkl'))
         written_index = pickle.load(indexfile)
         self.compare_indices(written_index, expected_index)
-
-    def test_merge_data(self):
-        outdata = {'metric_type1': {'metric1': 10, 'metric2': 2}, 'metric_type3': {'metric_subtype4': {'occurrence1': ['one', 'two']}}}
-        newdata = {'metric_type1':
-                   {'metric1': 2, 'metric2': 5, 'metric3': 1},
-                   'metric_type2':
-                   {'metric4': 1},
-                   'metric_type3': {
-                       'metric_subtype4': {
-                           'occurrence2': ['one', 'two'],
-                           'occurrence4': ['three']
-                       }
-                   }
-                  }
-        mergeddata = {'metric_type1': {'metric1': 12, 'metric2': 7, 'metric3': 1}, 'metric_type2': {'metric4': 1}, 'metric_type3': {'metric_subtype4': {'occurrence1': ['one', 'two'], 'occurrence2': ['one', 'two'], 'occurrence4': ['three']}}}
-        self.agg.merge_data_set_in_metrics(newdata, outdata)
-        self.assertEqual(outdata, mergeddata)
 
     def test_aggregate_one_dataset(self):
         dataset_key = '3F2504E0-4F89-11D3-9A0C-0305E82C3301'
@@ -270,14 +368,14 @@ class TestAggregator(unittest.TestCase):
         taxon_fuzzy = 3 * 10
         taxon_complete = 3 * 10
         taxon_not_provided = 3 * 10
-        media_not_provided = 37 + 15
-        media_url_invalid = 12 + 2
-        media_valid = 61 + 20
+        media_not_provided = 37 + 15 + 10
+        media_url_invalid = 12 + 2 + 10
+        media_valid = 61 + 20 + 10
         movingimage = {u'occid1': [u'url1', u'url2'], u'occid3': [u'url4', u'url5'], u'occid2': [u'url3'], u'occid4': [u'url6']}
         stillimage = movingimage
         audio = movingimage
         notype = movingimage
-        aggregated_metrics = self.agg.aggregate_one_dataset(dataset_key, self.test_files)
+        aggregated_metrics = self.agg.aggregate_dataset({'index': [dataset_key, self.test_files], 'api_key': None})
         self.assertEqual(aggregated_metrics['BASISOFRECORDS']['HUMAN_OBSERVATION'], human_observations)
         self.assertEqual(aggregated_metrics['BASISOFRECORDS']['UNKNOWN'], unknown)
         self.assertEqual(aggregated_metrics['BASISOFRECORDS']['FOSSIL_SPECIMEN'], fossil_specimen)

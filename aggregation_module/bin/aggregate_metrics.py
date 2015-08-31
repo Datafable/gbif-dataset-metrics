@@ -1,7 +1,6 @@
 import click
 import sys
 import os
-import json
 SRC_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__))) + '/src'
 sys.path.append(SRC_DIR)
 from aggregator import AggregationJobsManager
@@ -23,10 +22,15 @@ def create_index(dir):
 @click.option('--api_key', help='CartoDB API key', default=None)
 @click.option('--offset', help='skip the first number of datasets', default=0, type=int)
 @click.option('--limit', help='only aggregate LIMIT number of datasets', default=None, type=int)
-def aggregate(dir, api_key, offset, limit):
+@click.option('--keyfile', help='only aggregate datasets with keys in this file. If set, offset and limit will be ignored.',
+              type=click.Path(exists=True))
+def aggregate(dir, api_key, offset, limit, keyfile):
     """Aggregate data in DIR"""
     agg = AggregationJobsManager()
-    agg.aggregate(dir, api_key=api_key, minindex=offset, limit=limit)
+    if keyfile:
+        agg.aggregate(dir, api_key=api_key, keyfile=keyfile)
+    else:
+        agg.aggregate(dir, api_key=api_key, minindex=offset, limit=limit)
 
 aggregate_metrics.add_command(create_index)
 aggregate_metrics.add_command(aggregate)
