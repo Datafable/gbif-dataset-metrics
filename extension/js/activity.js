@@ -77,13 +77,10 @@ var downloadChart = function(datasetKey, dayRange) {
         }
     });
 
-    loadDownloadData(datasetKey, 100, 0, startDay, downloads, downloadChart); // set pageLimit and offset here. A lower pageLimit will result in more API calls
+    loadDownloadData(datasetKey, 1000, 0, startDay, downloads, downloadChart); // set pageLimit and offset here. A lower pageLimit will result in more API calls
 };
 
 var loadDownloadData = function(datasetKey, pageLimit, offset, startDay, downloads, downloadChart) {
-    /*  Note: this function does only one call to the GBIF API, so if dayRange 
-        is high and pageLimit low, it might not retrieve all downloads. */
-    
     var url = 'http://api.gbif.org/v1/occurrence/download/dataset/' + datasetKey + '?limit=' + pageLimit + '&offset=' + offset;
     d3.json(url,function(error, result) {
         if (error) return console.warn(error);
@@ -92,7 +89,6 @@ var loadDownloadData = function(datasetKey, pageLimit, offset, startDay, downloa
 
         result.results.every(function(result) {
             var downloadDay = removeTimeFromDate(new Date(result.download.created));
-            //console.log(downloadDay);
             
             if (downloadDay >= startDay) {
                 if (result.download.status == 'SUCCEEDED') {
@@ -108,7 +104,6 @@ var loadDownloadData = function(datasetKey, pageLimit, offset, startDay, downloa
             }
         });
 
-        //console.log(minI);
         // Downloads needed until the earliest download event's created date matches the startdate. If this is not the case, launch the same function again
         // with an increased offset parameter.
         if (minI > 0) {
