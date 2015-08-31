@@ -144,8 +144,7 @@ class ReportAggregator():
         taxonomy = self.aggregate_taxonomy(metrics['TAXONOMY'])
         metrics['TAXONOMY'] = taxonomy
         if 'MEDIA' in metrics.keys():
-            images_sample = self.get_images_sample(metrics['MEDIA'], 20)
-            metrics['MEDIA']['images_sample'] = json.dumps(images_sample)
+            metrics['MEDIA']['images_sample'] = self.get_images_sample(metrics['MEDIA'], 20)
         if api_key is not None:
             writer = CartoDBWriter()
             writer.write_metrics(dataset_key, metrics, api_key)
@@ -174,6 +173,7 @@ class ReportAggregator():
             occ_images = all_images[occ]
             random.shuffle(occ_images)
             images_sample[occ] = occ_images[0]
+        print images_sample
         return images_sample
 
     def _get_sum(self, arr):
@@ -258,15 +258,15 @@ class ReportAggregator():
 class CartoDBWriter():
     def __init__(self):
         self.sql_statement = """
-        update gbif_dataset_metrics_test
+        update gbif_dataset_metrics
         set bor_preserved_specimen={0}, bor_fossil_specimen={1}, bor_living_specimen={2}, bor_material_sample={3},
         bor_observation={4}, bor_human_observation={5}, bor_machine_observation={6}, bor_literature={7},
         bor_unknown={8}, taxon_not_provided={9}, taxon_match_none={10}, taxon_match_higherrank={11},
         taxon_match_fuzzy={12}, taxon_match_complete={13}, multimedia_not_provided={14}, multimedia_url_invalid={15},
         multimedia_valid={16}, coordinates_not_provided={17}, coordinates_minor_issues={18},
-        coordinates_major_issues={19}, coordinates_valid={20}, occurrences={21}, taxonomy='{22}', images_sample={23},
+        coordinates_major_issues={19}, coordinates_valid={20}, occurrences={21}, taxonomy='{22}', images_sample='{23}',
         archive_generated_at='{24}' where dataset_key='{25}';
-        insert into gbif_dataset_metrics_test (
+        insert into gbif_dataset_metrics (
             type, bor_preserved_specimen, bor_fossil_specimen, bor_living_specimen, bor_material_sample,
             bor_observation, bor_human_observation, bor_machine_observation, bor_literature, bor_unknown,
             taxon_not_provided, taxon_match_none, taxon_match_higherrank, taxon_match_fuzzy, taxon_match_complete,
@@ -274,9 +274,9 @@ class CartoDBWriter():
             coordinates_minor_issues, coordinates_major_issues, coordinates_valid, occurrences, taxonomy, images_sample,
             archive_generated_at, dataset_key
         ) SELECT 'OCCURRENCE', {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15},
-        {16}, {17}, {18}, {19}, {20}, {21}, '{22}', {23}, '{24}', '{25}'
+        {16}, {17}, {18}, {19}, {20}, {21}, '{22}', '{23}', '{24}', '{25}'
         WHERE NOT EXISTS (
-            SELECT 1 FROM gbif_dataset_metrics_test WHERE dataset_key='{25}'
+            SELECT 1 FROM gbif_dataset_metrics WHERE dataset_key='{25}'
         )"""
 
     def metrics2row(self, metrics):
@@ -297,7 +297,7 @@ class CartoDBWriter():
         coordinate_quality_data = [coordinate_quality[x] if x in coordinate_quality.keys() else 0 for x in coordinate_metrics]
         nr_of_records = metrics['NUMBER_OF_RECORDS']
         taxonomy = json.dumps(metrics['TAXONOMY'])
-        images_sample = metrics['MEDIA']['images_sample']
+        images_sample = json.dumps(metrics['MEDIA']['images_sample']) if metrics['MEDIA']['images_sample'] else ""
         archive_generated_date = metrics['ARCHIVE_GENERATED_AT']
         row = basis_of_record_data + taxon_match_data + media_data + coordinate_quality_data + [nr_of_records, taxonomy, images_sample, archive_generated_date]
         return row
@@ -306,6 +306,6 @@ class CartoDBWriter():
         row = self.metrics2row(metrics)
         row.append(dataset_key)
         params = {'q': self.sql_statement.format(*row), 'api_key': api_key}
-        #print self.sql_statement.format(*row)
+        # print self.sql_statement.format(*row)
         r = requests.post('https://datafable.cartodb.com/api/v2/sql', data=params)
         logging.debug('API_RESPONSE:{0}: {1}: {2}'.format(dataset_key, r.status_code, r.text))
