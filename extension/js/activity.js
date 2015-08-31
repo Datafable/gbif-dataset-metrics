@@ -1,3 +1,5 @@
+var oneDayInMs = 24 * 60 * 60 * 1000;
+
 var main = function() {
     var datasetKey = getDatasetKeyFromURL();
     downloadChart(datasetKey,30);
@@ -13,7 +15,6 @@ var formatAsISODate = function(time) {
 };
 
 var downloadChart = function(datasetKey, dayRange) {
-    var oneDayInMs = 24 * 60 * 60 * 1000;
     var today = new Date();
     var startDay = removeTimeFromDate(today); // Set at midnight
         startDay = startDay - ((dayRange - 1) * oneDayInMs); // Substract dayRange in milliseconds
@@ -76,10 +77,10 @@ var downloadChart = function(datasetKey, dayRange) {
         }
     });
 
-    loadDownloadData(datasetKey,1200,startDay,oneDayInMs,downloads,downloadChart);
+    loadDownloadData(datasetKey, 1200, startDay, downloads, downloadChart);
 };
 
-var loadDownloadData = function(datasetKey, pageLimit, startDay, oneDayInMs, downloads, downloadChart) {
+var loadDownloadData = function(datasetKey, pageLimit, startDay, downloads, downloadChart) {
     /*  Note: this function does only one call to the GBIF API, so if dayRange 
         is high and pageLimit low, it might not retrieve all downloads. */
     
