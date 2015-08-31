@@ -77,24 +77,29 @@ var downloadChart = function(datasetKey, dayRange) {
         }
     });
 
-    loadDownloadData(datasetKey, 1200, startDay, downloads, downloadChart);
+    loadDownloadData(datasetKey, 100, 0, startDay, downloads, downloadChart); // set pageLimit and offset here. A lower pageLimit will result in more API calls
 };
 
-var loadDownloadData = function(datasetKey, pageLimit, startDay, downloads, downloadChart) {
+var loadDownloadData = function(datasetKey, pageLimit, offset, startDay, downloads, downloadChart) {
     /*  Note: this function does only one call to the GBIF API, so if dayRange 
         is high and pageLimit low, it might not retrieve all downloads. */
     
-    var url = 'http://api.gbif.org/v1/occurrence/download/dataset/' + datasetKey + '?limit=' + pageLimit;
+    var url = 'http://api.gbif.org/v1/occurrence/download/dataset/' + datasetKey + '?limit=' + pageLimit + '&offset=' + offset;
     d3.json(url,function(error, result) {
         if (error) return console.warn(error);
 
+        var minI = 30;
+
         result.results.every(function(result) {
             var downloadDay = removeTimeFromDate(new Date(result.download.created));
-            // console.log(downloadDay);
+            //console.log(downloadDay);
             
             if (downloadDay >= startDay) {
                 if (result.download.status == 'SUCCEEDED') {
                     var i = (downloadDay - startDay) / oneDayInMs; // Day index
+                    if (i < minI) {
+                        minI = i;
+                    }
                     downloads[i] += 1;
                 }
                 return true; // Continue looping
@@ -102,6 +107,13 @@ var loadDownloadData = function(datasetKey, pageLimit, startDay, downloads, down
                 return false; // Passed beyond startDay, stop looping. Assumes API returns downloads in reversed chronology.
             }
         });
+
+        //console.log(minI);
+        // Downloads needed until the earliest download event's created date matches the startdate. If this is not the case, launch the same function again
+        // with an increased offset parameter.
+        if (minI > 0) {
+            loadDownloadData(datasetKey, pageLimit, offset + pageLimit, startDay, downloads, downloadChart);
+        }
 
         downloadChart.load({
             columns: [
