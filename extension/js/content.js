@@ -4,7 +4,7 @@ var getDatasetKeyFromURL = function () {
     if (pathArray[1] === 'dataset') { // On GBIF website, get datasetKey from URL.
         datasetKey = pathArray[2];
     } else { // Elsewhere, use demo datasetKey.
-        datasetKey = '858d51e0-f762-11e1-a439-00145eb45e9a'; // The Erysiphales Collection at the Botanische Staatssammlung München
+        datasetKey = '85930e96-f762-11e1-a439-00145eb45e9a'; // Water Colours of Fungi by Fritz Wohlfarth at the Botanische Staatssammlung München
     }
     return datasetKey;
 };

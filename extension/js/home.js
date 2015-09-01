@@ -29,7 +29,7 @@ var addMetricsToHomePage = function (metrics) {
 };
 
 var imageThumbnails = function (metrics) {
-    var html = "",
+    var html = '',
         images = JSON.parse(metrics.images_sample),
         thumbnails = [];
 
