@@ -24,4 +24,3 @@ The occurrence has no related multimedia available through GBIF.
 
 * Show the distribution of [multimedia type](http://gbif.github.io/dwc-api/apidocs/org/gbif/dwc/terms/GbifTerm.html#mediaType) (`StillImage`, `MovingImage`, `Sound`, and unknown type) for all related multimedia, so the user can discover what types of related multimedia a dataset contains. Note that this cannot be done as a distribution over occurrences, as one occurrence can have multiple related multimedia.
 * Show the distribution of number of related multimedia per occurrence, so the user can assess if occurrences typically have one or more related multimedia.
-* Display a sample or all related images of a dataset as thumbnails, so the user can get an impression of what was photographed (occurrences in their natural environment, herbarium scans, etc.).
