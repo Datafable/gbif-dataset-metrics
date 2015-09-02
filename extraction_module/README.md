@@ -2,17 +2,17 @@
 
 ## Description
 
-The extraction module calculates the metrics from the occurrences. It crawls a directory containing Darwin Core Archives (downloaded from the [GBIF website](http://www.gbif.org)) and for each one generates a simple report file containing "raw metrics" in JSON format. These JSON reports will then be used as the input of the [aggregation module](../aggregation_module).
+The extraction module calculates the metrics from the occurrences. It crawls a directory containing Darwin Core Archives (downloaded from the [GBIF website](http://www.gbif.org)) and for each one generates a simple report file containing raw metrics and other useful data (taxonomy, multimedia extensions, ...) in JSON format. These JSON reports will then be used as the input of the [aggregation module](../aggregation_module).
 
 ## Notes
 
 * One archive/report can describe multiple datasets AND a specific dataset can be enclosed in several archives, hence the need for the aggregation module. That provides in return a lot of flexibility in terms of data volume and horizontal scalability capabilities.
-* At this stage, we are able to process 7GB+ compressed archives in a couple of hours on a standard Macbook Pro. Performance is still incrementally being improved and we expect ultimately to be able to parse all GBIF occurrence data.
+* At this stage, we are able to process 15GB+ compressed archives in a couple of hours on a standard Macbook Pro.By splitting the whole GBIF archive in smaller files, we were ultimately able to parse all GBIF occurrence data.
 * This module is very concise since the hard/low-level work is delegated to [python-dwca-reader](http://python-dwca-reader.readthedocs.org/).
 
 ## Requirements
 
-[python-dwca-reader](http://python-dwca-reader.readthedocs.org/) (and indirectly Beautifulsoup and lxml)
+[python-dwca-reader](http://python-dwca-reader.readthedocs.org/)
 
 ## To run
 
