@@ -4,16 +4,16 @@ var main = function () {
 };
 
 var addMetricsToStatsPage = function (metrics) {
-    var html = "";
-    var anchor = $("#occmetrics");
+    var html = '';
+    var anchor = $('#occmetrics');
 
     // Add bar metrics
     html = html + '<h3>Basis of record</h3>' + basisOfRecordBar(metrics); // Basis of record
     html = html + '<h3>Coordinates</h3>' + coordinatesBar(metrics); // Coordinates
     html = html + '<h3>Multimedia</h3>' + multimediaBar(metrics); // Multimedia
     html = html + '<h3>Taxon match</h3>' + taxonMatchBar(metrics); // Taxon match
-    anchor.find(".pies").remove(); // Remove some default elements
-    anchor.find(".fullwidth").append(html); // Add new metrics
+    anchor.find('.pies').remove(); // Remove some default elements
+    anchor.find('.fullwidth').append(html); // Add new metrics
     
     // Activate bar metrics tooltip
     $('[data-toggle="tooltip"]').tooltip();
@@ -38,11 +38,11 @@ var taxonomyPartition = function (metrics) {
         x = d3.scale.linear().range([0, width]),
         y = d3.scale.linear().range([0, height]);
 
-    var svg = d3.select("#taxonomyPartition")
-        .style("height", height + "px")
-        .append("svg:svg")
-        .attr("width", width)
-        .attr("height", height);
+    var svg = d3.select('#taxonomyPartition')
+        .style('height', height + 'px')
+        .append('svg:svg')
+        .attr('width', width)
+        .attr('height', height);
 
     var partition = d3.layout.partition()
         .value(function(d) { return d.size; });
@@ -50,32 +50,32 @@ var taxonomyPartition = function (metrics) {
     var root = JSON.parse(metrics.taxonomy);
         data = partition.nodes(root);
 
-    var g = svg.selectAll("g")
+    var g = svg.selectAll('g')
         .data(data)
-        .enter().append("svg:g")
-        .attr("transform", function (d) { return "translate(" + x(d.y) + "," + y(d.x) + ")"; })
-        .on("click", click);
+        .enter().append('svg:g')
+        .attr('transform', function (d) { return 'translate(' + x(d.y) + ',' + y(d.x) + ')'; })
+        .on('click', click);
 
     var kx = width / root.dx, // Available width
         ky = height / 1;
 
-    g.append("svg:rect")
-        .attr("width", root.dy * kx)
-        .attr("height", function(d) { return d.dx * ky; })
+    g.append('svg:rect')
+        .attr('width', root.dy * kx)
+        .attr('height', function(d) { return d.dx * ky; })
         .classed({
-            "parent": function(d) { return d.children; },
-            "child": function(d) { return !d.children; },
-            "unknown": function(d) { return d.name === "Unknown"; }
+            'parent': function(d) { return d.children; },
+            'child': function(d) { return !d.children; },
+            'unknown': function(d) { return d.name === 'Unknown'; }
         });
 
-    g.append("svg:text")
-        .attr("transform", transform)
-        .attr("dy", ".35em")
-        .style("opacity", function(d) { return d.dx * ky > 12 ? 1 : 0; })
-        .text(function(d) { return d.size ? d.name + " (" + d.size.toLocaleString() + ")" : d.name; });
+    g.append('svg:text')
+        .attr('transform', transform)
+        .attr('dy', '.35em')
+        .style('opacity', function(d) { return d.dx * ky > 12 ? 1 : 0; })
+        .text(function(d) { return d.size ? d.name + ' (' + d.size.toLocaleString() + ')' : d.name; });
 
     d3.select(window)
-        .on("click", function() { click(root); });
+        .on('click', function() { click(root); });
 
     function click(d) {
         if (!d.children) return;
@@ -87,21 +87,21 @@ var taxonomyPartition = function (metrics) {
 
         var t = g.transition()
             .duration(d3.event.altKey ? 7500 : 750)
-            .attr("transform", function(d) { return "translate(" + x(d.y) + "," + y(d.x) + ")"; });
+            .attr('transform', function(d) { return 'translate(' + x(d.y) + ',' + y(d.x) + ')'; });
 
-        t.select("rect")
-            .attr("width", d.dy * kx)
-            .attr("height", function(d) { return d.dx * ky; });
+        t.select('rect')
+            .attr('width', d.dy * kx)
+            .attr('height', function(d) { return d.dx * ky; });
 
-        t.select("text")
-            .attr("transform", transform)
-            .style("opacity", function(d) { return d.dx * ky > 12 ? 1 : 0; });
+        t.select('text')
+            .attr('transform', transform)
+            .style('opacity', function(d) { return d.dx * ky > 12 ? 1 : 0; });
 
         d3.event.stopPropagation();
     }
 
     function transform(d) {
-        return "translate(8," + d.dx * ky / 2 + ")";
+        return 'translate(8,' + d.dx * ky / 2 + ')';
     }
 };
 

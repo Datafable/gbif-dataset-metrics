@@ -4,6 +4,7 @@ import json
 class DatasetDescriptor(object):
     def __init__(self):
         self.data = {'NUMBER_OF_RECORDS': 0,
+                     'ARCHIVE_GENERATED_AT': None,
                      'BASISOFRECORDS': {},
                      'TAXON_MATCHES': {},
                      'TAXONOMY': {},
@@ -21,6 +22,10 @@ class DatasetDescriptor(object):
 
     def increment_number_records(self):
         self.data['NUMBER_OF_RECORDS'] = self.data['NUMBER_OF_RECORDS'] + 1
+
+    # Expect a simple string
+    def set_archive_generated_at(self, date):
+        self.data['ARCHIVE_GENERATED_AT'] = date
 
     def _store_or_increment_counter(self, value, dict_name):
         if value in self.data[dict_name]:

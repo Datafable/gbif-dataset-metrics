@@ -17,17 +17,20 @@ from helpers import (is_dwca, get_taxon_match_category, get_taxonomy,
 
 # A report file will be generated for each DwC-A in this directory.
 # All zip files and subdirectories will be assumed to be DwC-A
-DATA_SOURCE_DIR = os.path.join(CURRENT_DIR, 'sample_base_data')
-REPORTS_DIR = os.path.join(CURRENT_DIR, 'reports')
+DATA_SOURCE_DIR = "/media/nnoe/ffba891c-ca17-4be8-9acc-017cec86c7cc"
+REPORTS_DIR = "/home/nnoe/Dropbox/reports"
 
 # A dot (progress bar) will be printed on screen each time PROGRESS_EACH_X_RECORDS were processed.
-PROGRESS_EACH_X_RECORDS = 1000
+PROGRESS_EACH_X_RECORDS = 50000
 
 
 # Parse the archive located at 'a' and return a JSON report
 def parse_archive(a):
     with DwCAReader(a, extensions_to_ignore="verbatim.txt") as dwca:
         r = {}
+
+        # YYYY-MM-DD, polluted with spaces and \n's
+        archive_published_at = dwca.metadata.eml.dataset.pubDate.string.strip()
 
         i = 0
         for row in dwca:
@@ -36,6 +39,7 @@ def parse_archive(a):
             if not (dataset_key in r):
                 # Newly encountered dataset
                 r[dataset_key] = DatasetDescriptor()
+                r[dataset_key].set_archive_generated_at(archive_published_at)
 
             # 1. Increment total number of records per dataset...
             r[dataset_key].increment_number_records()
@@ -47,6 +51,7 @@ def parse_archive(a):
 
             r[dataset_key].store_or_increment_coordinatecategory(get_coordinates_quality_category(row))
 
+            # Multimedia categories
             if 'MULTIMEDIA_URL_INVALID' in row.data[ISSUES_TERM]:
                 r[dataset_key].mul_increment_invalid_url_count()
             else:
@@ -58,13 +63,13 @@ def parse_archive(a):
                     for e in mul_ext:
                         t = e.data['http://purl.org/dc/terms/type']
                         if 'StillImage' in t:
-                            r[dataset_key].mul_add_image(row.id, e.data['http://purl.org/dc/terms/references'])
+                            r[dataset_key].mul_add_image(row.id, e.data['http://purl.org/dc/terms/identifier'])
                         elif 'MovingImage' in t:
-                            r[dataset_key].mul_add_video(row.id, e.data['http://purl.org/dc/terms/references'])
+                            r[dataset_key].mul_add_video(row.id, e.data['http://purl.org/dc/terms/identifier'])
                         elif 'Audio' in t:
-                            r[dataset_key].mul_add_audio(row.id, e.data['http://purl.org/dc/terms/references'])
+                            r[dataset_key].mul_add_audio(row.id, e.data['http://purl.org/dc/terms/identifier'])
                         else:
-                            r[dataset_key].mul_add_notype(row.id, e.data['http://purl.org/dc/terms/references'])
+                            r[dataset_key].mul_add_notype(row.id, e.data['http://purl.org/dc/terms/identifier'])
                 else:
                     r[dataset_key].mul_increment_not_provided_count()
 

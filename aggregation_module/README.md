@@ -6,6 +6,7 @@ Since the [extraction module](../extraction_module/README.md) can result in metr
 
 ## Requirements
 
+- [click](#): this package is used to create a command line interface. 
 - [nesting](https://pypi.python.org/pypi/nesting/0.1.0): this package is used to construct the taxonomy tree.
 - [requests](http://docs.python-requests.org/en/latest/): this package is used to communicate with the CartoDB API.
 

@@ -1,5 +1,6 @@
 import unittest
 import os
+import pickle
 import sys
 import json
 PROJECT_PATH = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
@@ -63,6 +64,27 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
                 },
+                'MEDIA': {
+                    'movingimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'audio': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'stillimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'no_type': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'media_not_provided': 37,
+                    'media_url_invalid': 12,
+                    'media_valid': 61,
+                },
                 'NUMBER_OF_RECORDS': 6695
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
@@ -79,6 +101,27 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MINOR_ISSUES': 5,
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
+                },
+                'MEDIA': {
+                    'movingimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'audio': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'stillimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'no_type': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'media_not_provided': 37,
+                    'media_url_invalid': 12,
+                    'media_valid': 61,
                 },
                 'NUMBER_OF_RECORDS': 542
             }
@@ -137,6 +180,27 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
                 },
+                'MEDIA': {
+                    'movingimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'audio': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'stillimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'no_type': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'media_not_provided': 37,
+                    'media_url_invalid': 12,
+                    'media_valid': 61,
+                },
                 'NUMBER_OF_RECORDS': 89963
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
@@ -153,6 +217,27 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MINOR_ISSUES': 5,
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
+                },
+                'MEDIA': {
+                    'movingimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'audio': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'stillimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'no_type': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'media_not_provided': 37,
+                    'media_url_invalid': 12,
+                    'media_valid': 61,
                 },
                 'NUMBER_OF_RECORDS': 130
             }
@@ -173,6 +258,15 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
                 },
+                'MEDIA': {
+                    'movingimage': {},
+                    'audio': {},
+                    'stillimage': {},
+                    'no_type': {},
+                    'media_not_provided': 10,
+                    'media_url_invalid': 10,
+                    'media_valid': 10,
+                },
                 'NUMBER_OF_RECORDS': 14
             },
             '82746a3e-f762-11e1-a439-00145eb45e9a': {
@@ -189,6 +283,27 @@ class TestAggregator(unittest.TestCase):
                     'COORDINATES_MINOR_ISSUES': 5,
                     'COORDINATES_MAJOR_ISSUES': 100,
                     'COORDINATES_VALID': 200
+                },
+                'MEDIA': {
+                    'movingimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'audio': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'stillimage': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'no_type': {
+                        'occid1': ['url1', 'url2'],
+                        'occid2': ['url3']
+                    },
+                    'media_not_provided': 37,
+                    'media_url_invalid': 12,
+                    'media_valid': 61,
                 },
                 'NUMBER_OF_RECORDS': 137
             }
@@ -207,6 +322,7 @@ class TestAggregator(unittest.TestCase):
     def setUp(self):
         self.test_files = []
         self.agg = aggregator.ReportAggregator()
+        self.agg_man = aggregator.AggregationJobsManager()
         self.createFixtureData()
 
     def tearDown(self):
@@ -218,22 +334,23 @@ class TestAggregator(unittest.TestCase):
         files = self.agg.find_files(self.test_dir)
         self.assertEqual(files, self.test_files)
 
-    def test_merge_data(self):
-        outdata = {'metric_type1': {'metric1': 10, 'metric2': 2}, 'metric_type3': {'metric_subtype4': {'occurrence1': ['one', 'two']}}}
-        newdata = {'metric_type1':
-                   {'metric1': 2, 'metric2': 5, 'metric3': 1},
-                   'metric_type2':
-                   {'metric4': 1},
-                   'metric_type3': {
-                       'metric_subtype4': {
-                           'occurrence2': ['one', 'two'],
-                           'occurrence4': ['three']
-                       }
-                   }
-                  }
-        mergeddata = {'metric_type1': {'metric1': 12, 'metric2': 7, 'metric3': 1}, 'metric_type2': {'metric4': 1}, 'metric_type3': {'metric_subtype4': {'occurrence1': ['one', 'two'], 'occurrence2': ['one', 'two'], 'occurrence4': ['three']}}}
-        self.agg.merge_data_set_in_metrics(newdata, outdata)
-        self.assertEqual(outdata, mergeddata)
+    def compare_indices(self, index, expected_index):
+        for dataset, files in expected_index.iteritems():
+            full_paths_array = []
+            for f in files:
+                f = os.path.join(self.test_dir, f)
+                full_paths_array.append(f)
+            self.assertEqual(index[dataset], full_paths_array)
+
+    def test_create_index(self):
+        expected_index = {'05ebc824-3a3b-4f64-ab22-99b0e2c3aa48': ['gbif_extract0.json', 'gbif_extract1.json'],
+            '3F2504E0-4F89-11D3-9A0C-0305E82C3301': ['gbif_extract0.json', 'gbif_extract1.json', 'gbif_extract2.json'],
+            '82746a3e-f762-11e1-a439-00145eb45e9a': ['gbif_extract0.json', 'gbif_extract1.json', 'gbif_extract2.json']}
+        index = self.agg_man.createIndex(self.test_dir)
+        self.compare_indices(index, expected_index)
+        indexfile = open(os.path.join(self.test_dir, 'dataset_index.pkl'))
+        written_index = pickle.load(indexfile)
+        self.compare_indices(written_index, expected_index)
 
     def test_aggregate_one_dataset(self):
         dataset_key = '3F2504E0-4F89-11D3-9A0C-0305E82C3301'
@@ -251,38 +368,37 @@ class TestAggregator(unittest.TestCase):
         taxon_fuzzy = 3 * 10
         taxon_complete = 3 * 10
         taxon_not_provided = 3 * 10
-        media_not_provided = 37 + 15
-        media_url_invalid = 12 + 2
-        media_valid = 61 + 20
+        media_not_provided = 37 + 15 + 10
+        media_url_invalid = 12 + 2 + 10
+        media_valid = 61 + 20 + 10
         movingimage = {u'occid1': [u'url1', u'url2'], u'occid3': [u'url4', u'url5'], u'occid2': [u'url3'], u'occid4': [u'url6']}
         stillimage = movingimage
         audio = movingimage
         notype = movingimage
-        aggregated_metrics = self.agg.aggregate(self.test_dir)
-        self.assertEqual(aggregated_metrics[dataset_key]['BASISOFRECORDS']['HUMAN_OBSERVATION'], human_observations)
-        self.assertEqual(aggregated_metrics[dataset_key]['BASISOFRECORDS']['UNKNOWN'], unknown)
-        self.assertEqual(aggregated_metrics[dataset_key]['BASISOFRECORDS']['FOSSIL_SPECIMEN'], fossil_specimen)
-        self.assertEqual(aggregated_metrics[dataset_key]['BASISOFRECORDS']['MACHINE_OBSERVATION'], machine_observation)
-        self.assertEqual(len(aggregated_metrics.keys()), 3)
-        self.assertEqual(aggregated_metrics[dataset_key]['NUMBER_OF_RECORDS'], nr_of_records)
-        self.assertEqual(aggregated_metrics[dataset_key]['TAXONOMY']['children'][0]['name'], 'taxon1')
-        self.assertEqual(len(aggregated_metrics[dataset_key]['TAXONOMY']['children'][0]['children']), 1)
-        self.assertEqual(aggregated_metrics[dataset_key]['TAXONOMY']['children'][1]['name'], 'taxon2')
-        self.assertEqual(len(aggregated_metrics[dataset_key]['TAXONOMY']['children'][1]['children']), 1)
-        self.assertEqual(aggregated_metrics[dataset_key]['TAXON_MATCHES']['TAXON_MATCH_HIGHERRANK'], taxon_higher_rank)
-        self.assertEqual(aggregated_metrics[dataset_key]['TAXON_MATCHES']['TAXON_MATCH_FUZZY'], taxon_fuzzy)
-        self.assertEqual(aggregated_metrics[dataset_key]['TAXON_MATCHES']['TAXON_MATCH_COMPLETE'], taxon_complete)
-        self.assertEqual(aggregated_metrics[dataset_key]['TAXON_MATCHES']['TAXON_NOT_PROVIDED'], taxon_not_provided)
-        self.assertEqual(aggregated_metrics[dataset_key]['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_NOT_PROVIDED'], coordinates_not_provided)
-        self.assertEqual(aggregated_metrics[dataset_key]['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_MINOR_ISSUES'], coordinates_minor_issues)
-        self.assertEqual(aggregated_metrics[dataset_key]['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_MAJOR_ISSUES'], coordinates_major_issues)
-        self.assertEqual(aggregated_metrics[dataset_key]['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_VALID'], coordinates_valid)
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['media_not_provided'], media_not_provided)
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['media_url_invalid'], media_url_invalid)
-        self.assertEqual(aggregated_metrics[dataset_key]['MEDIA']['media_valid'], media_valid)
+        aggregated_metrics = self.agg.aggregate_dataset({'index': [dataset_key, self.test_files], 'api_key': None})
+        self.assertEqual(aggregated_metrics['BASISOFRECORDS']['HUMAN_OBSERVATION'], human_observations)
+        self.assertEqual(aggregated_metrics['BASISOFRECORDS']['UNKNOWN'], unknown)
+        self.assertEqual(aggregated_metrics['BASISOFRECORDS']['FOSSIL_SPECIMEN'], fossil_specimen)
+        self.assertEqual(aggregated_metrics['BASISOFRECORDS']['MACHINE_OBSERVATION'], machine_observation)
+        self.assertEqual(aggregated_metrics['NUMBER_OF_RECORDS'], nr_of_records)
+        self.assertEqual(aggregated_metrics['TAXONOMY']['children'][0]['name'], 'taxon1')
+        self.assertEqual(len(aggregated_metrics['TAXONOMY']['children'][0]['children']), 1)
+        self.assertEqual(aggregated_metrics['TAXONOMY']['children'][1]['name'], 'taxon2')
+        self.assertEqual(len(aggregated_metrics['TAXONOMY']['children'][1]['children']), 1)
+        self.assertEqual(aggregated_metrics['TAXON_MATCHES']['TAXON_MATCH_HIGHERRANK'], taxon_higher_rank)
+        self.assertEqual(aggregated_metrics['TAXON_MATCHES']['TAXON_MATCH_FUZZY'], taxon_fuzzy)
+        self.assertEqual(aggregated_metrics['TAXON_MATCHES']['TAXON_MATCH_COMPLETE'], taxon_complete)
+        self.assertEqual(aggregated_metrics['TAXON_MATCHES']['TAXON_NOT_PROVIDED'], taxon_not_provided)
+        self.assertEqual(aggregated_metrics['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_NOT_PROVIDED'], coordinates_not_provided)
+        self.assertEqual(aggregated_metrics['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_MINOR_ISSUES'], coordinates_minor_issues)
+        self.assertEqual(aggregated_metrics['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_MAJOR_ISSUES'], coordinates_major_issues)
+        self.assertEqual(aggregated_metrics['COORDINATE_QUALITY_CATEGORIES']['COORDINATES_VALID'], coordinates_valid)
+        self.assertEqual(aggregated_metrics['MEDIA']['media_not_provided'], media_not_provided)
+        self.assertEqual(aggregated_metrics['MEDIA']['media_url_invalid'], media_url_invalid)
+        self.assertEqual(aggregated_metrics['MEDIA']['media_valid'], media_valid)
         for mediatypes in [['movingimage', movingimage], ['stillimage', stillimage], ['audio', audio], ['no_type', notype]]:
             mediatype_key, expected = mediatypes
-            result = aggregated_metrics[dataset_key]['MEDIA'][mediatype_key]
+            result = aggregated_metrics['MEDIA'][mediatype_key]
             keys_result = result.keys()
             keys_result.sort()
             occid1_result = result['occid1']

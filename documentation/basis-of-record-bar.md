@@ -8,7 +8,7 @@ The basis of record bar groups the occurrences of a dataset in categories based 
 
 ## How we categorize
 
-The occurrences are categorized based on their [basis of record Enum](basis-of-record-bar-42319b8f-9b9d-448d-969f-656792a69176). For each basis of record we use a distinct colour, but use similar colours for similar basis of records. We do not use the [BASIS_OF_RECORD_INVALID](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/OccurrenceIssue.html#BASIS_OF_RECORD_INVALID) issue, as those occurrences are assigned `UNKNOWN` by GBIF.
+The occurrences are categorized based on their [basis of record Enum](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/BasisOfRecord.html). For each basis of record we use a distinct colour, but use similar colours for similar basis of records. We do not use the [BASIS_OF_RECORD_INVALID](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/OccurrenceIssue.html#BASIS_OF_RECORD_INVALID) issue, as those occurrences are assigned `UNKNOWN` by GBIF.
 
 * [Preserved specimens](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/BasisOfRecord.html#PRESERVED_SPECIMEN): yellow
 * [Fossil specimens](http://gbif.github.io/gbif-api/apidocs/org/gbif/api/vocabulary/BasisOfRecord.html#FOSSIL_SPECIMEN): lighter yellow
