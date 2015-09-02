@@ -39,7 +39,7 @@ For the [2015 GBIF Ebbe Nielsen Challenge - Round 2](http://gbif2.devpost.com/),
 
 ## Limitations
 
-* The metrics are processed using a download of all occurrences on August 31, 2015. It contains 13,233 occurrences datasets, covering 570,238,233 occurrences. If a dataset is published or republished since then, it respectively won't have metrics or those might be out of date. If so, a message will be shown on the dataset page. If you want us to reprocess a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
+* The metrics are processed using a download of all occurrences on September 1, 2015. It contains 13,221 occurrences datasets, covering 570,238,726 occurrences. If a dataset is published or republished since then, it respectively won't have metrics or those might be out of date. If so, a message will be shown on the dataset page. If you want us to reprocess a specific dataset, [submit an issue](https://github.com/datafable/gbif-dataset-metrics/issues/new).
 
 Follow [@Datafable](https://twitter.com/datafable) to be notified of new metrics or improvements.
 
