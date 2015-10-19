@@ -1,6 +1,6 @@
 {
     "name": "GBIF dataset metrics",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Get insights in GBIF-mediated datasets with charts and metrics.",
     "author": "Datafable",
     "homepage_url": "https://github.com/datafable/gbif-dataset-metrics",
