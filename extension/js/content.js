@@ -9,36 +9,40 @@ var getDatasetKeyFromURL = function () {
     return datasetKey;
 };
 
-var addMessageArea = function () {
+var addMessageArea = function ($container) {
+    // Add the message area tothe beginning of $container (jQuery elem)
     var html = '<article id="firstContent"></content>';
-    $('#content').prepend(html);
+    $container.prepend(html);
 };
 
-var addMessage = function(html) {
-    html = '<p class="alert alert-warning"><strong>Dataset metrics extension:</strong> ' + html + '</p>';
+var addMessage = function(html, prefix) {
+    html = '<p class="alert alert-warning"><strong>' + prefix + ' </strong> ' + html + '</p>';
     $('#firstContent').append(html);
 };
 
-var getMetrics = function (datasetKey, showMetrics) {
-    // Get dataset metadata from GBIF
+var buildCartoDBMetricsUrl = function(datasetKey) {
+    return "http://datafable.cartodb.com/api/v2/sql?q=WITH ranked_metrics AS ( SELECT *, ntile(100) OVER (ORDER BY occurrences) AS occurrences_percentile FROM gbif_dataset_metrics WHERE type = 'OCCURRENCE' AND occurrences IS NOT NULL) SELECT * FROM ranked_metrics WHERE dataset_key ='" + datasetKey + "'";
+};
+
+var getMetrics = function (datasetKey, showMetrics, $messageAreaContainer, messagePrefix) {
+    // Get metrics for datasetKey, and call showMetrics to display them.
+    // Messages will be prepended to $messageAreaContainer and will have messagePrefix as a prefix/title.
     var url = 'http://api.gbif.org/v1/dataset/' + datasetKey;
     $.getJSON(url, function (result) {
-        var type = result.type,
-            datasetModifiedAt = new Date(result.modified); // This is actually the date that the dataset was last updated in the registry. Ideally, we use e.g. http://api.gbif.org/v1/dataset/50c9509d-22c7-4a22-a47d-8c48425ef4a7/process
+        var type = result.type, datasetModifiedAt = new Date(result.modified); // This is actually the date that the dataset was last updated in the registry. Ideally, we use e.g. http://api.gbif.org/v1/dataset/50c9509d-22c7-4a22-a47d-8c48425ef4a7/process
         
         // Add container for messages and achievements
-        addMessageArea();
+        addMessageArea($messageAreaContainer);
 
         if (type === 'OCCURRENCE') {
             // Get data from metrics store in CartoDB.
-            var url = "http://datafable.cartodb.com/api/v2/sql?q=WITH ranked_metrics AS ( SELECT *, ntile(100) OVER (ORDER BY occurrences) AS occurrences_percentile FROM gbif_dataset_metrics WHERE type = 'OCCURRENCE' AND occurrences IS NOT NULL) SELECT * FROM ranked_metrics WHERE dataset_key ='" + datasetKey + "'";
-            $.getJSON(url, function (result) {
+            $.getJSON(buildCartoDBMetricsUrl(datasetKey), function (result) {
                 if (Object.keys(result.rows).length === 0) { // Dataset is not in query: no data yet or a new dataset
-                    addMessage('Sorry, we don\'t have metrics for this dataset yet. Want some? <a href="https://github.com/datafable/gbif-dataset-metrics/issues/new" target="_blank">Submit a request.</a>');
+                    addMessage('Sorry, we don\'t have metrics for this dataset yet. Want some? <a href="https://github.com/datafable/gbif-dataset-metrics/issues/new" target="_blank">Submit a request.</a>', messagePrefix);
                 } else {
                     var metricsModifiedAt = new Date(result.rows[0].archive_generated_at); // If null, date will be set to 1970-01-01
                     if (datasetModifiedAt > metricsModifiedAt) {
-                        addMessage('This dataset has been republished since we last crunched the metrics. <a href="https://github.com/datafable/gbif-dataset-metrics/issues/new" target="_blank">Submit a request if you want updated metrics.</a>');
+                        addMessage('This dataset has been republished since we last crunched the metrics. <a href="https://github.com/datafable/gbif-dataset-metrics/issues/new" target="_blank">Submit a request if you want updated metrics.</a>', messagePrefix);
                     }
                     showMetrics(result.rows[0]); // Only one row [0] expected
                 }
@@ -46,7 +50,7 @@ var getMetrics = function (datasetKey, showMetrics) {
                 console.log('CartoDB API error.');
             });    
         } else { // Not an occurrence dataset
-            addMessage('Sorry, we don\'t have metrics for ' + type + ' datasets.');
+            addMessage('Sorry, we don\'t have metrics for ' + type + ' datasets.', messagePrefix);
         }
     }).fail(function() {
         console.log('GBIF dataset API error.');

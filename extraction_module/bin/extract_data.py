@@ -17,8 +17,8 @@ from helpers import (is_dwca, get_taxon_match_category, get_taxonomy,
 
 # A report file will be generated for each DwC-A in this directory.
 # All zip files and subdirectories will be assumed to be DwC-A
-DATA_SOURCE_DIR = "/media/nnoe/ffba891c-ca17-4be8-9acc-017cec86c7cc"
-REPORTS_DIR = "/home/nnoe/Dropbox/reports"
+DATA_SOURCE_DIR = "/Users/nicolasnoe/dwca/"
+REPORTS_DIR = "/Users/nicolasnoe/Dropbox/report_jan"
 
 # A dot (progress bar) will be printed on screen each time PROGRESS_EACH_X_RECORDS were processed.
 PROGRESS_EACH_X_RECORDS = 50000
@@ -30,6 +30,7 @@ def parse_archive(a):
         r = {}
 
         # YYYY-MM-DD, polluted with spaces and \n's
+        #import pdb; pdb.set_trace()
         archive_published_at = dwca.metadata.eml.dataset.pubDate.string.strip()
 
         i = 0

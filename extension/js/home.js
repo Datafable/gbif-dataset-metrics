@@ -1,6 +1,6 @@
 var main = function () {
     var datasetKey = getDatasetKeyFromURL();
-    getMetrics(datasetKey,addMetricsToHomePage);
+    getMetrics(datasetKey, addMetricsToHomePage, $('#content'), 'Dataset metrics extension: ');
 };
 
 var addMetricsToHomePage = function (metrics) {
