@@ -11,8 +11,8 @@ CURRENT_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 SRC_DIR = os.path.join(CURRENT_DIR, 'src')
 sys.path.append(SRC_DIR)
 
-from descriptors import DatasetDescriptor, DatasetDescriptorAwareEncoder
-from helpers import (is_dwca, get_taxon_match_category, get_taxonomy,
+from descriptors import DatasetDescriptor, DatasetDescriptorAwareEncoder  # NOQA
+from helpers import (is_dwca, get_taxon_match_category, get_taxonomy,  # NOQA
                      get_coordinates_quality_category, ISSUES_TERM)
 
 # A report file will be generated for each DwC-A in this directory.
@@ -30,8 +30,7 @@ def parse_archive(a):
         r = {}
 
         # YYYY-MM-DD, polluted with spaces and \n's
-        #import pdb; pdb.set_trace()
-        archive_published_at = dwca.metadata.eml.dataset.pubDate.string.strip()
+        archive_published_at = dwca.metadata.find('dataset').find('pubDate').text.strip()
 
         i = 0
         for row in dwca:
