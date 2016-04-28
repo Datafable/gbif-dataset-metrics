@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""Script to extract dataset metrics from a directory of Darwin Core Archives.
+
+Its output (JSON reports) should then be passed to the aggregation module.
+"""
+
 import os
 import json
 import sys
+
+import argparse
 
 from dwca.read import DwCAReader
 
@@ -15,17 +22,16 @@ from descriptors import DatasetDescriptor, DatasetDescriptorAwareEncoder  # NOQA
 from helpers import (is_dwca, get_taxon_match_category, get_taxonomy,  # NOQA
                      get_coordinates_quality_category, ISSUES_TERM)
 
-# A report file will be generated for each DwC-A in this directory.
-# All zip files and subdirectories will be assumed to be DwC-A
-DATA_SOURCE_DIR = "/Users/nicolasnoe/dwca/"
-REPORTS_DIR = "/Users/nicolasnoe/Dropbox/report_jan"
 
 # A dot (progress bar) will be printed on screen each time PROGRESS_EACH_X_RECORDS were processed.
 PROGRESS_EACH_X_RECORDS = 50000
 
+MULTIMEDIA_ROWTYPE = 'http://rs.gbif.org/terms/1.0/Multimedia'
+IDENTIFIER_TERM = 'http://purl.org/dc/terms/identifier'
 
-# Parse the archive located at 'a' and return a JSON report
+
 def parse_archive(a):
+    """Parse the archive located at 'a' and return a JSON report."""
     with DwCAReader(a, extensions_to_ignore="verbatim.txt") as dwca:
         r = {}
 
@@ -33,6 +39,7 @@ def parse_archive(a):
         archive_published_at = dwca.metadata.find('dataset').find('pubDate').text.strip()
 
         i = 0
+
         for row in dwca:
             # 0. Add dataset if previously unknown...
             dataset_key = row.data['http://rs.gbif.org/terms/1.0/datasetKey']
@@ -49,13 +56,13 @@ def parse_archive(a):
             r[dataset_key].store_or_increment_taxonmatch(get_taxon_match_category(row))
             r[dataset_key].store_or_increment_taxonomy(get_taxonomy(row))
 
-            r[dataset_key].store_or_increment_coordinatecategory(get_coordinates_quality_category(row))
+            r[dataset_key].store_or_increment_coordscategory(get_coordinates_quality_category(row))
 
             # Multimedia categories
             if 'MULTIMEDIA_URL_INVALID' in row.data[ISSUES_TERM]:
                 r[dataset_key].mul_increment_invalid_url_count()
             else:
-                mul_ext = [m for m in row.extensions if m.rowtype == 'http://rs.gbif.org/terms/1.0/Multimedia']
+                mul_ext = [m for m in row.extensions if m.rowtype == MULTIMEDIA_ROWTYPE]
                 if len(mul_ext) > 0:
                     # Ok, media found
                     r[dataset_key].mul_increment_valid_count()
@@ -63,13 +70,13 @@ def parse_archive(a):
                     for e in mul_ext:
                         t = e.data['http://purl.org/dc/terms/type']
                         if 'StillImage' in t:
-                            r[dataset_key].mul_add_image(row.id, e.data['http://purl.org/dc/terms/identifier'])
+                            r[dataset_key].mul_add_image(row.id, e.data[IDENTIFIER_TERM])
                         elif 'MovingImage' in t:
-                            r[dataset_key].mul_add_video(row.id, e.data['http://purl.org/dc/terms/identifier'])
+                            r[dataset_key].mul_add_video(row.id, e.data[IDENTIFIER_TERM])
                         elif 'Audio' in t:
-                            r[dataset_key].mul_add_audio(row.id, e.data['http://purl.org/dc/terms/identifier'])
+                            r[dataset_key].mul_add_audio(row.id, e.data[IDENTIFIER_TERM])
                         else:
-                            r[dataset_key].mul_add_notype(row.id, e.data['http://purl.org/dc/terms/identifier'])
+                            r[dataset_key].mul_add_notype(row.id, e.data[IDENTIFIER_TERM])
                 else:
                     r[dataset_key].mul_increment_not_provided_count()
 
@@ -81,14 +88,21 @@ def parse_archive(a):
         return json.dumps(r, cls=DatasetDescriptorAwareEncoder)
 
 
-def main():
-    for entry in os.listdir(DATA_SOURCE_DIR):
-        entry_w_path = os.path.join(DATA_SOURCE_DIR, entry)
+def main():  # NOQA
+    d = "Extract dataset metrics from a directory of Darwin Core Archives"
+
+    parser = argparse.ArgumentParser(description=d)
+    parser.add_argument('input_dir', help='The input directory containing DwC Archives.')
+    parser.add_argument('output_dir', help='The output directory for JSON reports.')
+    args = parser.parse_args()
+
+    for entry in os.listdir(args.input_dir):
+        entry_w_path = os.path.join(args.input_dir, entry)
         if is_dwca(entry_w_path):
             print "Processing {archive}...".format(archive=entry_w_path)
             report_data = parse_archive(entry_w_path)
             report_filename = entry + '.json'
-            report_path = os.path.join(REPORTS_DIR, report_filename)
+            report_path = os.path.join(args.output_dir, report_filename)
             print "Done, saving report to {rp}\n".format(rp=report_path)
             r = open(report_path, 'wb')
             r.write(report_data)

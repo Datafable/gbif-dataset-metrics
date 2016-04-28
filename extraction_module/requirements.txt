@@ -1,1 +1,1 @@
-python-dwca-reader==0.9.0
+python-dwca-reader==0.9.1

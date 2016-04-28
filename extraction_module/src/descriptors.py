@@ -42,7 +42,7 @@ class DatasetDescriptor(object):
     def store_or_increment_taxonmatch(self, value):
         self._store_or_increment_counter(value, 'TAXON_MATCHES')
 
-    def store_or_increment_coordinatecategory(self, value):
+    def store_or_increment_coordscategory(self, value):
         self._store_or_increment_counter(value, 'COORDINATE_QUALITY_CATEGORIES')
 
     def mul_increment_invalid_url_count(self):
